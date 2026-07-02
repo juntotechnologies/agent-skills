@@ -16,7 +16,7 @@ When working on coding with me, follow this workflow.
 
 - Once a PR doc is nailed down and we're ready to tackle it, create a branch for it: carry the current changes from `main` into the new branch locally, then push to origin.
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
-- ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN.
+- ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
 - NEVER merge to `main`. Shaun is the only person allowed to merge PRs to `main`.
 
 ## 4. Build with TDD
@@ -34,4 +34,4 @@ When working on coding with me, follow this workflow.
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
 - When a PR is opened, fill out its description (the created PR starts as a blank template), and make sure the smoke tests also live in the PR doc.
-- When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked.
+- When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
