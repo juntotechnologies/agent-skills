@@ -28,3 +28,8 @@ coding workflow files. Its `assets/` directory is the canonical source for:
 Target repos receive copied/adapted outputs. Do not edit those target copies as
 canonical unless the goal is a project-specific adaptation. To change the
 workflow or templates globally, edit this repo first, then sync target repos.
+
+The top-level `CLAUDE.md`, `.github/pull_request_template.md`, and
+`docs/pr-docs/` template files are symlinks into
+`skills/setup-project-repo/assets/` for convenience. The asset files are the
+canonical copies.
