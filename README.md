@@ -22,6 +22,7 @@ skills/
 coding workflow files. Its `assets/` directory is the canonical source for:
 
 - root `CLAUDE.md`
+- root `AGENTS.md`
 - PR planning docs template and TOC template
 - GitHub pull request template
 
@@ -29,7 +30,9 @@ Target repos receive copied/adapted outputs. Do not edit those target copies as
 canonical unless the goal is a project-specific adaptation. To change the
 workflow or templates globally, edit this repo first, then sync target repos.
 
-The top-level `CLAUDE.md`, `.github/pull_request_template.md`, and
+The top-level `CLAUDE.md`, `AGENTS.md`, `.github/pull_request_template.md`, and
 `docs/pr-docs/` template files are symlinks into
 `skills/setup-project-repo/assets/` for convenience. The asset files are the
-canonical copies.
+canonical copies. `CLAUDE.md` and `AGENTS.md` both point at the same canonical
+workflow asset so Claude and Codex receive the same instructions without
+duplicated edits.

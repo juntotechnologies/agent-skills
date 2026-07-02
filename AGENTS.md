@@ -1,0 +1,1 @@
+skills/setup-project-repo/assets/CLAUDE.md
