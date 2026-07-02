@@ -1,0 +1,1 @@
+../../skills/setup-project-repo/assets/docs/pr-docs/README.template.md
