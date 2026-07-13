@@ -36,3 +36,14 @@ When working on coding with me, follow this workflow.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
 - When a PR is opened, fill out its description (the created PR starts as a blank template), and make sure the smoke tests also live in the PR doc.
 - When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
+
+## 6. Production-Mutating Commands Need Named Confirmation
+
+- A general go-ahead on a multi-step plan ("go ahead", "proceed", "go forth and act", etc.) is consent for the plan, not for each individual command inside it that writes to production - schema migrations, backfill/rewrite scripts (with or without an explicit `--apply` flag), deploys, and anything else that mutates prod data or infra.
+- Before running any such command, ask a direct question naming that exact command and what it does, even if I already approved the surrounding runbook/plan and even if a prior step in the same runbook (e.g. confirming a backup exists) was just confirmed. Confirming one step is not consent for the next one.
+- This applies regardless of how low-risk or additive the command seems (e.g. a purely additive schema migration still needs its own confirmation, not just the backup check).
+
+## 7. Credential and Security-Sensitive Actions Need Named Confirmation
+
+- A general go-ahead on a multi-step plan is consent for the plan, not for generating or registering credentials inside it - SSH keypairs, tokens, passwords, API keys, deploy keys, access grants, and anything similar.
+- Before generating or registering any such credential, ask a direct question naming the exact action (e.g. "generate an SSH keypair on the Pi and register it as a read-only deploy key on this repo") and get explicit confirmation, even mid-task and even if the surrounding plan was already approved.
