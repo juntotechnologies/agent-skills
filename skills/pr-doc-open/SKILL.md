@@ -36,3 +36,10 @@ first (see `CLAUDE.md` sections 1-2), not this skill.
    same branch.
 9. Report the PR URL. Do not merge — only Shaun merges to `main` (per
    `CLAUDE.md`).
+
+This skill only covers the PR's opening moment. Per `CLAUDE.md`'s Track
+Progress section, the PR description and its PR doc must stay in sync for
+the PR's *entire* lifetime after this — every later session that meaningfully
+changes the doc (a new tier, a revised design, a struck-through known issue,
+a status update) re-syncs the PR description (`gh pr edit`) in that same
+pass, not just once here at creation.

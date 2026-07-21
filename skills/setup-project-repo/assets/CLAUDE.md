@@ -35,6 +35,7 @@ When working on coding with me, follow this workflow.
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
 - When a PR is opened, fill out its description (the created PR starts as a blank template), and make sure the smoke tests also live in the PR doc.
+- Keep the GitHub PR's description in sync with its PR doc for the PR's entire lifetime, not just once at open time. Whenever the PR doc's Summary, Smoke Tests, Known Issues, or scope meaningfully changes - a new tier, a revised design, an item struck through as a known issue, a status update - re-sync the PR description on origin (`gh pr edit`) in the same pass, not as a separate follow-up to circle back to later. The two should never be allowed to visibly diverge.
 - When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
 
 ## 6. Production-Mutating Commands Need Named Confirmation
