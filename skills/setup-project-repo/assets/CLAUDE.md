@@ -47,3 +47,8 @@ When working on coding with me, follow this workflow.
 
 - A general go-ahead on a multi-step plan is consent for the plan, not for generating or registering credentials inside it - SSH keypairs, tokens, passwords, API keys, deploy keys, access grants, and anything similar.
 - Before generating or registering any such credential, ask a direct question naming the exact action (e.g. "generate an SSH keypair on the Pi and register it as a read-only deploy key on this repo") and get explicit confirmation, even mid-task and even if the surrounding plan was already approved.
+
+## 8. Verification and Diagnostics Stay With You
+
+- Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
+- Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
