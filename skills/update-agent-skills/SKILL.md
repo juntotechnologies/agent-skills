@@ -42,7 +42,8 @@ behaves, (c) a universal coding/workflow rule that applies in any repo, or
 | New capability worth its own skill | New `agent-skills/skills/<name>/SKILL.md` |
 | Change to an existing skill's behavior | That skill's own `SKILL.md` in `agent-skills/skills/<name>/` |
 | Universal coding/workflow rule (any repo, any language) | `agent-skills/skills/setup-project-repo/assets/CLAUDE.md` (the canonical template — see that skill's own docs on why it's the source of truth, not a project's local copy) |
-| User preference, feedback about how I should work with them, or project-specific fact | The memory system (see the active session's memory instructions — `feedback` type for corrections/confirmations, `project` type for project facts) |
+| Project-specific instructions or workflow | `agent-skills/projects/<project>/AGENTS.md` or `skills/<name>/SKILL.md` |
+| User preference or feedback about how I should work with them | The active harness's supported user-level instruction system |
 
 If it's ambiguous between the canonical CLAUDE.md and memory: canonical
 CLAUDE.md is for rules that hold regardless of who's asking or which project;
@@ -69,24 +70,17 @@ why. Never write to `agent-skills` or a project's `CLAUDE.md` silently.
 - **Memory**: follow the memory system's own save procedure (frontmatter +
   `MEMORY.md` index entry).
 
-## Step 4 — Make new/changed skills globally available
+## Step 4 — Make new/changed skills available
 
-A new or renamed skill directory in `agent-skills/skills/` isn't available
-anywhere until it's symlinked into `~/.claude/skills/`. Check
-`~/.personal-config/metadata.json`'s `userSymlinks` list:
-- If the skill has an entry already, nothing else to do on this machine.
-- If not, add an entry (`source: ../agent-skills/skills/<name>`,
-  `target: ~/.claude/skills/<name>`) and either re-run
-  `~/.personal-config/scripts/steps/link_config.sh` or create the symlink
-  directly with `ln -s`.
+Run `scripts/install.sh`. It discovers global skills automatically and links
+them into both `~/.agents/skills/` and `~/.claude/skills/`. Registered project
+content under `projects/` is linked into matching project checkouts.
 
-## Step 5 — Propagate if canonical CLAUDE.md changed
+## Step 5 — Propagate generic template changes
 
-Editing the canonical copy doesn't update any project automatically. If the
-current working directory is a project repo that has its own `CLAUDE.md`
-installed from the template, offer to run the **Setup Project Repo** skill's
-sync mode on it now so the change takes effect immediately instead of only
-on the next unrelated sync.
+Registered projects update immediately through symlinks. Generic repositories
+that received copied template files still require the **Setup Project Repo**
+skill's sync mode.
 
 ## Step 6 — Report
 

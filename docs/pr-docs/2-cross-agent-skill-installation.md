@@ -1,6 +1,6 @@
 # PR 2: Cross-Agent Skill Installation
 
-Status: underway
+Status: in-scope work complete
 
 Branch: `feature/cross-agent-skill-installation`
 
@@ -22,17 +22,17 @@ same workflows across harnesses.
 
 ### Tier 1 - Canonical layout
 
-- [ ] Add failing contract tests for canonical global/project skill discovery.
-- [ ] Preserve global skills and centralize chem-inventory's project-specific
+- [x] Add failing contract tests for canonical global/project skill discovery.
+- [x] Preserve global skills and centralize chem-inventory's project-specific
       instructions and database migration skill.
 
 ### Tier 2 - Installer
 
-- [ ] Add failing tests for idempotent global and project symlink installation.
-- [ ] Implement a DRY installer that links global skills into both
+- [x] Add failing tests for idempotent global and project symlink installation.
+- [x] Implement a DRY installer that links global skills into both
       `~/.agents/skills` and `~/.claude/skills`, and known project content into
       its checkout.
-- [ ] Document installation, recovery, and the canonical-source policy.
+- [x] Document installation, recovery, and the canonical-source policy.
 
 ## Smoke Tests
 
