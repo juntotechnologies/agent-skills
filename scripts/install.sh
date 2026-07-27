@@ -47,6 +47,14 @@ link_path() {
   echo "Linked $target -> $source"
 }
 
+path_is_available() {
+  local source="$1"
+  local target="$2"
+
+  [[ ! -e "$target" && ! -L "$target" ]] \
+    || [[ -L "$target" && "$(readlink "$target")" == "$source" ]]
+}
+
 install_global_skills() {
   local skill_path skill_name target_root
 
@@ -79,6 +87,26 @@ install_project() {
     echo "Project checkout not found, skipping: $checkout_name"
     return
   fi
+
+  if ! path_is_available "$source_root/AGENTS.md" "$project_root/AGENTS.md" \
+    || ! path_is_available "AGENTS.md" "$project_root/CLAUDE.md"; then
+    echo "Unmanaged agent paths found, skipping project: $checkout_name" >&2
+    return
+  fi
+
+  for skill_path in "$source_root"/skills/*/; do
+    [[ -f "$skill_path/SKILL.md" ]] || continue
+    skill_name="$(basename "$skill_path")"
+    if ! path_is_available \
+      "${skill_path%/}" \
+      "$project_root/.agents/skills/$skill_name" \
+      || ! path_is_available \
+        "../../.agents/skills/$skill_name" \
+        "$project_root/.claude/skills/$skill_name"; then
+      echo "Unmanaged agent paths found, skipping project: $checkout_name" >&2
+      return
+    fi
+  done
 
   link_path "$source_root/AGENTS.md" "$project_root/AGENTS.md"
   link_path "AGENTS.md" "$project_root/CLAUDE.md"

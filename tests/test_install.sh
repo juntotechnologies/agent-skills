@@ -73,4 +73,17 @@ HOME="$conflict_home" "$repo_root/scripts/install.sh" \
 grep -q "Skipped existing path" "$test_root/conflict-output"
 grep -q "keep me" "$conflict_home/.agents/skills/pr-doc-open/sentinel"
 
+conflict_workspace="$test_root/conflict-workspace"
+conflict_project="$conflict_workspace/projects/chem-inventory"
+mkdir -p "$conflict_project"
+printf '%s\n' "project-owned" > "$conflict_project/AGENTS.md"
+HOME="$conflict_home" "$repo_root/scripts/install.sh" \
+  --workspace-root "$conflict_workspace" \
+  >"$test_root/project-conflict-output" 2>&1
+grep -q "skipping project" "$test_root/project-conflict-output"
+[[ ! -e "$conflict_project/.agents/skills/db-migrations" ]] || {
+  echo "Project install must be atomic when an unmanaged path exists." >&2
+  exit 1
+}
+
 echo "test_install.sh: PASS"
