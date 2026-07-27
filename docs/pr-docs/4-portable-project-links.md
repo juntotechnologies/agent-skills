@@ -36,7 +36,7 @@ home path. Chem-inventory PR 171 requires portable links.
 
 - [x] Run the installer twice against a temporary workspace and confirm all
       project links remain valid and unchanged.
-- [ ] Run it against chem-inventory after PR 171's links exist and confirm the
+- [x] Run it against chem-inventory after PR 171's links exist and confirm the
       project reports already linked.
 
 ## Product Decisions
