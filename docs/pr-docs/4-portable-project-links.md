@@ -1,6 +1,6 @@
 # PR 4: Portable Project Links
 
-Status: underway
+Status: in-scope work complete
 
 Branch: `bugfix/portable-project-links`
 
@@ -20,21 +20,21 @@ home path. Chem-inventory PR 171 requires portable links.
 
 ### Tier 1 - Link contract
 
-- [ ] Change installer tests first to require relative project link targets.
-- [ ] Add focused tests for relative-path calculation across sibling and nested
+- [x] Change installer tests first to require relative project link targets.
+- [x] Add focused tests for relative-path calculation across sibling and nested
       directories.
 
 ### Tier 2 - Installer
 
-- [ ] Generate project instruction and `.agents` skill targets relative to
+- [x] Generate project instruction and `.agents` skill targets relative to
       their link directories.
-- [ ] Preserve existing global-link behavior, atomic project installation, and
+- [x] Preserve existing global-link behavior, atomic project installation, and
       idempotence.
-- [ ] Update installation documentation.
+- [x] Update installation documentation.
 
 ## Smoke Tests
 
-- [ ] Run the installer twice against a temporary workspace and confirm all
+- [x] Run the installer twice against a temporary workspace and confirm all
       project links remain valid and unchanged.
 - [ ] Run it against chem-inventory after PR 171's links exist and confirm the
       project reports already linked.
