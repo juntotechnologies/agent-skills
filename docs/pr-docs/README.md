@@ -4,4 +4,4 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Cross-Agent Skill Installation](./planned-cross-agent-skill-installation.md) | Centralize global and project skills and install them for Codex, Claude Code, and known projects |
+| [PR 2: Cross-Agent Skill Installation](./2-cross-agent-skill-installation.md) | Centralize global and project skills and install them for Codex, Claude Code, and known projects |

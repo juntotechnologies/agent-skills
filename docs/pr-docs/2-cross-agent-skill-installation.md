@@ -1,6 +1,6 @@
-# PR planned: Cross-Agent Skill Installation
+# PR 2: Cross-Agent Skill Installation
 
-Status: planned
+Status: underway
 
 Branch: `feature/cross-agent-skill-installation`
 
@@ -59,4 +59,3 @@ same workflows across harnesses.
 - Supporting collaborators, CI, or cloud environments without the
   `agent-skills` checkout.
 - Committing symlinks to chem-inventory's unrelated active feature branch.
-
