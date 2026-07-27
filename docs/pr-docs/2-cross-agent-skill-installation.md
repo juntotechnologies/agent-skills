@@ -36,7 +36,7 @@ same workflows across harnesses.
 
 ## Smoke Tests
 
-- [ ] Run the installer twice and confirm the second run reports an already
+- [x] Run the installer twice and confirm the second run reports an already
       linked state without creating backups or duplicate links.
 - [ ] Start Codex and Claude Code in chem-inventory and confirm both expose the
       database migration skill.
