@@ -1,6 +1,6 @@
-# PR planned: Portable Project Links
+# PR 4: Portable Project Links
 
-Status: planned
+Status: underway
 
 Branch: `bugfix/portable-project-links`
 
