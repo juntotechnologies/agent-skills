@@ -1,6 +1,6 @@
 # PR 2: Cross-Agent Skill Installation
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/cross-agent-skill-installation`
 
