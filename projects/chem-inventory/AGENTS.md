@@ -21,7 +21,8 @@ how we work together; that one governs what the system is.
 - Create `<type>/<pithy-theme-with-dashes>` branches from current `main`, carry
   approved changes onto the branch, push it, and open a filled-in PR.
 - Use the PR Doc Open skill when opening the PR.
-- Never merge to `main`; Shaun is the only person allowed to merge.
+- Never commit, push, or merge directly on `main`. Draft there if needed, then
+  branch before committing; only Shaun merges PRs to `main`.
 
 ## 4. Build with TDD
 

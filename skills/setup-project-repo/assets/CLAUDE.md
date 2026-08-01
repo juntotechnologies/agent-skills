@@ -17,7 +17,8 @@ When working on coding with me, follow this workflow.
 - Once a PR doc is nailed down and we're ready to tackle it, create a branch for it: carry the current changes from `main` into the new branch locally, then push to origin.
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
 - ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
-- NEVER merge to `main`. Shaun is the only person allowed to merge PRs to `main`.
+- Never commit, push, or merge directly on `main`. Draft there if needed, then
+  branch before committing; only Shaun merges PRs to `main`.
 
 ## 4. Build with TDD
 

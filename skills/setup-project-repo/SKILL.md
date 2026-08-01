@@ -109,8 +109,8 @@ requirements. After copying:
   etc. to infer them).
 - Replace the app-specific smoke tests with ones that match this project, or
   leave clearly-marked TODOs for me to fill in.
-- Confirm `CLAUDE.md` explicitly says agents must never merge to `main`; only
-  Shaun may merge PRs to `main`.
+- Confirm `CLAUDE.md` forbids agents from committing, pushing, or merging
+  directly on `main`; only Shaun may merge PRs to `main`.
 - Confirm `AGENTS.md` matches `CLAUDE.md` so Codex receives the same workflow
   instructions as Claude.
 - Update `docs/pr-docs/README.md` whenever PR docs are added, completed, moved,
