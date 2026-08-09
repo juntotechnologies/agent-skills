@@ -27,6 +27,10 @@ The installer is idempotent. It symlinks every global skill into both
 `~/Documents/GitHub`, and installs their canonical instructions and skills.
 Use `--workspace-root PATH` when the checkout root differs.
 
+User-level links are absolute and machine-local. Project links are relative so
+they can be committed to a project repository and remain valid when the
+workspace moves to another home directory.
+
 Existing ordinary files are never overwritten. The installer reports and
 skips them so their migration can happen deliberately in the owning project's
 PR.

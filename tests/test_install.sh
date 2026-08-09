@@ -24,6 +24,34 @@ assert_link() {
   }
 }
 
+assert_portable_link() {
+  local target="$1"
+  local expected_source="$2"
+  local link_source resolved_source resolved_expected
+
+  [[ -L "$target" ]] || {
+    echo "Expected symlink: $target" >&2
+    exit 1
+  }
+  link_source="$(readlink "$target")"
+  [[ "$link_source" != /* ]] || {
+    echo "Expected relative symlink at $target, got $link_source" >&2
+    exit 1
+  }
+  resolved_source="$(
+    cd "$(dirname "$target")/$(dirname "$link_source")"
+    printf '%s/%s\n' "$(pwd -P)" "$(basename "$link_source")"
+  )"
+  resolved_expected="$(
+    cd "$(dirname "$expected_source")"
+    printf '%s/%s\n' "$(pwd -P)" "$(basename "$expected_source")"
+  )"
+  [[ "$resolved_source" == "$resolved_expected" ]] || {
+    echo "Expected $target to resolve to $resolved_expected, got $resolved_source" >&2
+    exit 1
+  }
+}
+
 run_installer() {
   HOME="$test_home" "$repo_root/scripts/install.sh" \
     --workspace-root "$workspace_root"
@@ -41,11 +69,11 @@ for skill_path in "$repo_root"/skills/*/; do
     "${skill_path%/}"
 done
 
-assert_link \
+assert_portable_link \
   "$project_root/AGENTS.md" \
   "$repo_root/projects/chem-inventory/AGENTS.md"
 assert_link "$project_root/CLAUDE.md" "AGENTS.md"
-assert_link \
+assert_portable_link \
   "$project_root/.agents/skills/db-migrations" \
   "$repo_root/projects/chem-inventory/skills/db-migrations"
 assert_link \

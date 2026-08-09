@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 4: Portable Project Links](./4-portable-project-links.md) | Generate version-control-safe relative project symlinks |
 
 ## Archive
 

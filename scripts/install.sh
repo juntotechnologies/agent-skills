@@ -4,6 +4,9 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 workspace_root="${HOME}/Documents/GitHub"
 
+# shellcheck source=lib/paths.sh
+source "$repo_root/scripts/lib/paths.sh"
+
 usage() {
   echo "Usage: scripts/install.sh [--workspace-root PATH]"
 }
@@ -80,7 +83,7 @@ install_project() {
   local project_name="$1"
   local checkout_name="$2"
   local source_root="$repo_root/projects/$project_name"
-  local project_root skill_path skill_name
+  local project_root project_agents_source skill_path skill_name skill_source
 
   project_root="$(find_project_checkout "$checkout_name")"
   if [[ -z "$project_root" ]]; then
@@ -88,7 +91,11 @@ install_project() {
     return
   fi
 
-  if ! path_is_available "$source_root/AGENTS.md" "$project_root/AGENTS.md" \
+  project_agents_source="$(
+    relative_path "$source_root/AGENTS.md" "$project_root"
+  )"
+
+  if ! path_is_available "$project_agents_source" "$project_root/AGENTS.md" \
     || ! path_is_available "AGENTS.md" "$project_root/CLAUDE.md"; then
     echo "Unmanaged agent paths found, skipping project: $checkout_name" >&2
     return
@@ -97,8 +104,11 @@ install_project() {
   for skill_path in "$source_root"/skills/*/; do
     [[ -f "$skill_path/SKILL.md" ]] || continue
     skill_name="$(basename "$skill_path")"
+    skill_source="$(
+      relative_path "${skill_path%/}" "$project_root/.agents/skills"
+    )"
     if ! path_is_available \
-      "${skill_path%/}" \
+      "$skill_source" \
       "$project_root/.agents/skills/$skill_name" \
       || ! path_is_available \
         "../../.agents/skills/$skill_name" \
@@ -108,14 +118,17 @@ install_project() {
     fi
   done
 
-  link_path "$source_root/AGENTS.md" "$project_root/AGENTS.md"
+  link_path "$project_agents_source" "$project_root/AGENTS.md"
   link_path "AGENTS.md" "$project_root/CLAUDE.md"
 
   for skill_path in "$source_root"/skills/*/; do
     [[ -f "$skill_path/SKILL.md" ]] || continue
     skill_name="$(basename "$skill_path")"
+    skill_source="$(
+      relative_path "${skill_path%/}" "$project_root/.agents/skills"
+    )"
     link_path \
-      "${skill_path%/}" \
+      "$skill_source" \
       "$project_root/.agents/skills/$skill_name"
     link_path \
       "../../.agents/skills/$skill_name" \
