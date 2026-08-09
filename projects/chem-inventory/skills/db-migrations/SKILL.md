@@ -7,11 +7,16 @@ description: Follow this repo's opinionated Drizzle/Supabase schema-change workf
 
 This repo tracks schema through Drizzle migrations, not `db:push`. The full
 canonical detail lives in three docs — this skill is the decision procedure
-that ties them together so a schema change doesn't skip a step:
+that ties them together so a schema change doesn't skip a step. Paths below
+are relative to the **chem-inventory repository root**, not to this file —
+this skill is symlinked into chem-inventory from multiple physical
+locations (installed copy vs. the canonical copy in `agent-skills`), so a
+filesystem-relative link would resolve differently depending on which one
+you're reading it from:
 
-- [`docs/schema-change-checklist.md`](../../../docs/schema-change-checklist.md) — the end-to-end checklist (code → migration → dev → merge → prod).
-- [`docs/database-migrations.md`](../../../docs/database-migrations.md) — exact `db:generate`/`db:migrate`/`db:status` commands.
-- [`docs/database-debugging.md`](../../../docs/database-debugging.md) — manual checks when the ledger and schema disagree.
+- `docs/schema-change-checklist.md` — the end-to-end checklist (code → migration → dev → merge → prod).
+- `docs/database-migrations.md` — exact `db:generate`/`db:migrate`/`db:status` commands.
+- `docs/database-debugging.md` — manual checks when the ledger and schema disagree.
 
 If any instruction here seems to conflict with those docs, the docs win —
 update this skill to match rather than trusting a stale copy here.
