@@ -20,6 +20,7 @@ See `ARCHITECTURE.md` for how this system is actually built (components, data fl
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
 - ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
 - Never commit, push, or merge directly on `main`. Draft there if needed, then branch before committing; only Shaun merges PRs to `main`.
+- Exception: routine post-merge cleanup - deleting the now-merged local branch, pruning the remote-tracking ref, and archiving the PR doc (status, move to `archive/`, README TOC, fixing links broken by the move) - commits and pushes straight to `main`, no new branch/PR. This is bookkeeping about a merge that already happened, not new code or scope; it never includes actual code changes.
 
 ## 4. Build with TDD
 
