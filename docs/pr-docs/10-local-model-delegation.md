@@ -1,6 +1,6 @@
 # PR 10: Local Model Delegation
 
-Status: underway
+Status: in-scope work complete (manual smoke tests pending)
 
 Branch: `feature/local-model-delegation`
 
@@ -27,32 +27,32 @@ integration and installation last.
 
 ### Tier 1 - Routing contract
 
-- [ ] Add failing tests for dynamic endpoint discovery from the existing Hermes
+- [x] Add failing tests for dynamic endpoint discovery from the existing Hermes
   and swarm configuration, with no hardcoded tailnet addresses.
-- [ ] Implement the smallest endpoint-discovery abstraction that makes those
+- [x] Implement the smallest endpoint-discovery abstraction that makes those
   tests pass.
-- [ ] Add failing tests for the routing policy: Mac for single/serial work,
+- [x] Add failing tests for the routing policy: Mac for single/serial work,
   Spark for parallel batches, and Spark fan-out followed by Mac synthesis for
   large divisible work.
-- [ ] Implement the routing policy and bounded response contract.
+- [x] Implement the routing policy and bounded response contract.
 
 ### Tier 2 - Read-only delegation helper
 
-- [ ] Add failing tests for OpenAI-compatible request construction, concurrency,
+- [x] Add failing tests for OpenAI-compatible request construction, concurrency,
   timeouts, unavailable endpoints, malformed responses, and output limits.
-- [ ] Implement a read-only helper that talks directly to inference endpoints
+- [x] Implement a read-only helper that talks directly to inference endpoints
   and exposes no agent tools or mutation path.
-- [ ] Test each modular helper independently and run the full repository test
+- [x] Test each modular helper independently and run the full repository test
   suite.
 
 ### Tier 3 - Skill and propagation
 
-- [ ] Add the `local-model-delegation` skill with discriminating activation
+- [x] Add the `local-model-delegation` skill with discriminating activation
   guidance, workload-routing rules, safety boundaries, and stopping conditions.
-- [ ] Validate the skill with the skill-creator validator.
-- [ ] Install/link the canonical skill into supported agent environments with
+- [x] Validate the skill with the skill-creator validator.
+- [x] Install/link the canonical skill into supported agent environments with
   `scripts/install.sh` and verify the installed links resolve to this repo.
-- [ ] Exercise one serial Mac request and one parallel Spark-to-Mac request,
+- [x] Exercise one serial Mac request and one parallel Spark-to-Mac request,
   then confirm Codex receives bounded results.
 
 ## Smoke Tests
