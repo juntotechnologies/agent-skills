@@ -1,6 +1,6 @@
 # PR 10: Local Model Delegation
 
-Status: in-scope work complete (manual smoke tests pending)
+Status: done
 
 Branch: `feature/local-model-delegation`
 
@@ -98,4 +98,4 @@ integration and installation last.
 
 ## Related Docs
 
-- [Agent Skills PR Docs](./README.md)
+- [Agent Skills PR Docs](../README.md)

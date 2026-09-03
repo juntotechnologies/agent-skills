@@ -1,6 +1,6 @@
 # PR 11: Codex-First Agent Layout
 
-Status: in-scope work complete (manual smoke tests pending)
+Status: done
 
 Branch: `refactor/codex-first-agent-layout`
 
