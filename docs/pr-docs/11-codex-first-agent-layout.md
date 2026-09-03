@@ -1,6 +1,6 @@
-# PR planned: Codex-First Agent Layout
+# PR 11: Codex-First Agent Layout
 
-Status: planned
+Status: underway
 
 Branch: `refactor/codex-first-agent-layout`
 
