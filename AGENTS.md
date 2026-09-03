@@ -1,1 +1,1 @@
-skills/setup-project-repo/assets/CLAUDE.md
+skills/setup-project-repo/assets/AGENTS.md

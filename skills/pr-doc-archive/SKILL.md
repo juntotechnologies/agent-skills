@@ -7,7 +7,7 @@ description: Archive a merged PR's doc — mark it Status done, move it into doc
 
 Once a PR merges, its `docs/pr-docs/<PR#>-<slug>.md` doc is done serving as
 an active plan and should move out of the way so the TOC stays a clean view
-of what's actually in flight — matching `CLAUDE.md` section 5's instruction
+of what's actually in flight — matching `AGENTS.md` section 5's instruction
 to do this proactively, without being asked.
 
 ## Steps
@@ -33,7 +33,7 @@ to do this proactively, without being asked.
    `docs/pr-docs/` for any other doc linking to the old un-archived path and
    repoint those too.
 7. **Commit straight to `main` and push** — no new branch. Message like
-   "docs: archive PR <PR#> doc now that it's merged". Per `CLAUDE.md`'s
+   "docs: archive PR <PR#> doc now that it's merged". Per `AGENTS.md`'s
    branching rule, routine post-merge cleanup (branch deletion, doc
    archiving, link fixes — never actual code) is the one exception to "never
    commit/push directly on `main`."

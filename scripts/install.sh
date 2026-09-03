@@ -3,12 +3,13 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 workspace_root="${HOME}/Documents/GitHub"
+claude_compat=false
 
 # shellcheck source=lib/paths.sh
 source "$repo_root/scripts/lib/paths.sh"
 
 usage() {
-  echo "Usage: scripts/install.sh [--workspace-root PATH]"
+  echo "Usage: scripts/install.sh [--workspace-root PATH] [--claude-compat]"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -17,6 +18,10 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || { usage >&2; exit 2; }
       workspace_root="$2"
       shift 2
+      ;;
+    --claude-compat)
+      claude_compat=true
+      shift
       ;;
     --help|-h)
       usage
@@ -59,15 +64,17 @@ path_is_available() {
 }
 
 install_global_skills() {
-  local skill_path skill_name target_root
+  local skill_path skill_name
 
   for skill_path in "$repo_root"/skills/*/; do
     [[ -f "$skill_path/SKILL.md" ]] || continue
     skill_name="$(basename "$skill_path")"
-    for target_root in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
-      link_path "${skill_path%/}" "$target_root/$skill_name"
-    done
+    link_path "${skill_path%/}" "$HOME/.agents/skills/$skill_name"
   done
+}
+
+install_global_claude_compat() {
+  link_path "../.agents/skills" "$HOME/.claude/skills"
 }
 
 find_project_checkout() {
@@ -95,8 +102,7 @@ install_project() {
     relative_path "$source_root/AGENTS.md" "$project_root"
   )"
 
-  if ! path_is_available "$project_agents_source" "$project_root/AGENTS.md" \
-    || ! path_is_available "AGENTS.md" "$project_root/CLAUDE.md"; then
+  if ! path_is_available "$project_agents_source" "$project_root/AGENTS.md"; then
     echo "Unmanaged agent paths found, skipping project: $checkout_name" >&2
     return
   fi
@@ -109,17 +115,13 @@ install_project() {
     )"
     if ! path_is_available \
       "$skill_source" \
-      "$project_root/.agents/skills/$skill_name" \
-      || ! path_is_available \
-        "../../.agents/skills/$skill_name" \
-        "$project_root/.claude/skills/$skill_name"; then
+      "$project_root/.agents/skills/$skill_name"; then
       echo "Unmanaged agent paths found, skipping project: $checkout_name" >&2
       return
     fi
   done
 
   link_path "$project_agents_source" "$project_root/AGENTS.md"
-  link_path "AGENTS.md" "$project_root/CLAUDE.md"
 
   for skill_path in "$source_root"/skills/*/; do
     [[ -f "$skill_path/SKILL.md" ]] || continue
@@ -130,10 +132,12 @@ install_project() {
     link_path \
       "$skill_source" \
       "$project_root/.agents/skills/$skill_name"
-    link_path \
-      "../../.agents/skills/$skill_name" \
-      "$project_root/.claude/skills/$skill_name"
   done
+
+  if [[ "$claude_compat" == true ]]; then
+    link_path "AGENTS.md" "$project_root/CLAUDE.md"
+    link_path "../.agents/skills" "$project_root/.claude/skills"
+  fi
 }
 
 install_projects() {
@@ -146,5 +150,11 @@ install_projects() {
 }
 
 install_global_skills
+if [[ "$claude_compat" == true ]]; then
+  install_global_claude_compat
+fi
 install_projects
+if [[ "$claude_compat" == true ]]; then
+  echo "Claude compatibility enabled."
+fi
 echo "Installed agent skills."
