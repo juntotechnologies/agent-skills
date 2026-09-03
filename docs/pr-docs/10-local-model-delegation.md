@@ -1,6 +1,6 @@
-# PR planned: Local Model Delegation
+# PR 10: Local Model Delegation
 
-Status: planned
+Status: underway
 
 Branch: `feature/local-model-delegation`
 
