@@ -25,7 +25,7 @@ e.g. `server/services/transaction-service.ts`. Delete if not needed.>
 
 ## Implementation Checklist
 
-Ordered least -> most consequential/complex (per CLAUDE.md): quick, contained wins
+Ordered least -> most consequential/complex (per AGENTS.md): quick, contained wins
 first; schema-touching, cross-cutting, or high-blast-radius work last. Group into
 tiers when the list is long.
 
@@ -48,7 +48,7 @@ tiers when the list is long.
 
 ## Smoke Tests
 
-Per CLAUDE.md #9: 20% effort for 80% blast-radius coverage. These are **manual**
+Per AGENTS.md #9: 20% effort for 80% blast-radius coverage. These are **manual**
 checks the user performs in the running app, not scripted API probes. Keep the
 list short and focused on the paths this PR touches.
 

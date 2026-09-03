@@ -68,7 +68,7 @@ see `backfill-contact-people.ts` as the reference implementation.
   change Drizzle can generate.
 - Update server/client code that depends on the changed fields.
 - Add or update focused tests for the changed behavior *before* generating
-  the migration (TDD, per this repo's `CLAUDE.md`).
+  the migration (TDD, per this repo's `AGENTS.md`).
 
 ## Step 2 — Generate and review the migration
 
@@ -117,7 +117,7 @@ Commit code, tests, and the migration files (`migrations/*.sql` +
 `migrations/meta/*`) together in one change — never split a migration file
 from the schema/code change it belongs to.
 
-This repo's `CLAUDE.md` still governs everything around the migration
+This repo's `AGENTS.md` still governs everything around the migration
 itself: discuss before starting schema-touching work, branch/PR per the
 normal flow, checklist item gets checked off only once its tests pass. This
 skill only covers the DB-specific mechanics inside that flow. Prod

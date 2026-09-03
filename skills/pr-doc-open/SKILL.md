@@ -6,17 +6,17 @@ description: Turn an approved, planned PR doc (docs/pr-docs/planned-<slug>.md) i
 ## Overview
 
 This is the mechanical second half of the PR workflow described in
-`CLAUDE.md`: once a `docs/pr-docs/planned-<slug>.md` doc's scope is agreed,
+`AGENTS.md`: once a `docs/pr-docs/planned-<slug>.md` doc's scope is agreed,
 turn it into a real branch and PR without re-litigating scope. Assumes the
 planned doc already exists — if it doesn't, that's a planning conversation
-first (see `CLAUDE.md` sections 1-2), not this skill.
+first (see `AGENTS.md` sections 1-2), not this skill.
 
 ## Steps
 
 1. **Check for a clean starting point.** Run `git status --short`. If there
    are unrelated uncommitted changes, stop and ask before branching — don't
    silently carry someone else's in-progress work into the new branch.
-2. **Create the branch** off the current branch (per `CLAUDE.md`'s naming
+2. **Create the branch** off the current branch (per `AGENTS.md`'s naming
    convention: `<type>/<pithy-theme-with-dashes>`, matching whatever the
    planned doc's `Branch:` field already says, if it has one).
 3. **Commit the planned PR doc** (and anything else already staged for this
@@ -35,9 +35,9 @@ first (see `CLAUDE.md` sections 1-2), not this skill.
 8. Commit and push the rename/TOC update as a small follow-up commit on the
    same branch.
 9. Report the PR URL. Do not merge — only Shaun merges to `main` (per
-   `CLAUDE.md`).
+   `AGENTS.md`).
 
-This skill only covers the PR's opening moment. Per `CLAUDE.md`'s Track
+This skill only covers the PR's opening moment. Per `AGENTS.md`'s Track
 Progress section, the PR description and its PR doc must stay in sync for
 the PR's *entire* lifetime after this — every later session that meaningfully
 changes the doc (a new tier, a revised design, a struck-through known issue,

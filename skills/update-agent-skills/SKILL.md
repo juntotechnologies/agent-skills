@@ -1,6 +1,6 @@
 ---
 name: Update Agent Skills
-description: Add a new skill, change an existing skill's behavior, or capture a generalizable coding/workflow rule into the right durable place — this repo's canonical CLAUDE.md, a specific skill's SKILL.md, or the memory system — with my confirmation, so I don't have to repeat the same guidance in future sessions. Use when I ask to "add a skill", "update agent skills/abilities", "change how a skill works", or when a correction/confirmation in conversation reads as a general rule rather than a one-off fix.
+description: Add a new skill, change an existing skill's behavior, or capture a generalizable coding/workflow rule into the right durable place — this repo's canonical AGENTS.md, a specific skill's SKILL.md, or the memory system — with my confirmation, so I don't have to repeat the same guidance in future sessions. Use when I ask to "add a skill", "update agent skills/abilities", "change how a skill works", or when a correction/confirmation in conversation reads as a general rule rather than a one-off fix.
 ---
 
 ## Overview
@@ -41,19 +41,19 @@ behaves, (c) a universal coding/workflow rule that applies in any repo, or
 | --- | --- |
 | New capability worth its own skill | New `agent-skills/skills/<name>/SKILL.md` |
 | Change to an existing skill's behavior | That skill's own `SKILL.md` in `agent-skills/skills/<name>/` |
-| Universal coding/workflow rule (any repo, any language) | `agent-skills/skills/setup-project-repo/assets/CLAUDE.md` (the canonical template — see that skill's own docs on why it's the source of truth, not a project's local copy) |
+| Universal coding/workflow rule (any repo, any language) | `agent-skills/skills/setup-project-repo/assets/AGENTS.md` (the canonical template — see that skill's own docs on why it's the source of truth, not a project's local copy) |
 | Project-specific instructions or workflow | `agent-skills/projects/<project>/AGENTS.md` or `skills/<name>/SKILL.md` |
 | User preference or feedback about how I should work with them | The active harness's supported user-level instruction system |
 
-If it's ambiguous between the canonical CLAUDE.md and memory: canonical
-CLAUDE.md is for rules that hold regardless of who's asking or which project;
+If it's ambiguous between the canonical AGENTS.md and memory: canonical
+AGENTS.md is for rules that hold regardless of who's asking or which project;
 memory is for things specific to this user or this codebase's history.
 
 ## Step 2 — Confirm before writing
 
 Always propose the change back in one or two sentences and ask for
 confirmation before editing anything. Show which destination you picked and
-why. Never write to `agent-skills` or a project's `CLAUDE.md` silently.
+why. Never write to `agent-skills` or a project's `AGENTS.md` silently.
 
 ## Step 3 — Write it
 
@@ -63,9 +63,9 @@ why. Never write to `agent-skills` or a project's `CLAUDE.md` silently.
   naturally ask for it later, not just what's technically precise.
 - **Existing skill**: edit that skill's `SKILL.md` directly, preserving its
   structure.
-- **Canonical CLAUDE.md**: edit
-  `agent-skills/skills/setup-project-repo/assets/CLAUDE.md` directly. This is
-  the only canonical copy — do not edit a project's local `CLAUDE.md` and
+- **Canonical AGENTS.md**: edit
+  `agent-skills/skills/setup-project-repo/assets/AGENTS.md` directly. This is
+  the only canonical copy — do not edit a project's local `AGENTS.md` and
   call it done.
 - **Memory**: follow the memory system's own save procedure (frontmatter +
   `MEMORY.md` index entry).
@@ -73,8 +73,10 @@ why. Never write to `agent-skills` or a project's `CLAUDE.md` silently.
 ## Step 4 — Make new/changed skills available
 
 Run `scripts/install.sh`. It discovers global skills automatically and links
-them into both `~/.agents/skills/` and `~/.claude/skills/`. Registered project
-content under `projects/` is linked into matching project checkouts.
+them into `~/.agents/skills/`. Registered project content under `projects/` is
+linked into matching project checkouts. Only when the user explicitly wants
+Claude compatibility, pass `--claude-compat`; it creates symlinks from Claude
+paths to the Codex surfaces without maintaining duplicate content.
 
 ## Step 5 — Propagate generic template changes
 
