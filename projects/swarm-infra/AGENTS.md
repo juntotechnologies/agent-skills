@@ -67,3 +67,9 @@ When working on coding with me, follow this workflow.
 - Run tests, generator drift checks, deployment checks, and other verification yourself, then report the results in prose.
 - Prefer non-mutating checks such as `scripts/deploy.sh --check` before any live deployment.
 - Check CI status yourself before reporting a PR ready for review. Wait for relevant checks to finish.
+
+## 9. Run Python Through uv, Never Bare python/python3
+
+- Use `uv` for every Python invocation: `uv run scripts/generate-configs.py --check`, `uv run python -m unittest discover -s tests`, `uv run --with <pkg>` for a one-off dependency. Never call `python`, `python3`, or `pip` directly.
+- Bare `python3` resolves to whatever is first on PATH, and its packages are an accident of the machine. Both this repo's suite and hermes-config's needed *different* interpreters on the same Mac before this rule existed.
+- This repo's CI currently pins `setup-python` with no install step, which constrains every test here to the standard library. That is a real constraint on what tests can be written; move CI to `astral-sh/setup-uv` + `uv run` if a test ever genuinely needs a third-party library.

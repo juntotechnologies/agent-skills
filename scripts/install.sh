@@ -83,7 +83,10 @@ find_project_checkout() {
   if [[ ! -d "$workspace_root" ]]; then
     return 0
   fi
-  find "$workspace_root" -maxdepth 4 -type d -name "$checkout_name" -print -quit
+  # -L: workspace_root is itself a symlink (~/Documents/GitHub -> ~/GitHub), and
+  # find will not descend into a symlinked start path without it. Without -L this
+  # silently found nothing and every project was reported as "checkout not found".
+  find -L "$workspace_root" -maxdepth 4 -type d -name "$checkout_name" -print -quit
 }
 
 install_project() {
