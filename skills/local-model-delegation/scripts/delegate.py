@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, NamedTuple, Sequence
@@ -18,7 +19,7 @@ DEFAULT_CONFIG_PATH = Path.home() / ".hermes" / "config.yaml"
 DEFAULT_MAX_OUTPUT_CHARS = 6_000
 DEFAULT_MAX_TOKENS = 2_048
 DEFAULT_TIMEOUT_SECONDS = 180
-DEFAULT_MAX_WORKERS = 10
+DEFAULT_MAX_WORKERS = 2
 TRUNCATION_MARKER = "\n[local-model output truncated]"
 SYSTEM_PROMPT = (
     "You are a read-only analysis worker assisting another coding agent. "
@@ -114,6 +115,7 @@ def build_chat_request(model: str, prompt: str, max_tokens: int) -> dict:
         ],
         "max_tokens": max_tokens,
         "stream": False,
+        "reasoning_effort": "none",
     }
 
 
@@ -125,6 +127,25 @@ def extract_content(payload: dict) -> str:
     if not isinstance(content, str) or not content.strip():
         raise DelegationError("Malformed local model response: missing content")
     return content.strip()
+
+
+def request_claude(prompt: str, *, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS) -> str:
+    """Use existing CLI auth without enabling tools, hooks, or persistent sessions."""
+    try:
+        result = subprocess.run(
+            ["claude", "-p", "--safe-mode", "--tools", "", "--strict-mcp-config",
+             "--no-session-persistence", "--output-format", "text"],
+            input=prompt, text=True, capture_output=True, timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as error:
+        raise DelegationError(f"Claude review timed out after {timeout_seconds}s") from error
+    except OSError as error:
+        raise DelegationError("Claude CLI could not start; check installation") from error
+    if result.returncode:
+        raise DelegationError(f"Claude CLI failed (exit {result.returncode}); check CLI authentication/status")
+    if not result.stdout.strip():
+        raise DelegationError("Claude CLI returned no content")
+    return result.stdout.strip()
 
 
 def _completion_url(base_url: str) -> str:
@@ -255,6 +276,10 @@ def _parser() -> argparse.ArgumentParser:
     ask_parser.add_argument("--prompt", required=True)
     add_common_options(ask_parser)
 
+    claude_parser = subparsers.add_parser("claude", help="Run a bounded tool-free Claude review")
+    claude_parser.add_argument("--prompt", required=True)
+    add_common_options(claude_parser)
+
     fanout_parser = subparsers.add_parser(
         "fanout", help="Run independent tasks on Spark and synthesize on the Mac"
     )
@@ -268,8 +293,11 @@ def _parser() -> argparse.ArgumentParser:
 def run_cli(argv: Sequence[str] | None = None) -> tuple[int, str]:
     try:
         args = _parser().parse_args(argv)
-        routes = load_routing_config(args.config)
-        if args.command == "ask":
+        routes = load_routing_config(args.config) if args.command != "claude" else {}
+        if args.command == "claude":
+            route = "claude"
+            result = request_claude(args.prompt, timeout_seconds=args.timeout)
+        elif args.command == "ask":
             route = "mac"
             result = request_completion(
                 routes["mac"],

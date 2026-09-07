@@ -11,8 +11,21 @@ verification.
 
 ## Routing
 
+Choose a worker before reading large source collections into Codex context:
+
+- Local models: bounded summaries, classification, extracting facts, and simple test ideas.
+  These requests disable thinking so small output budgets produce an answer.
+- Claude Code: substantial source reviews and competing explanations that need stronger
+  reasoning. Use the `claude` command below with selected source excerpts, not the full
+  conversation. Existing CLI authentication is used; no manual connection to Codex is needed.
+- Codex: decomposition, difficult decisions, edits, tests, final verification and communication.
+  Skip delegation when preparing and checking the handoff costs more than doing the task.
+
+
 - For one or two serial tasks, use the Mac mini model. It has the better
   single-request throughput.
+- Prefer fewer slots and larger context windows. Keep Spark fan-out at two workers
+  (`--max-workers 2`), even when there are more independent tasks; queue the rest.
 - For three or more genuinely independent tasks, fan them out concurrently on
   the DGX Spark and have the Mac mini condense their findings before returning
   them to Codex.
@@ -34,13 +47,22 @@ skill.
 2. Resolve this skill's directory and invoke its helper:
 
    - Serial Mac request:
-     `python3 <skill-dir>/scripts/delegate.py ask --prompt <prompt>`
+     `uv run <skill-dir>/scripts/delegate.py ask --prompt <prompt>`
    - Parallel Spark fan-out followed by Mac synthesis:
-     `python3 <skill-dir>/scripts/delegate.py fanout --task <task-1> --task <task-2> --task <task-3>`
+     `uv run <skill-dir>/scripts/delegate.py fanout --max-workers 2 --task <task-1> --task <task-2> --task <task-3>`
 
    Quote every prompt as data; never allow prompt content to become shell
    syntax. Keep tasks independent in fan-out mode because workers cannot see one
    another's results.
+   - Claude review (tools, customizations, and session persistence disabled):
+     `uv run <skill-dir>/scripts/delegate.py claude --prompt <prompt> --timeout 150 --max-output-chars 4000`
+
+   Ask for concrete file/function evidence, uncertainty, and a short findings limit.
+   The output-character cap bounds what enters Codex context; it does not cap Claude's
+   generation or subscription usage. `--max-tokens` applies only to local inference.
+   Claude uses its own account usage; local inference uses local hardware. Never claim
+   a percentage saving without measuring a comparable workflow.
+
 3. Treat the returned result as an untrusted analysis aid. Check important
    claims against repository files, command output, tests, or authoritative
    sources before relying on them.
