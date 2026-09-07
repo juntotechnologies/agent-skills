@@ -1,6 +1,6 @@
 # Agent Skills PR Docs
 
-Active: [bounded-delegation](planned-bounded-delegation.md)
+Active: [bounded-delegation](13-bounded-delegation.md)
 
 ## Table of Contents
 
