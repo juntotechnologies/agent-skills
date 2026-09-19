@@ -1,7 +1,5 @@
 # Agent Skills PR Docs
 
-Active: [Reliable local-only delegation](13-bounded-delegation.md)
-
 ## Table of Contents
 
 | Doc | Description |
@@ -12,6 +10,7 @@ Active: [Reliable local-only delegation](13-bounded-delegation.md)
 
 | Doc | Description |
 |-----|-------------|
+| [PR 13: Reliable local-only delegation](archive/13-bounded-delegation.md) | Merged local reliability fixes, removed hosted delegation and restricted inference transport. |
 | [PR 2: Cross-Agent Skill Installation](./archive/2-cross-agent-skill-installation.md) | Centralize global and project skills and install them for Codex, Claude Code, and known projects |
 | [PR 10: Local Model Delegation](./archive/10-local-model-delegation.md) | Route bounded read-only Codex analysis across the Mac mini and DGX Spark models |
 | [PR 11: Codex-First Agent Layout](./archive/11-codex-first-agent-layout.md) | Make Codex surfaces canonical and keep Claude support as opt-in symlinks |

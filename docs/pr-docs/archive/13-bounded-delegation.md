@@ -1,6 +1,6 @@
 # PR 13: Reliable local-only delegation
 
-Status: in-scope work complete — ready for review
+Status: done — merged September 19, 2026; active skill verified local-only.
 
 Branch: `bugfix/bounded-delegation`
 
