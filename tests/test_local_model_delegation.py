@@ -4,7 +4,11 @@ import importlib.util
 import json
 import threading
 import unittest
-import subprocess
+import io
+import os
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from contextlib import redirect_stderr
+from urllib.request import ProxyHandler, HTTPRedirectHandler
 from unittest.mock import patch
 from pathlib import Path
 from urllib.error import URLError
@@ -82,42 +86,79 @@ delegation:
         body = self.helper.build_chat_request("model-a", "summarize", 450)
         self.assertEqual(body.get("reasoning_effort"), "none")
 
-    def test_claude_receives_prompt_as_stdin_with_no_tools_or_customizations(self):
-        with patch.object(self.helper.subprocess, "run") as run:
-            run.return_value = subprocess.CompletedProcess([], 0, "finding", "")
-            result = self.helper.request_claude("literal $(do-not-run)", timeout_seconds=12)
-        args, kwargs = run.call_args
-        self.assertEqual(result, "finding")
-        self.assertEqual(args[0][0], "claude")
-        self.assertIn("--safe-mode", args[0])
-        self.assertIn("--strict-mcp-config", args[0])
-        self.assertIn("--no-session-persistence", args[0])
-        self.assertEqual(args[0][args[0].index("--tools") + 1], "")
-        self.assertEqual(kwargs["input"], "literal $(do-not-run)")
-        self.assertEqual(kwargs["timeout"], 12)
-        self.assertFalse(kwargs.get("shell", False))
+    def test_cloud_command_is_rejected_before_execution(self):
+        with patch("subprocess.run") as run, redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as error:
+                self.helper.run_cli(["claude", "--prompt", "do not transmit"])
+        self.assertEqual(error.exception.code, 2)
+        run.assert_not_called()
 
-    def test_claude_failures_are_explicit_and_do_not_echo_sensitive_output(self):
-        for failure in (FileNotFoundError(), subprocess.TimeoutExpired("claude", 1)):
-            with patch.object(self.helper.subprocess, "run", side_effect=failure):
+    def test_rejects_external_urls_before_transport(self):
+        for url in ("https://api.anthropic.com/v1", "http://8.8.8.8/v1",
+                    "http://private.example/v1", "http://user:pass@127.0.0.1/v1",
+                    "http://169.254.169.254/v1", "file:///tmp/model"):
+            with self.subTest(url=url), patch.object(self.helper, "default_urlopen") as request:
                 with self.assertRaises(self.helper.DelegationError):
-                    self.helper.request_claude("review")
-        for code, output in ((1, "secret diagnostic"), (0, "")):
-            with patch.object(self.helper.subprocess, "run") as run:
-                run.return_value = subprocess.CompletedProcess([], code, output, "secret")
-                with self.assertRaises(self.helper.DelegationError) as error:
-                    self.helper.request_claude("review")
-                self.assertNotIn("secret", str(error.exception))
+                    self.helper.request_completion(self.helper.Endpoint(url, "m"), "private")
+                request.assert_not_called()
 
-    def test_claude_cli_does_not_require_hermes_config_and_bounds_output(self):
-        with patch.object(self.helper, "request_claude", return_value="abcdef"), patch.object(
-            self.helper, "load_routing_config", side_effect=AssertionError("not needed")
-        ):
-            status, output = self.helper.run_cli(
-                ["claude", "--prompt", "review", "--max-output-chars", "3"]
-            )
-        self.assertEqual(status, 0)
-        self.assertEqual(json.loads(output), {"status": "ok", "route": "claude", "result": "abc"})
+    def test_accepts_local_private_and_tailnet_addresses(self):
+        for host in ("127.0.0.1", "10.1.2.3", "192.168.1.2", "172.16.0.1",
+                     "100.96.198.21", "[::1]", "[fd7a:115c:a1e0::1]"):
+            self.helper.validate_endpoint_url(f"http://{host}:8080/v1")
+
+    def test_transport_disables_proxies_and_redirects(self):
+        with patch.dict(os.environ, {"http_proxy": "http://external.example:8080",
+                                     "https_proxy": "http://external.example:8080"}):
+            opener = self.helper.local_opener()
+        proxy = [h for h in opener.handlers if isinstance(h, ProxyHandler)]
+        self.assertTrue(all(h.proxies == {} for h in proxy))
+        redirect = next(h for h in opener.handlers if isinstance(h, HTTPRedirectHandler))
+        with self.assertRaises(self.helper.DelegationError):
+            redirect.redirect_request(None, None, 302, "redirect", {}, "https://external.example")
+
+    def test_real_transport_does_not_follow_redirect(self):
+        paths = []
+
+        class RedirectServer(BaseHTTPRequestHandler):
+            def do_POST(self):
+                paths.append(self.path)
+                self.send_response(302)
+                self.send_header("Location", "/must-not-receive")
+                self.end_headers()
+
+            def do_GET(self):
+                paths.append(self.path)
+                self.send_response(200)
+                self.end_headers()
+
+            def log_message(self, *_args):
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), RedirectServer)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            endpoint = self.helper.Endpoint(f"http://127.0.0.1:{server.server_port}/v1", "m")
+            with self.assertRaisesRegex(self.helper.DelegationError, "redirect"):
+                self.helper.request_completion(endpoint, "fixture", timeout_seconds=2)
+            self.assertEqual(paths, ["/v1/chat/completions"])
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+
+    def test_failed_local_cli_never_invokes_cloud_or_fallback(self):
+        routes = {"mac": self.helper.Endpoint("http://127.0.0.1/v1", "m")}
+        with patch.object(self.helper, "load_routing_config", return_value=routes), patch.object(
+            self.helper, "request_completion", side_effect=self.helper.DelegationError("unavailable")
+        ) as request, patch("subprocess.run") as cloud:
+            status, output = self.helper.run_cli(["ask", "--prompt", "private"])
+        self.assertEqual(status, 1)
+        self.assertEqual(json.loads(output)["status"], "error")
+        self.assertNotIn("result", json.loads(output))
+        request.assert_called_once()
+        cloud.assert_not_called()
 
     def test_extracts_content_and_rejects_malformed_responses(self):
         payload = {"choices": [{"message": {"content": "result"}}]}
@@ -127,12 +168,12 @@ delegation:
             self.helper.extract_content({"choices": []})
 
     def test_request_wraps_unavailable_endpoint_without_fabricating_result(self):
-        endpoint = self.helper.Endpoint("http://offline.example/v1", "model-a")
+        endpoint = self.helper.Endpoint("http://127.0.0.1/v1", "model-a")
 
         def unavailable(*_args, **_kwargs):
             raise URLError("offline")
 
-        with self.assertRaisesRegex(self.helper.DelegationError, "offline.example"):
+        with self.assertRaisesRegex(self.helper.DelegationError, "127.0.0.1"):
             self.helper.request_completion(
                 endpoint,
                 "prompt",

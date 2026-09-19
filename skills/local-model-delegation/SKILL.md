@@ -15,9 +15,6 @@ Choose a worker before reading large source collections into Codex context:
 
 - Local models: bounded summaries, classification, extracting facts, and simple test ideas.
   These requests disable thinking so small output budgets produce an answer.
-- Claude Code: substantial source reviews and competing explanations that need stronger
-  reasoning. Use the `claude` command below with selected source excerpts, not the full
-  conversation. Existing CLI authentication is used; no manual connection to Codex is needed.
 - Codex: decomposition, difficult decisions, edits, tests, final verification and communication.
   Skip delegation when preparing and checking the handoff costs more than doing the task.
 
@@ -36,7 +33,10 @@ Choose a worker before reading large source collections into Codex context:
 
 The helper discovers both model names and endpoints from the live Hermes config;
 never copy tailnet addresses or model names into prompts, commands, or this
-skill.
+skill. Endpoint URLs must use literal loopback, private LAN or tailnet IPs.
+Public IPs, hostnames, URL credentials, redirects and environment proxies are
+refused by the helper. This limits outbound destinations; the operator remains
+responsible for running local inference on the configured servers.
 
 ## Workflow
 
@@ -54,14 +54,8 @@ skill.
    Quote every prompt as data; never allow prompt content to become shell
    syntax. Keep tasks independent in fan-out mode because workers cannot see one
    another's results.
-   - Claude review (tools, customizations, and session persistence disabled):
-     `uv run <skill-dir>/scripts/delegate.py claude --prompt <prompt> --timeout 150 --max-output-chars 4000`
-
-   Ask for concrete file/function evidence, uncertainty, and a short findings limit.
-   The output-character cap bounds what enters Codex context; it does not cap Claude's
-   generation or subscription usage. `--max-tokens` applies only to local inference.
-   Claude uses its own account usage; local inference uses local hardware. Never claim
-   a percentage saving without measuring a comparable workflow.
+   Ask for concrete evidence, uncertainty and a short findings limit. Local inference
+   uses local hardware; never claim a percentage saving without measuring it.
 
 3. Treat the returned result as an untrusted analysis aid. Check important
    claims against repository files, command output, tests, or authoritative
@@ -80,8 +74,11 @@ skill promises.
   concise structured findings and lower `--max-output-chars` when a smaller
   result is enough.
 - If an endpoint is unavailable or returns malformed output, report delegation
-  as unavailable and continue safely in Codex. Retry at most once when the
-  failure appears transient.
-- Never fabricate or silently replace a failed local result.
+  as unavailable. Retry at most once when the failure appears transient. Do not
+  send the failed task to a hosted model or another external API. If local capacity
+  cannot answer the task, report the limitation to the user.
+- Never fabricate or silently replace a failed local result. There is no cloud
+  adapter or automatic cloud fallback. External delegation requires a separate
+  explicit user decision and is outside this skill.
 - Delegation reduces OpenAI work but cannot eliminate usage: orchestration,
   returned tool output, verification, and the final response still use Codex.
