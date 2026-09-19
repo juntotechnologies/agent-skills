@@ -1,5 +1,7 @@
 # Agent Skills PR Docs
 
+Active: [Reliable local-only delegation](13-bounded-delegation.md)
+
 ## Table of Contents
 
 | Doc | Description |

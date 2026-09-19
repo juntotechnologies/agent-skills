@@ -6,19 +6,20 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from ipaddress import ip_address, ip_network
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, NamedTuple, Sequence
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen as default_urlopen
+from urllib.request import Request, ProxyHandler, HTTPRedirectHandler, build_opener
 
 
 DEFAULT_CONFIG_PATH = Path.home() / ".hermes" / "config.yaml"
 DEFAULT_MAX_OUTPUT_CHARS = 6_000
 DEFAULT_MAX_TOKENS = 2_048
 DEFAULT_TIMEOUT_SECONDS = 180
-DEFAULT_MAX_WORKERS = 10
+DEFAULT_MAX_WORKERS = 2
 TRUNCATION_MARKER = "\n[local-model output truncated]"
 SYSTEM_PROMPT = (
     "You are a read-only analysis worker assisting another coding agent. "
@@ -114,6 +115,7 @@ def build_chat_request(model: str, prompt: str, max_tokens: int) -> dict:
         ],
         "max_tokens": max_tokens,
         "stream": False,
+        "reasoning_effort": "none",
     }
 
 
@@ -125,6 +127,41 @@ def extract_content(payload: dict) -> str:
     if not isinstance(content, str) or not content.strip():
         raise DelegationError("Malformed local model response: missing content")
     return content.strip()
+
+
+LOCAL_NETWORKS = tuple(ip_network(cidr) for cidr in (
+    "127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16",
+    "100.64.0.0/10", "::1/128", "fc00::/7",
+))
+
+
+def validate_endpoint_url(base_url: str) -> None:
+    try:
+        parsed = urlparse(base_url)
+        address = ip_address(parsed.hostname or "")
+        port = parsed.port
+        valid = (parsed.scheme in {"http", "https"} and not parsed.username
+                 and not parsed.password and not parsed.query and not parsed.fragment
+                 and "%" not in (parsed.hostname or "")
+                 and (port is None or port > 0)
+                 and any(address in network for network in LOCAL_NETWORKS))
+    except ValueError:
+        valid = False
+    if not valid:
+        raise DelegationError("Local delegation requires a loopback, private LAN or tailnet IP URL; external URLs and hostnames are refused")
+
+
+class RejectRedirects(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise DelegationError("Local model redirects are refused; use the configured endpoint directly")
+
+
+def local_opener():
+    return build_opener(ProxyHandler({}), RejectRedirects())
+
+
+def default_urlopen(request, *, timeout):
+    return local_opener().open(request, timeout=timeout)
 
 
 def _completion_url(base_url: str) -> str:
@@ -139,6 +176,7 @@ def request_completion(
     timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
     urlopen=None,
 ) -> str:
+    validate_endpoint_url(endpoint.base_url)
     body = json.dumps(
         build_chat_request(endpoint.model, prompt, max_tokens)
     ).encode("utf-8")

@@ -11,8 +11,18 @@ verification.
 
 ## Routing
 
+Choose a worker before reading large source collections into Codex context:
+
+- Local models: bounded summaries, classification, extracting facts, and simple test ideas.
+  These requests disable thinking so small output budgets produce an answer.
+- Codex: decomposition, difficult decisions, edits, tests, final verification and communication.
+  Skip delegation when preparing and checking the handoff costs more than doing the task.
+
+
 - For one or two serial tasks, use the Mac mini model. It has the better
   single-request throughput.
+- Prefer fewer slots and larger context windows. Keep Spark fan-out at two workers
+  (`--max-workers 2`), even when there are more independent tasks; queue the rest.
 - For three or more genuinely independent tasks, fan them out concurrently on
   the DGX Spark and have the Mac mini condense their findings before returning
   them to Codex.
@@ -23,7 +33,10 @@ verification.
 
 The helper discovers both model names and endpoints from the live Hermes config;
 never copy tailnet addresses or model names into prompts, commands, or this
-skill.
+skill. Endpoint URLs must use literal loopback, private LAN or tailnet IPs.
+Public IPs, hostnames, URL credentials, redirects and environment proxies are
+refused by the helper. This limits outbound destinations; the operator remains
+responsible for running local inference on the configured servers.
 
 ## Workflow
 
@@ -34,13 +47,16 @@ skill.
 2. Resolve this skill's directory and invoke its helper:
 
    - Serial Mac request:
-     `python3 <skill-dir>/scripts/delegate.py ask --prompt <prompt>`
+     `uv run <skill-dir>/scripts/delegate.py ask --prompt <prompt>`
    - Parallel Spark fan-out followed by Mac synthesis:
-     `python3 <skill-dir>/scripts/delegate.py fanout --task <task-1> --task <task-2> --task <task-3>`
+     `uv run <skill-dir>/scripts/delegate.py fanout --max-workers 2 --task <task-1> --task <task-2> --task <task-3>`
 
    Quote every prompt as data; never allow prompt content to become shell
    syntax. Keep tasks independent in fan-out mode because workers cannot see one
    another's results.
+   Ask for concrete evidence, uncertainty and a short findings limit. Local inference
+   uses local hardware; never claim a percentage saving without measuring it.
+
 3. Treat the returned result as an untrusted analysis aid. Check important
    claims against repository files, command output, tests, or authoritative
    sources before relying on them.
@@ -58,8 +74,11 @@ skill promises.
   concise structured findings and lower `--max-output-chars` when a smaller
   result is enough.
 - If an endpoint is unavailable or returns malformed output, report delegation
-  as unavailable and continue safely in Codex. Retry at most once when the
-  failure appears transient.
-- Never fabricate or silently replace a failed local result.
+  as unavailable. Retry at most once when the failure appears transient. Do not
+  send the failed task to a hosted model or another external API. If local capacity
+  cannot answer the task, report the limitation to the user.
+- Never fabricate or silently replace a failed local result. There is no cloud
+  adapter or automatic cloud fallback. External delegation requires a separate
+  explicit user decision and is outside this skill.
 - Delegation reduces OpenAI work but cannot eliminate usage: orchestration,
   returned tool output, verification, and the final response still use Codex.
