@@ -1,6 +1,6 @@
-# PR <number>: PR Description As Pointer, Not Copy
+# PR 14: PR Description As Pointer, Not Copy
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/pr-description-as-pointer`
 
@@ -50,30 +50,32 @@ surface is the installer, which these changes do not touch.
 
 ### Tier 1 - Narrowest: the skill that opens PRs
 
-- [ ] Rewrite `skills/pr-doc-open/SKILL.md` closing paragraph (lines 41–44) so
+- [x] Rewrite `skills/pr-doc-open/SKILL.md` closing paragraph (lines 41–44) so
       it stops promising lifetime re-sync and instead describes the pointer body.
-- [ ] Update its step 7 — the body's doc link must point at the **head branch**
+- [x] Update its step 7 — the body's doc link must point at the **head branch**
       blob URL, not a repo-relative path, so anchors resolve and it tracks pushes.
 
 ### Tier 2 - One project
 
-- [ ] Replace the two bullets in `projects/chem-inventory/AGENTS.md` (lines
+- [x] Replace the two bullets in `projects/chem-inventory/AGENTS.md` (lines
       41–42) with the rule above.
 
 ### Tier 3 - The PR template
 
-- [ ] Update `skills/setup-project-repo/assets/.github/pull_request_template.md`
+- [x] Update `skills/setup-project-repo/assets/.github/pull_request_template.md`
       line 9 — "one-line summary plus bullets for meaningful changes" contradicts
       the pointer rule.
 
 ### Tier 4 - Canonical, propagates everywhere
 
-- [ ] Replace the two bullets in
+- [x] Replace the two bullets in
       `skills/setup-project-repo/assets/AGENTS.md` (lines 45–46). This is the
       copy the root `AGENTS.md` symlink and every future bootstrap inherit.
-- [ ] Run `scripts/install.sh --claude-compat` and confirm links still resolve.
-- [ ] Confirm `tests/test_install.sh` still passes (no installer change expected,
-      but the asset tree moved).
+- [x] Run `scripts/install.sh --claude-compat` and confirm links still resolve.
+- [x] Confirm `tests/test_install.sh` still passes (no installer change expected,
+      but the asset tree moved). All three suites pass: `test_install.sh`,
+      `test_relative_path.sh`, and `test_local_model_delegation.py` (18 passed,
+      6 subtests, run via `uv run --with pytest`).
 
 ## Smoke Tests
 
