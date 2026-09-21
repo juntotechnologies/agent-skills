@@ -5,6 +5,7 @@
 | Doc | Description |
 |-----|-------------|
 | [PR 4: Portable Project Links](./4-portable-project-links.md) | Generate version-control-safe relative project symlinks |
+| [Planned: PR Description As Pointer](./planned-pr-description-as-pointer.md) | Make a PR body a summary plus links into its PR doc, ending description/doc drift |
 
 ## Archive
 
