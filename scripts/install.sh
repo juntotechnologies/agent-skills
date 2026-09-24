@@ -152,6 +152,9 @@ install_projects() {
   done < "$repo_root/projects/registry.tsv"
 }
 
+# Rebuild registered projects' AGENTS.md from the template + overlays first,
+# so the links below point at current rules.
+"$repo_root/scripts/compose-project-agents.sh"
 install_global_skills
 if [[ "$claude_compat" == true ]]; then
   install_global_claude_compat
