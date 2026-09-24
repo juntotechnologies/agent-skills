@@ -110,6 +110,14 @@ assert_portable_link \
   exit 1
 }
 
+# A registry entry can name its checkout by path (~/ or absolute) when the
+# repo lives outside the workspace, as personal-config does.
+mkdir -p "$test_home/.personal-config"
+run_installer >/dev/null
+assert_portable_link \
+  "$test_home/.personal-config/AGENTS.md" \
+  "$repo_root/projects/personal-config/AGENTS.md"
+
 second_output="$(run_installer)"
 [[ "$second_output" == *"Already linked"* ]] || {
   echo "Expected idempotent second run to report existing links." >&2
