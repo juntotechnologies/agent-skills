@@ -10,7 +10,8 @@ skills/
 projects/
   registry.tsv
   chem-inventory/
-    AGENTS.md
+    AGENTS.project.md   # project-only rules (edit this)
+    AGENTS.md           # generated: template + overlay (don't edit)
     skills/db-migrations/SKILL.md
 scripts/
   install.sh
@@ -65,6 +66,14 @@ coding workflow files. Its `assets/` directory is the canonical source for:
 Generic target repos receive copied/adapted outputs. Projects registered under
 `projects/` receive symlinks so their project-specific content stays canonical
 here and updates immediately.
+
+A registered project's `AGENTS.md` is generated: the canonical
+`assets/AGENTS.md` followed by the project's `AGENTS.project.md` overlay.
+Workflow rules are edited once in the template; project-only rules go in the
+overlay. `scripts/compose-project-agents.sh` rebuilds them (`install.sh` runs
+it, so the `personal-config` update does too), and
+`tests/test_compose_project_agents.sh` fails if a generated file is stale or
+hand-edited.
 
 The top-level `AGENTS.md`, `.github/pull_request_template.md`, and
 `docs/pr-docs/` template files are symlinks into
