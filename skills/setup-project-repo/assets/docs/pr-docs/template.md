@@ -52,8 +52,25 @@ Per AGENTS.md #9: 20% effort for 80% blast-radius coverage. These are **manual**
 checks the user performs in the running app, not scripted API probes. Keep the
 list short and focused on the paths this PR touches.
 
-- [ ] <user action -> expected result>
-- [ ] <user action -> expected result>
+Write every walk to be **scanned, not read** — the same way you'd explain it
+in a chat message:
+
+- a bold one-line title naming what's checked, plus the role (`· as manager`)
+- numbered steps, one action per line, UI labels in **bold**
+- a **Pass if:** list, one thing you can see on screen per bullet
+- plain words only: no file names, function names, or implementation
+  reasons (those belong in the tier above)
+- a done walk collapses to one line (`· done by <name> <date>`)
+- checks already covered by automated tests go in a table (check → tests),
+  not in the walk list
+
+- [ ] **<What's checked>** · as <role>
+  1. <action>
+  2. <action>
+
+  **Pass if:**
+  - <what you see>
+  - <what you see>
 
 ## Product Decisions
 

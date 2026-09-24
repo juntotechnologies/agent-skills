@@ -9,7 +9,7 @@ When working on coding with me, follow this workflow.
 
 - Once I approve the plan, update the relevant PR planning doc in `docs/pr-docs` to capture the scope. Base new docs on `docs/pr-docs/template.md`.
 - Order the checklist from least consequential/complex first to most consequential/complex last. Knock out the quick, contained wins before the high-blast-radius work.
-- Include smoke tests in the PR doc: aim for the ~20% of effort that covers ~80% of the blast radius - not exhaustive coverage. Smoke tests are things I confirm manually in the running app, never code that probes the API.
+- Include smoke tests in the PR doc: aim for the ~20% of effort that covers ~80% of the blast radius - not exhaustive coverage. Smoke tests are things I confirm manually in the running app, never code that probes the API. Only write a manual walk for what automated tests can't cover (how it looks, real multi-step DB writes, production); list checks the tests already cover in a table instead. Write each walk to be scanned, not read, in the PR doc template's format: bold one-line title with the role, numbered one-action steps, and a "Pass if:" list of things visible on screen - no file/function names or implementation reasoning. It should read as easily as your chat summary of it; if the doc version is harder to parse than how you'd explain it to me, rewrite it.
 - If a single PR doc gets too complicated or starts covering distinct scopes, split it into separate PR docs (per the template) - but ask me first.
 
 ## 3. Branch When Ready
