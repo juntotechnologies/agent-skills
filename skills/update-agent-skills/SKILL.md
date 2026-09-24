@@ -42,7 +42,7 @@ behaves, (c) a universal coding/workflow rule that applies in any repo, or
 | New capability worth its own skill | New `agent-skills/skills/<name>/SKILL.md` |
 | Change to an existing skill's behavior | That skill's own `SKILL.md` in `agent-skills/skills/<name>/` |
 | Universal coding/workflow rule (any repo, any language) | `agent-skills/skills/setup-project-repo/assets/AGENTS.md` (the canonical template — see that skill's own docs on why it's the source of truth, not a project's local copy) |
-| Project-specific instructions or workflow | `agent-skills/projects/<project>/AGENTS.md` or `skills/<name>/SKILL.md` |
+| Project-specific instructions or workflow | `agent-skills/projects/<project>/AGENTS.project.md` (the overlay; `AGENTS.md` beside it is generated — run `scripts/compose-project-agents.sh`) or `skills/<name>/SKILL.md` |
 | User preference or feedback about how I should work with them | The active harness's supported user-level instruction system |
 
 If it's ambiguous between the canonical AGENTS.md and memory: canonical
