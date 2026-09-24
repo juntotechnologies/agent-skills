@@ -80,6 +80,13 @@ install_global_claude_compat() {
 find_project_checkout() {
   local checkout_name="$1"
 
+  # A path (~/... or absolute) names a checkout outside the workspace.
+  if [[ "$checkout_name" == "~/"* || "$checkout_name" == /* ]]; then
+    local checkout_path="${checkout_name/#\~/$HOME}"
+    [[ -d "$checkout_path" ]] && printf '%s\n' "$checkout_path"
+    return 0
+  fi
+
   if [[ ! -d "$workspace_root" ]]; then
     return 0
   fi
