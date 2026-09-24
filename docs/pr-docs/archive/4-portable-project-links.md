@@ -1,6 +1,6 @@
 # PR 4: Portable Project Links
 
-Status: in-scope work complete
+Status: done
 
 Branch: `bugfix/portable-project-links`
 

@@ -1,6 +1,6 @@
 # PR 14: PR Description As Pointer, Not Copy
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/pr-description-as-pointer`
 
@@ -116,4 +116,4 @@ Manual, in the running tools — 20% effort for 80% of the blast radius.
 
 ## Related Docs
 
-- [PR 11: Codex-First Agent Layout](./archive/11-codex-first-agent-layout.md)
+- [PR 11: Codex-First Agent Layout](./11-codex-first-agent-layout.md)
