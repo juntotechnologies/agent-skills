@@ -74,9 +74,7 @@ why. Never write to `agent-skills` or a project's `AGENTS.md` silently.
 
 Run `scripts/install.sh`. It discovers global skills automatically and links
 them into `~/.agents/skills/`. Registered project content under `projects/` is
-linked into matching project checkouts. Only when the user explicitly wants
-Claude compatibility, pass `--claude-compat`; it creates symlinks from Claude
-paths to the Codex surfaces without maintaining duplicate content.
+linked into matching project checkouts.
 
 ## Step 5 — Propagate generic template changes
 

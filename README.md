@@ -28,15 +28,8 @@ The installer is idempotent. It symlinks every global skill into
 and installs their canonical `AGENTS.md` instructions and `.agents/skills`.
 Use `--workspace-root PATH` when the checkout root differs.
 
-Claude compatibility is opt-in:
-
-```bash
-scripts/install.sh --claude-compat
-```
-
-That mode links `~/.claude/skills` to `~/.agents/skills`; for registered
-projects it also links `CLAUDE.md` to `AGENTS.md` and `.claude/skills` to
-`.agents/skills`. It never maintains duplicate content.
+It never creates `CLAUDE.md` or `.claude/` paths; `AGENTS.md` and
+`.agents/skills` are the only agent surfaces it manages.
 
 User-level links are absolute and machine-local. Project links are relative so
 they can be committed to a project repository and remain valid when the
@@ -44,7 +37,7 @@ workspace moves to another home directory.
 
 Existing ordinary files and directories are never overwritten. The installer
 reports and skips them so their migration can happen deliberately in the owning
-project's PR. Default installation does not inspect, change, or remove existing
+project's PR. It does not inspect, change, or remove existing
 Claude paths.
 
 On a new machine, the `personal-config` curl setup clones or updates this repo
@@ -78,5 +71,4 @@ hand-edited.
 The top-level `AGENTS.md`, `.github/pull_request_template.md`, and
 `docs/pr-docs/` template files are symlinks into
 `skills/setup-project-repo/assets/` for convenience. The asset files are the
-canonical copies. If Claude support is needed later, create only a
-`CLAUDE.md -> AGENTS.md` compatibility symlink.
+canonical copies.
