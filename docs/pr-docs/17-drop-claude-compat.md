@@ -1,6 +1,6 @@
-# PR planned: Drop the Claude Compatibility Install Mode
+# PR 17: Drop the Claude Compatibility Install Mode
 
-Status: planned
+Status: underway
 
 Branch: `chore/drop-claude-compat`
 
