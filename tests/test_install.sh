@@ -61,12 +61,6 @@ run_installer() {
     --workspace-root "$workspace_root"
 }
 
-run_compat_installer() {
-  HOME="$compat_home" "$repo_root/scripts/install.sh" \
-    --workspace-root "$compat_workspace_root" \
-    --claude-compat
-}
-
 [[ -f "$repo_root/skills/setup-project-repo/assets/AGENTS.md" ]] || {
   echo "Expected canonical AGENTS.md workflow asset." >&2
   exit 1
@@ -130,22 +124,24 @@ second_output="$(run_installer)"
 
 printf '%s\n' "$first_output" | grep -q "Installed agent skills."
 
-compat_home="$test_root/compat-home"
-compat_workspace_root="$test_root/compat-workspace"
-compat_project_root="$compat_workspace_root/projects/chem-inventory"
-mkdir -p "$compat_home" "$compat_project_root"
-
-compat_first_output="$(run_compat_installer)"
-assert_link "$compat_home/.claude/skills" "../.agents/skills"
-assert_link "$compat_project_root/CLAUDE.md" "AGENTS.md"
-assert_link "$compat_project_root/.claude/skills" "../.agents/skills"
-
-compat_second_output="$(run_compat_installer)"
-[[ "$compat_second_output" == *"Already linked"* ]] || {
-  echo "Expected idempotent Claude compatibility install." >&2
+# The Claude compatibility mode was removed; its flag must be refused rather
+# than silently ignored, and must create nothing.
+removed_home="$test_root/removed-flag-home"
+mkdir -p "$removed_home"
+removed_status=0
+HOME="$removed_home" "$repo_root/scripts/install.sh" \
+  --workspace-root "$workspace_root" \
+  --claude-compat \
+  >"$test_root/removed-flag-output" 2>&1 || removed_status=$?
+[[ "$removed_status" == "2" ]] || {
+  echo "Expected --claude-compat to exit 2, got $removed_status." >&2
   exit 1
 }
-printf '%s\n' "$compat_first_output" | grep -q "Claude compatibility enabled."
+grep -q "Unknown argument: --claude-compat" "$test_root/removed-flag-output"
+[[ -z "$(ls -A "$removed_home")" ]] || {
+  echo "A refused install must not create anything." >&2
+  exit 1
+}
 
 conflict_home="$test_root/conflict-home"
 mkdir -p "$conflict_home/.agents/skills/pr-doc-open"
@@ -183,9 +179,9 @@ printf '%s\n' "keep project Claude" > \
   "$claude_conflict_project/.claude/skills/sentinel"
 printf '%s\n' "keep project instructions" > "$claude_conflict_project/CLAUDE.md"
 
+# Claude paths already on disk are left alone, not removed or rewritten.
 HOME="$claude_conflict_home" "$repo_root/scripts/install.sh" \
   --workspace-root "$claude_conflict_workspace" \
-  --claude-compat \
   >"$test_root/claude-conflict-output" 2>&1
 
 grep -q "keep global Claude" "$claude_conflict_home/.claude/skills/sentinel"

@@ -3,13 +3,12 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 workspace_root="${HOME}/Documents/GitHub"
-claude_compat=false
 
 # shellcheck source=lib/paths.sh
 source "$repo_root/scripts/lib/paths.sh"
 
 usage() {
-  echo "Usage: scripts/install.sh [--workspace-root PATH] [--claude-compat]"
+  echo "Usage: scripts/install.sh [--workspace-root PATH]"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -18,10 +17,6 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || { usage >&2; exit 2; }
       workspace_root="$2"
       shift 2
-      ;;
-    --claude-compat)
-      claude_compat=true
-      shift
       ;;
     --help|-h)
       usage
@@ -71,10 +66,6 @@ install_global_skills() {
     skill_name="$(basename "$skill_path")"
     link_path "${skill_path%/}" "$HOME/.agents/skills/$skill_name"
   done
-}
-
-install_global_claude_compat() {
-  link_path "../.agents/skills" "$HOME/.claude/skills"
 }
 
 find_project_checkout() {
@@ -143,11 +134,6 @@ install_project() {
       "$skill_source" \
       "$project_root/.agents/skills/$skill_name"
   done
-
-  if [[ "$claude_compat" == true ]]; then
-    link_path "AGENTS.md" "$project_root/CLAUDE.md"
-    link_path "../.agents/skills" "$project_root/.claude/skills"
-  fi
 }
 
 install_projects() {
@@ -163,11 +149,5 @@ install_projects() {
 # so the links below point at current rules.
 "$repo_root/scripts/compose-project-agents.sh"
 install_global_skills
-if [[ "$claude_compat" == true ]]; then
-  install_global_claude_compat
-fi
 install_projects
-if [[ "$claude_compat" == true ]]; then
-  echo "Claude compatibility enabled."
-fi
 echo "Installed agent skills."

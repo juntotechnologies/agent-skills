@@ -92,10 +92,8 @@ with `Doc` and `Description`.
 one case to handle carefully: do not clobber it — show me the diff and ask
 whether to merge or replace.
 
-Claude compatibility is opt-in only. When I explicitly ask for it, create
-`CLAUDE.md -> AGENTS.md` and `.claude/skills -> ../.agents/skills` symlinks in
-the target repo. Never overwrite, remove, or rewrite an existing Claude path;
-report the conflict and leave it unchanged.
+Never create `CLAUDE.md` or `.claude/` paths. If the target repo already has
+them, leave them unchanged and mention them to me.
 
 ## Step 4 — Adapt project-specific placeholders
 
