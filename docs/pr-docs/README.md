@@ -4,13 +4,13 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 17: Drop Claude Compatibility](./17-drop-claude-compat.md) | Remove the `--claude-compat` install mode so nothing creates `CLAUDE.md` or `.claude/` paths |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
 | [PR 14: PR Description As Pointer](./archive/14-pr-description-as-pointer.md) | Made a PR body a summary plus links into its PR doc, ending description/doc drift |
+| [PR 17: Drop Claude Compatibility](./archive/17-drop-claude-compat.md) | Merged; removed the `--claude-compat` mode and the whole `projects/` tree, so the installer only syncs global skills into `~/.agents/skills` and each project owns its own AGENTS.md. Installer idempotency verified on citmini. |
 | [PR 4: Portable Project Links](./archive/4-portable-project-links.md) | Generated version-control-safe relative project symlinks |
 | [PR 13: Reliable local-only delegation](archive/13-bounded-delegation.md) | Merged local reliability fixes, removed hosted delegation and restricted inference transport. |
 | [PR 2: Cross-Agent Skill Installation](./archive/2-cross-agent-skill-installation.md) | Centralize global and project skills and install them for Codex, Claude Code, and known projects |

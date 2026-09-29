@@ -1,6 +1,6 @@
 # PR 17: Drop the Claude Compatibility Install Mode
 
-Status: underway
+Status: done
 
 Branch: `chore/drop-claude-compat`
 
@@ -12,7 +12,7 @@ surfaces this repo produces, with no opt-in exception.
 
 ## Context
 
-[PR 11](./archive/11-codex-first-agent-layout.md) made Codex surfaces canonical
+[PR 11](./11-codex-first-agent-layout.md) made Codex surfaces canonical
 and kept Claude support as an opt-in `scripts/install.sh --claude-compat` flag.
 That flag links `~/.claude/skills`, and for each registered project
 `CLAUDE.md -> AGENTS.md` and `.claude/skills -> ../.agents/skills`. The
@@ -92,4 +92,4 @@ Ordered least -> most consequential/complex.
 
 ## Related Docs
 
-- [PR 11: Codex-First Agent Layout](./archive/11-codex-first-agent-layout.md)
+- [PR 11: Codex-First Agent Layout](./11-codex-first-agent-layout.md)
