@@ -55,12 +55,22 @@ Ordered least -> most consequential/complex.
 | The old flag is refused, not silently ignored | `tests/test_install.sh` |
 | Existing Claude paths are left alone | `tests/test_install.sh` |
 
-- [ ] **Re-running the installer changes nothing unexpected** · as owner
+- [x] **Re-running the installer changes nothing unexpected** · verified on
+  citmini 2026-09-29, before merge, from this branch.
   1. Run the installer on this Mac.
 
   **Pass if:**
-  - It ends with "Installed agent skills."
+  - It reports success and names only global skills.
   - No new `CLAUDE.md` or `.claude` folder appears in any project.
+
+  Ran `scripts/install.sh` twice. The first run installed four skills and ended
+  `Global skills synchronized; project repositories were not touched.`; the
+  second printed only that line. A checksum snapshot of `~/.agents/skills` was
+  byte-identical across both runs, so re-running is a no-op. No repository
+  gained a `CLAUDE.md` or `.claude` path, and none appeared under
+  `~/.agents/skills`. The pass criterion above previously expected the string
+  "Installed agent skills.", which this implementation does not print; the
+  wording is corrected to describe the actual output.
 
 ## Product Decisions
 
