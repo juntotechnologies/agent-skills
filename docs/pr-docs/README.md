@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 17: Drop Claude Compatibility](./17-drop-claude-compat.md) | Remove the `--claude-compat` install mode so nothing creates `CLAUDE.md` or `.claude/` paths |
 
 ## Archive
 

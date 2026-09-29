@@ -1,4 +1,0 @@
-# canonical-name	checkout-directory-name (or a ~/ or absolute path)
-chem-inventory	chem-inventory
-swarm-infra	swarm-infra
-personal-config	~/.personal-config
