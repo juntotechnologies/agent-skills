@@ -1,143 +1,40 @@
 ---
 name: Setup Project Repo
-description: Bootstrap a project repo with my standard coding practices — copy AGENTS.md, the docs/pr-docs/ planning-doc structure and TOC, and the .github PR description template from this skill's canonical assets. Use when starting a new project, or when I ask to "set up coding practices", "bootstrap this repo", or "add the PR docs structure" (does nothing if already set up). Also handles syncing an already-set-up repo's AGENTS.md to the latest canonical workflow — use when I ask to "sync coding practices", "update AGENTS.md to the latest", "bring this repo's AGENTS.md up to speed", or similar.
+description: Bootstrap repo-owned coding instructions and PR templates, or merge requested shared workflow updates into an existing repo without overwriting its local guidance.
 ---
 
-## Overview
+## Ownership
 
-This skill lives in the source-of-truth repo, **agent-skills**
-(`git@github.com:juntotechnologies/agent-skills`). Its `assets/` directory holds
-my standard coding workflow and templates. This skill copies those assets into
-the current project repo so every project has the same structure without
-recreating it by hand.
+`agent-skills/skills/setup-project-repo/assets/` provides generic starting
+points. Once copied, each project's instructions and adaptations belong to that
+project. Reusable template changes go here; project-specific changes stay there.
+No registry, project overlays, generated project instructions, or external links.
 
-Treat this skill's `assets/` directory as the only canonical place to edit
-workflow and template content. Target repo copies are installed/adapted outputs,
-not source of truth. If I ask to change the coding workflow, `AGENTS.md`,
-PR-doc templates, or PR checklist template themselves, update
-`agent-skills` first rather than editing the target repo copy as canonical.
-Existing repos do not update automatically when `agent-skills` changes; run this
-skill again when I ask to sync a repo to the latest practices.
+## Bootstrap
 
-The files this skill installs into a target repo:
+1. Inspect `AGENTS.md`, `docs/pr-docs/{README.md,README.template.md,template.md}`,
+   the archive directory, and `.github/pull_request_template.md`. If already set
+   up, report that and avoid overwriting. Reconcile partial setups against the
+   authorized scope; ask only about genuinely ambiguous choices.
+2. Copy missing files from this skill's `assets/` as ordinary files. Adapt the
+   README template into a live project TOC. Do not create Claude compatibility
+   files; preserve existing internal compatibility links.
+3. Replace example checks with the project's real verification commands. Keep
+   project skills in `<repo>/.agents/skills/`. Never back-propagate project facts
+   into these shared assets.
+4. Preserve the rule that authorized work is committed, pushed, and exposed in a
+   PR for review by default. Reuse an open PR only for small related changes.
+   An explicit planning-doc waiver does not waive reviewable delivery.
+5. Verify the adapted files and links, then publish through the authorized PR
+   workflow. Do not merge or perform production/credential changes implicitly.
 
-| Source (in this skill) | Destination (in target repo) |
-| --- | --- |
-| `assets/AGENTS.md` | `AGENTS.md` (repo root) |
-| `assets/docs/pr-docs/README.template.md` | `docs/pr-docs/README.template.md` |
-| `assets/docs/pr-docs/README.template.md` | `docs/pr-docs/README.md` (adapted live TOC) |
-| `assets/docs/pr-docs/template.md` | `docs/pr-docs/template.md` |
-| `assets/docs/pr-docs/archive/` | `docs/pr-docs/archive/` (empty dir) |
-| `assets/.github/pull_request_template.md` | `.github/pull_request_template.md` |
+## Sync an existing project
 
-## Step 0 — Decide which of three things I'm asking for
-
-1. **Changing the canonical workflow/template itself** — stop working in the
-   target repo and update `agent-skills` instead. Examples:
-   - "Change my coding workflow"
-   - "Update AGENTS.md instructions"
-   - "Change the PR doc template"
-   - "Change the PR checklist template"
-2. **Bootstrapping a repo that isn't set up yet** — go to Step 1 (Idempotency
-   check), then Steps 2-5.
-3. **Syncing an already-set-up repo's `AGENTS.md` to the latest canonical
-   version** — e.g. "sync coding practices here", "update this repo's
-   AGENTS.md to the latest", "bring AGENTS.md up to speed". Skip
-   straight to **Step 6 (Sync mode)** below; don't run the bootstrap steps.
-
-## Step 1 — Idempotency check
-
-Before doing anything, check whether the target repo is already set up. Consider
-it **already set up** if ALL of these exist in the current repo:
-
-- `AGENTS.md`
-- `docs/pr-docs/README.md`
-- `docs/pr-docs/README.template.md`
-- `docs/pr-docs/template.md`
-- `.github/pull_request_template.md`
-
-If all required files exist, **stop and do nothing** except telling me it's already set
-up. Do not overwrite, re-copy, or re-fetch. If only *some* exist, report which
-are present and ask me before touching anything — a partial state may be
-intentional.
-
-## Step 2 — Locate the source
-
-Prefer this skill's local `assets/` directory when available. If you need to
-locate the canonical repo directly, check in order:
-
-1. `~/Documents/GitHub/other/agent-skills`
-2. Anywhere else via `find ~/Documents/GitHub -maxdepth 4 -type d -name agent-skills 2>/dev/null`
-
-If no local clone is found, fetch the raw files from GitHub (the repo is public):
-
-```
-https://raw.githubusercontent.com/juntotechnologies/agent-skills/main/skills/setup-project-repo/assets/AGENTS.md
-https://raw.githubusercontent.com/juntotechnologies/agent-skills/main/skills/setup-project-repo/assets/docs/pr-docs/README.template.md
-https://raw.githubusercontent.com/juntotechnologies/agent-skills/main/skills/setup-project-repo/assets/docs/pr-docs/template.md
-https://raw.githubusercontent.com/juntotechnologies/agent-skills/main/skills/setup-project-repo/assets/.github/pull_request_template.md
-```
-
-## Step 3 — Copy the files into place
-
-Create `docs/pr-docs/` and `docs/pr-docs/archive/` in the target repo, then copy
-each source file to its destination per the table above. Create
-`docs/pr-docs/README.md` from `docs/pr-docs/README.template.md`, then adapt it
-as the live table of contents for the target repo's current PR docs. Follow the
-same format used by `chem-inventory/docs/README.md`: a project-specific H1, a
-one-sentence purpose, `## Table of Contents`, and a two-column markdown table
-with `Doc` and `Description`.
-
-`AGENTS.md` at the root already existing but *different* from the source is the
-one case to handle carefully: do not clobber it — show me the diff and ask
-whether to merge or replace.
-
-Never create `CLAUDE.md` or `.claude/` paths. If the target repo already has
-them, leave them unchanged and mention them to me.
-
-## Step 4 — Adapt project-specific placeholders
-
-`AGENTS.md` and `.github/pull_request_template.md` carry checks
-and smoke tests from a specific prior project (e.g. `npm run check`, `npm test`, Drizzle
-migrations, inventory/transactions pages). These are placeholders, not literal
-requirements. After copying:
-
-- Replace the "Required Checks" commands with the target project's real
-  build/test commands (inspect `package.json`, `Makefile`, `pyproject.toml`,
-  etc. to infer them).
-- Replace the app-specific smoke tests with ones that match this project, or
-  leave clearly-marked TODOs for me to fill in.
-- Confirm `AGENTS.md` forbids agents from committing, pushing, or merging
-  directly on `main`; only Shaun may merge PRs to `main`.
-- Update `docs/pr-docs/README.md` whenever PR docs are added, completed, moved,
-  or archived. Keep it as a concise TOC of active/planned PR docs, and include
-  archived docs only if the project already uses that convention.
-- If you can't confidently infer a command, flag it for me rather than guessing.
-
-Do not back-propagate these project-specific adaptations into `agent-skills`
-unless I explicitly ask to change the canonical template.
-
-## Step 5 — Report
-
-Summarize what was copied and what placeholders still need my input. Do not
-commit or push unless I ask.
-
-## Step 6 — Sync mode (existing repo, already set up)
-
-Unlike `docs/pr-docs/template.md` and `.github/pull_request_template.md`
-(which get deliberately adapted per-project — see Step 4 — and must never be
-silently overwritten), `AGENTS.md` is meant to stay byte-identical to the
-canonical `assets/AGENTS.md`. This mode only ever touches that file.
-
-1. Locate the canonical source exactly as in Step 2 (prefer local
-   `~/Documents/GitHub/other/agent-skills` clone; otherwise fetch the asset
-   path from GitHub raw content — never the symlink path, see Step 2's note).
-2. Diff the target repo's `AGENTS.md` against `assets/AGENTS.md`. If it already
-   matches, say so and stop — nothing to do.
-3. If they differ, show me the diff before touching anything.
-4. On confirmation, overwrite (or create, if missing) `AGENTS.md` with the
-   canonical version.
-5. Do not touch `docs/pr-docs/*` or `.github/pull_request_template.md` in this
-   mode — those are out of scope for a sync and require the full Step 4
-   adaptation judgment call, not a blind overwrite.
-6. Report what changed. Do not commit or push unless I ask.
+1. Read the local guidance and compare it with this skill's generic defaults.
+2. Merge only the requested reusable changes, preserving project-specific rules,
+   local skills, and accepted exceptions. Never overwrite a project AGENTS.md
+   wholesale or require byte equality with the generic template.
+3. Resolve conflicts using the user's current instructions; show consequential
+   unresolved choices before editing. Existing approval covers routine merging.
+4. Verify and publish the diff. Sync never implicitly edits PR docs/templates or
+   installs global skills unless those changes were requested too.

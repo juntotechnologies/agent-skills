@@ -1,74 +1,59 @@
 # agent-skills
 
-Canonical global and project-specific agent skills, instructions, and assets.
+Reusable user-wide skills and generic project bootstrap templates. Project
+instructions and project-specific skills belong in the owning repositories.
 
-## Layout
+## Install global skills
 
-```text
-skills/
-  <global-skill>/SKILL.md
-projects/
-  registry.tsv
-  chem-inventory/
-    AGENTS.project.md   # project-only rules (edit this)
-    AGENTS.md           # generated: template + overlay (don't edit)
-    skills/db-migrations/SKILL.md
-scripts/
-  install.sh
-```
+Requires `uv` and Python (resolved through `uv`):
 
-## Install
-
-```bash
+```sh
 scripts/install.sh
 ```
 
-The installer is idempotent. It symlinks every global skill into
-`~/.agents/skills`, discovers registered projects under `~/Documents/GitHub`,
-and installs their canonical `AGENTS.md` instructions and `.agents/skills`.
-Use `--workspace-root PATH` when the checkout root differs.
+Installs real copies of `skills/*` into `~/.agents/skills`. It never searches or
+writes project checkouts, and never manages Claude compatibility paths. Older
+bootstrap callers may still pass `--workspace-root`; it is accepted but ignored.
 
-It never creates `CLAUDE.md` or `.claude/` paths; `AGENTS.md` and
-`.agents/skills` are the only agent surfaces it manages.
+`.agent-skills-manifest.json` in the install directory records owned skill file
+hashes and modes. Re-running installs upstream updates and removes retired,
+unmodified managed skills. Unmanaged paths, local edits, foreign symlinks, and
+locally removed managed skills stop the whole preflight before any skill changes.
+Only symlinks resolving to the corresponding source skill in this checkout are
+converted to copies. Unrelated installed skills remain untouched.
 
-User-level links are absolute and machine-local. Project links are relative so
-they can be committed to a project repository and remain valid when the
-workspace moves to another home directory.
+Edit global skills in this repository, then run the installer. If an installed
+copy was edited, preserve it and reconcile its changes with the source before
+restoring the installed version recorded in the manifest. Do not delete a conflict
+just to make installation pass. A concurrent run is refused; after an interrupted
+process, inspect it before removing a stale `.agent-skills-install-lock` directory.
 
-Existing ordinary files and directories are never overwritten. The installer
-reports and skips them so their migration can happen deliberately in the owning
-project's PR. It does not inspect, change, or remove existing
-Claude paths.
+The installer stages each replacement and records completed changes incrementally.
+It is not a transaction across the whole skill collection; an I/O failure can
+require recovery from this source checkout and the manifest.
 
-On a new machine, the `personal-config` curl setup clones or updates this repo
-and runs the installer. If links are missing, rerun:
+## Project ownership
 
-```bash
-~/.personal-config/scripts/update_agent_files.sh
+Projects track real `AGENTS.md` files, scoped directory guidance, and project
+skills under `.agents/skills`. The Setup Project Repo skill supplies starting
+assets and can explicitly merge requested generic updates while preserving local
+rules. There is no project registry or automatic propagation into projects.
+
+The repository's own workflow/template files are ordinary files too. Generic
+assets live under `skills/setup-project-repo/assets/`; update this repo's own
+copies separately when a shared change applies.
+
+## Verification
+
+```sh
+uv run python -m unittest discover -s tests -v
+bash tests/test_install.sh
 ```
 
-## Setup Project Repo
+## Migration ordering
 
-`skills/setup-project-repo/SKILL.md` bootstraps a project repo with my standard
-coding workflow files. Its `assets/` directory is the canonical source for:
-
-- root `AGENTS.md`
-- PR planning docs template and TOC template
-- GitHub pull request template
-
-Generic target repos receive copied/adapted outputs. Projects registered under
-`projects/` receive symlinks so their project-specific content stays canonical
-here and updates immediately.
-
-A registered project's `AGENTS.md` is generated: the canonical
-`assets/AGENTS.md` followed by the project's `AGENTS.project.md` overlay.
-Workflow rules are edited once in the template; project-only rules go in the
-overlay. `scripts/compose-project-agents.sh` rebuilds them (`install.sh` runs
-it, so the `personal-config` update does too), and
-`tests/test_compose_project_agents.sh` fails if a generated file is stale or
-hand-edited.
-
-The top-level `AGENTS.md`, `.github/pull_request_template.md`, and
-`docs/pr-docs/` template files are symlinks into
-`skills/setup-project-repo/assets/` for convenience. The asset files are the
-canonical copies.
+Before removing older `projects/` sources from any checkout, land the owning
+projects' local copies: chem-inventory, personal-config, and swarm-infra. Existing
+Claude aliases may remain if they resolve entirely inside their owning repo.
+Update personal-config's bootstrap to call the global-only installer. Then update
+agent-skills and install the global copies. No live services or databases change.

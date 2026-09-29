@@ -72,3 +72,15 @@ When working on coding with me, follow this workflow.
 - Bare `python3` resolves to whatever interpreter happens to be first on PATH, and its available packages are an accident of that machine. That difference is invisible until it isn't: the same test file can pass under one interpreter and fail to even import under another on the same box, and a test suite silently skipped for a missing import reads as a single error rather than as the dozens of tests that never ran.
 - `uv run --with <pkg>` makes a dependency explicit at the call site instead of assuming the environment has it, so a test needing a third-party library is a solved problem rather than a reason to hand-roll a substitute.
 - This applies to CI too. Use `astral-sh/setup-uv` and `uv run ...` in workflows rather than `setup-python` plus bare `python3`, so local and CI resolve the same way. A repo whose CI installs no packages quietly constrains every test in it to the standard library, which is a real design constraint that should be chosen rather than inherited.
+
+## Reviewable delivery by default
+
+When Shaun authorizes repository changes, carry them through implementation,
+verification, commit, push to origin, and an open pull request for his review.
+Default to a new branch and PR for distinct work. Reuse an existing open PR only
+for small, related changes that fit its scope. Do not ask again merely to commit,
+push, or open the PR; authorization to do the work includes those steps.
+Never merge without explicit authorization. Keep production-mutating commands
+and credential/access changes subject to their separate named approvals.
+If Shaun explicitly waives a planning doc, open a PR with a self-contained
+summary and validation instead; do not recreate the waived planning step.
