@@ -33,7 +33,7 @@ class LocalModelDelegationTests(unittest.TestCase):
     def setUpClass(cls):
         cls.helper = load_helper()
 
-    def test_discovers_mac_and_spark_routes_from_hermes_config(self):
+    def test_names_routes_after_the_hermes_slots_they_read(self):
         config = """
 model:
   default: mac-model
@@ -49,11 +49,11 @@ delegation:
         routes = self.helper.parse_routing_config(config)
 
         self.assertEqual(
-            routes["mac"],
+            routes["model"],
             self.helper.Endpoint("http://mac.example/v1", "mac-model"),
         )
         self.assertEqual(
-            routes["spark"],
+            routes["delegation"],
             self.helper.Endpoint("http://spark.example/v1", "spark-model"),
         )
 
@@ -64,10 +64,17 @@ delegation:
                 "delegation:\n  base_url: http://spark/v1\n"
             )
 
-    def test_routes_one_or_two_tasks_to_mac_and_three_or_more_to_hybrid(self):
-        self.assertEqual(self.helper.route_for_task_count(1), "mac")
-        self.assertEqual(self.helper.route_for_task_count(2), "mac")
-        self.assertEqual(self.helper.route_for_task_count(3), "hybrid")
+    def test_routes_one_or_two_tasks_to_model_and_three_or_more_to_fanout(self):
+        self.assertEqual(self.helper.route_for_task_count(1), "model")
+        self.assertEqual(self.helper.route_for_task_count(2), "model")
+        self.assertEqual(self.helper.route_for_task_count(3), "fanout")
+
+    def test_route_labels_name_config_slots_never_hosts(self):
+        # Labels must stay true wherever the config points; a host name in a
+        # label went stale the day the delegation slot moved machines.
+        source = HELPER_PATH.read_text().lower()
+        for host in ("spark", "\"mac\"", "mac-"):
+            self.assertNotIn(host, source)
 
     def test_builds_model_only_openai_compatible_request(self):
         body = self.helper.build_chat_request("model-a", "analyze this", 321)
@@ -149,7 +156,7 @@ delegation:
             thread.join()
 
     def test_failed_local_cli_never_invokes_cloud_or_fallback(self):
-        routes = {"mac": self.helper.Endpoint("http://127.0.0.1/v1", "m")}
+        routes = {"model": self.helper.Endpoint("http://127.0.0.1/v1", "m")}
         with patch.object(self.helper, "load_routing_config", return_value=routes), patch.object(
             self.helper, "request_completion", side_effect=self.helper.DelegationError("unavailable")
         ) as request, patch("subprocess.run") as cloud:
@@ -198,10 +205,10 @@ delegation:
 
         self.assertEqual(results, ["done:one", "done:two", "done:three"])
 
-    def test_hybrid_fans_out_on_spark_then_synthesizes_on_mac(self):
+    def test_fanout_runs_workers_on_delegation_then_synthesizes_on_model(self):
         routes = {
-            "mac": self.helper.Endpoint("http://mac.example/v1", "mac-model"),
-            "spark": self.helper.Endpoint(
+            "model": self.helper.Endpoint("http://mac.example/v1", "mac-model"),
+            "delegation": self.helper.Endpoint(
                 "http://spark.example/v1", "spark-model"
             ),
         }
@@ -209,11 +216,11 @@ delegation:
 
         def complete(endpoint, prompt, **_kwargs):
             calls.append((endpoint, prompt))
-            if endpoint == routes["mac"]:
+            if endpoint == routes["model"]:
                 return "condensed"
             return f"finding:{prompt}"
 
-        result = self.helper.run_hybrid(
+        result = self.helper.run_fanout(
             routes,
             ["one", "two", "three"],
             completion_fn=complete,
@@ -221,10 +228,10 @@ delegation:
         )
 
         self.assertEqual(result, "condensed")
-        self.assertEqual(sum(endpoint == routes["spark"] for endpoint, _ in calls), 3)
-        self.assertEqual(sum(endpoint == routes["mac"] for endpoint, _ in calls), 1)
+        self.assertEqual(sum(endpoint == routes["delegation"] for endpoint, _ in calls), 3)
+        self.assertEqual(sum(endpoint == routes["model"] for endpoint, _ in calls), 1)
         synthesis_prompt = next(
-            prompt for endpoint, prompt in calls if endpoint == routes["mac"]
+            prompt for endpoint, prompt in calls if endpoint == routes["model"]
         )
         self.assertIn("finding:one", synthesis_prompt)
         self.assertIn("finding:three", synthesis_prompt)
