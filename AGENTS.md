@@ -65,6 +65,7 @@ When working on coding with me, follow this workflow.
 - Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
 - Local verification is the proof. Before reporting work as done, run the project's full local checks (typecheck, lint, unit and end-to-end tests, or whatever the project defines) on the exact commit being reported, and state the results. Never report results from an earlier session or another agent as if you had run them - rerun, or say they weren't rerun.
 - Don't dispatch or check remote CI routinely; a passing local run on the same commit already covers it. Run CI only when a change touches the CI config/workflows themselves, or when I ask (e.g. right before merge). When you do run it, wait for it to finish before reporting.
+- Report a measurement only with the method that produced it, and check that method before publishing the number.
 
 ## 9. Run Python Through uv, Never Bare python/python3
 
@@ -72,6 +73,13 @@ When working on coding with me, follow this workflow.
 - Bare `python3` resolves to whatever interpreter happens to be first on PATH, and its available packages are an accident of that machine. That difference is invisible until it isn't: the same test file can pass under one interpreter and fail to even import under another on the same box, and a test suite silently skipped for a missing import reads as a single error rather than as the dozens of tests that never ran.
 - `uv run --with <pkg>` makes a dependency explicit at the call site instead of assuming the environment has it, so a test needing a third-party library is a solved problem rather than a reason to hand-roll a substitute.
 - This applies to CI too. Use `astral-sh/setup-uv` and `uv run ...` in workflows rather than `setup-python` plus bare `python3`, so local and CI resolve the same way. A repo whose CI installs no packages quietly constrains every test in it to the standard library, which is a real design constraint that should be chosen rather than inherited.
+
+## 10. Improve These Instructions As You Work
+
+- When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - propose recording it. Do this unprompted.
+- Put it where it applies and nowhere else: a rule for every project goes in the generic template in `agent-skills`; a rule for one project in that project's `AGENTS.md`; a convention for one area of a codebase in that directory's `AGENTS.md`. Never copy a project decision into the generic file, or a generic rule into a project file.
+- Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
+- Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
 
 ## Reviewable delivery by default
 
@@ -84,3 +92,6 @@ Never merge without explicit authorization. Keep production-mutating commands
 and credential/access changes subject to their separate named approvals.
 If Shaun explicitly waives a planning doc, open a PR with a self-contained
 summary and validation instead; do not recreate the waived planning step.
+Before editing a checkout, check whether another agent is working in it: recent
+file changes, or uncommitted work you did not make. Never modify, commit or
+discard someone else's uncommitted work without asking.
