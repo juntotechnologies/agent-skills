@@ -86,8 +86,8 @@ def parse_routing_config(text: str) -> dict[str, Endpoint]:
         )
 
     return {
-        "mac": Endpoint(required["model.base_url"], required["model.default"]),
-        "spark": Endpoint(
+        "model": Endpoint(required["model.base_url"], required["model.default"]),
+        "delegation": Endpoint(
             required["delegation.base_url"], required["delegation.model"]
         ),
     }
@@ -103,7 +103,7 @@ def load_routing_config(path: Path = DEFAULT_CONFIG_PATH) -> dict[str, Endpoint]
 def route_for_task_count(task_count: int) -> str:
     if task_count < 1:
         raise DelegationError("At least one task is required")
-    return "mac" if task_count <= 2 else "hybrid"
+    return "model" if task_count <= 2 else "fanout"
 
 
 def build_chat_request(model: str, prompt: str, max_tokens: int) -> dict:
@@ -247,7 +247,7 @@ def _synthesis_prompt(tasks: Sequence[str], findings: Sequence[str]) -> str:
     )
 
 
-def run_hybrid(
+def run_fanout(
     routes: dict[str, Endpoint],
     tasks: Sequence[str],
     *,
@@ -257,7 +257,7 @@ def run_hybrid(
     timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
 ) -> str:
     findings = run_parallel(
-        routes["spark"],
+        routes["delegation"],
         tasks,
         completion_fn=completion_fn,
         max_workers=max_workers,
@@ -266,7 +266,7 @@ def run_hybrid(
     )
     bounded_findings = [bound_output(finding, 4_000) for finding in findings]
     return completion_fn(
-        routes["mac"],
+        routes["model"],
         _synthesis_prompt(tasks, bounded_findings),
         max_tokens=max_tokens,
         timeout_seconds=timeout_seconds,
@@ -289,12 +289,12 @@ def _parser() -> argparse.ArgumentParser:
             "--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS
         )
 
-    ask_parser = subparsers.add_parser("ask", help="Run one serial task on the Mac")
+    ask_parser = subparsers.add_parser("ask", help="Run one task on Hermes' configured model route")
     ask_parser.add_argument("--prompt", required=True)
     add_common_options(ask_parser)
 
     fanout_parser = subparsers.add_parser(
-        "fanout", help="Run independent tasks on Spark and synthesize on the Mac"
+        "fanout", help="Run independent tasks on the delegation route, then condense them on the model route"
     )
     fanout_parser.add_argument("--task", action="append", required=True)
     fanout_parser.add_argument("--max-workers", type=int, default=DEFAULT_MAX_WORKERS)
@@ -308,18 +308,18 @@ def run_cli(argv: Sequence[str] | None = None) -> tuple[int, str]:
         args = _parser().parse_args(argv)
         routes = load_routing_config(args.config)
         if args.command == "ask":
-            route = "mac"
+            route = "model"
             result = request_completion(
-                routes["mac"],
+                routes["model"],
                 args.prompt,
                 max_tokens=args.max_tokens,
                 timeout_seconds=args.timeout,
             )
         else:
-            if route_for_task_count(len(args.task)) != "hybrid":
+            if route_for_task_count(len(args.task)) != "fanout":
                 raise DelegationError("Fan-out requires at least three independent tasks")
-            route = "spark-to-mac"
-            result = run_hybrid(
+            route = "delegation-then-model"
+            result = run_fanout(
                 routes,
                 args.task,
                 max_workers=args.max_workers,
