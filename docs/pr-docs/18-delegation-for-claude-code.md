@@ -1,6 +1,6 @@
-# PR <number>: Local Model Delegation For Claude Code
+# PR 18: Local Model Delegation For Claude Code
 
-Status: planned
+Status: underway
 
 Branch: `chore/delegation-for-claude-code`
 

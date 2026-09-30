@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 18: Delegation for Claude Code](./18-delegation-for-claude-code.md) | Let Claude Code use local-model delegation and state when it is the wrong tool, with measured latency |
 
 ## Archive
 
