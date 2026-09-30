@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 19: Delegation Mac only](./19-delegation-mac-only.md) | Delegation runs on the Mac mini; the Spark is reserved for training and benchmarks |
 
 ## Archive
 

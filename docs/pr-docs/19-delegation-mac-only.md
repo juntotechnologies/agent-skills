@@ -1,6 +1,6 @@
-# PR <number>: Delegation Runs On The Mac Mini Only
+# PR 19: Delegation Runs On The Mac Mini Only
 
-Status: planned
+Status: underway
 
 Branch: `chore/delegation-mac-only`
 
