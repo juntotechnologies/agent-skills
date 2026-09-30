@@ -1,6 +1,6 @@
 # PR 18: Local Model Delegation For Claude Code
 
-Status: underway
+Status: done
 
 Branch: `chore/delegation-for-claude-code`
 
@@ -40,8 +40,10 @@ the same as a constant answer.
 
 ## Smoke Tests
 
-- [ ] In a Claude Code session, ask for a bounded summary of a large file set →
-  the skill is offered and the helper returns a result.
+- [x] In a Claude Code session, ask for a bounded summary of a large file set →
+  the skill is offered and the helper returns a result. Verified 2026-09-30: the
+  session's skill list showed the new description, and `delegate.py ask`
+  returned a Mac mini answer in 2.1 s.
 - [ ] Ask a question answerable with `rg` → the agent searches directly instead of
   delegating.
 
@@ -64,4 +66,4 @@ the same as a constant answer.
 
 ## Related Docs
 
-- [PR 17 drop Claude compatibility](./archive/17-drop-claude-compat.md)
+- [PR 17 drop Claude compatibility](./17-drop-claude-compat.md)
