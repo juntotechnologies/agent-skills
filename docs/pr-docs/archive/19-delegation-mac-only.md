@@ -1,6 +1,6 @@
 # PR 19: Delegation Runs On The Mac Mini Only
 
-Status: underway
+Status: done
 
 Branch: `chore/delegation-mac-only`
 
@@ -29,10 +29,15 @@ one-slot server its workers run in sequence.
 - [ ] After hermes-config PR 26 deploys, `delegate.py fanout` with two tasks →
   both return, and the helper reports the Mac as the worker.
 
+  Partly met 2026-09-30. Fan-out requires at least three tasks, so it was run with
+  three; all returned in 3.0 s through the Mac. The helper still labels the route
+  `spark-to-mac`, because its internal name for Hermes' delegation endpoint is
+  "spark" — a stale label, not a routing fault.
+
 ## Non-Goals
 
 - No helper change.
 
 ## Related Docs
 
-- [PR 18 delegation for Claude Code](./archive/18-delegation-for-claude-code.md)
+- [PR 18 delegation for Claude Code](./18-delegation-for-claude-code.md)

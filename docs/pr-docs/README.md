@@ -4,13 +4,13 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 19: Delegation Mac only](./19-delegation-mac-only.md) | Delegation runs on the Mac mini; the Spark is reserved for training and benchmarks |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
 | [PR 14: PR Description As Pointer](./archive/14-pr-description-as-pointer.md) | Made a PR body a summary plus links into its PR doc, ending description/doc drift |
+| [PR 19: Delegation Mac only](./archive/19-delegation-mac-only.md) | Merged; delegation runs on the Mac mini and the Spark is reserved for training. Known issue: the helper still labels fan-out `spark-to-mac`. |
 | [PR 18: Delegation for Claude Code](./archive/18-delegation-for-claude-code.md) | Merged; Claude Code can use local-model delegation, and the skill states when it is the wrong tool with measured latency. The skip-when-searchable smoke test is unverified. |
 | [PR 17: Drop Claude Compatibility](./archive/17-drop-claude-compat.md) | Merged; removed the `--claude-compat` mode and the whole `projects/` tree, so the installer only syncs global skills into `~/.agents/skills` and each project owns its own AGENTS.md. Installer idempotency verified on citmini. |
 | [PR 4: Portable Project Links](./archive/4-portable-project-links.md) | Generated version-control-safe relative project symlinks |
