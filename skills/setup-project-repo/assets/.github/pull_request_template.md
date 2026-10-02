@@ -6,7 +6,7 @@ Use this before merging any PR.
 
 - [ ] The PR has one clear purpose.
 - [ ] Follow-up work is moved to issues or `docs/pr-docs`, not hidden in review comments.
-- [ ] The PR description is a pointer to the PR doc: a short summary plus head-branch links, not a copy of the checklist or smoke tests.
+- [ ] The PR description is synchronized from the planning doc: tier-by-tier progress, outstanding manual smoke walks, and a head-branch source link.
 - [ ] Related issues are linked, closed, or explicitly marked as follow-up.
 
 ## Code Quality

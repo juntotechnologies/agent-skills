@@ -48,9 +48,9 @@ When working on coding with me, follow this workflow.
 
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
-- When a PR is opened, set its description to a **pointer** to the PR doc, not a copy of it: a short Summary, then links into the doc's sections on the PR's head branch. The created PR starts as a blank template; replace it.
-- The PR doc is the single source of truth for a PR's checklist, smoke tests, decisions, and scope. Never duplicate those into the PR description - duplication is what drifts. Because the description links to the doc on its **head branch**, pushing the doc updates what reviewers see, with no `gh pr edit` pass needed.
-- Summary is the only content that lives in the description itself. If something would otherwise exist only in the description, move it into the PR doc first, then link to it.
+- Keep the GitHub PR description synchronized with its planning doc, including tier-by-tier completion status and outstanding manual smoke tests. Derive the description from the doc, update it whenever progress or scope changes, and verify the published body after pushing.
+- The PR doc remains the source of truth. Put the current PR's scope, progress, decisions, verification, and production handoff in that one doc; move future work into its own doc. The description must show reviewable progress and the actual manual walks, not only links.
+- Publish derived content rather than maintaining a second independent checklist. Include a head-branch link to the source doc, preserve completed versus pending status, and never mark an unrun smoke test complete.
 - When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
 
 ## 6. Production-Mutating Commands Need Named Confirmation
