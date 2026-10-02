@@ -15,36 +15,25 @@ Use this before merging any PR.
 - [ ] Concerns are reasonably separated.
 - [ ] Shared truth is reused instead of duplicating policy, labels, or validation.
 - [ ] No dead code, debug code, stale copy, or commented-out leftovers.
-- [ ] Shell scripts are idempotent where setup steps may be safely re-run.
-- [ ] Symlink, path, and backup behavior is covered when changed.
+- [ ] Each function has one job, is short and flat, and no function is defined inside another.
+- [ ] Every value has one named home; SQL lives in `.sql` files behind the module that owns the table.
+- [ ] Data crosses module boundaries as typed objects validated once at the edge.
+- [ ] Failures log a stable event name with correlating IDs, and never secrets or payloads.
+- [ ] The whole diff was reread as a reviewer would, including every function it touches.
 
 ## Required Checks
 
-- [ ] `scripts/validate_config.sh`
-- [ ] `tests/test_quickstart.sh`
-- [ ] `tests/test_macos_preferences.sh`
-- [ ] `tests/test_obsidian.sh`
-- [ ] `tests/test_repo_setup_contract.sh`
-- [ ] GitHub CI is green.
+<!-- When setting up a project, replace this line with its real local checks (tests, lint, typecheck, build, code-shape). -->
+- [ ] The project's full local checks pass on this commit.
+- [ ] CI is green, when the change touches CI or the merge needs it.
 
 ## Conditional Checks
 
-- [ ] If setup commands changed: test a clean/re-run path or document the manual verification.
-- [ ] If Homebrew packages changed: `brew bundle check --file Brewfile` behavior is understood.
-- [ ] If symlinks changed: `metadata.json` and `scripts/steps/link_config.sh` agree.
-- [ ] If macOS preferences changed: defaults writes are scoped and repeatable.
-- [ ] If Obsidian automation changed: plugin/workflow install behavior is checked.
+- [ ] If production configuration, deployment or data changes: each command was named and confirmed before it ran, and the rollback is written down.
 - [ ] If secrets or private paths changed: no live credentials are committed.
-
-## Mac Setup Smoke Tests
-
-- [ ] `scripts/setup_mac.sh` reaches the expected guided prompt sequence.
-- [ ] `scripts/steps/link_config.sh` can be re-run without replacing correct symlinks.
-- [ ] `scripts/validate_config.sh` passes from the repo root.
-- [ ] The changed workflow is tested once from a normal interactive shell when practical.
 
 ## Merge Readiness
 
 - [ ] PR branch is up to date enough for a clean merge.
 - [ ] Risky or irreversible changes have a rollback note.
-- [ ] Machine-specific or destructive setup changes are called out clearly.
+- [ ] Machine-specific or destructive changes are called out clearly.
