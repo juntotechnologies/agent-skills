@@ -28,6 +28,8 @@ e.g. `server/services/transaction-service.ts`. Delete if not needed.>
 Ordered least -> most consequential/complex (per AGENTS.md): quick, contained wins
 first; schema-touching, cross-cutting, or high-blast-radius work last. Group into
 tiers when the list is long.
+The checklist holds build work only: tests, code, decisions, and investigations.
+A manual check never goes here; it goes in Smoke Tests.
 
 <!-- Checkbox legend: [ ] not started / [x] done / [~] deferred/moved (strike through with ~~...~~ and link to where it went). Follow TDD: each item pairs a behavior with its test. -->
 
