@@ -48,9 +48,8 @@ When working on coding with me, follow this workflow.
 
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
-- Keep the GitHub PR description synchronized with its planning doc, including tier-by-tier completion status and outstanding manual smoke tests. Derive the description from the doc, update it whenever progress or scope changes, and verify the published body after pushing.
-- The PR doc remains the source of truth. Put the current PR's scope, progress, decisions, verification, and production handoff in that one doc; move future work into its own doc. The description must show reviewable progress and the actual manual walks, not only links.
-- Publish derived content rather than maintaining a second independent checklist. Include a head-branch link to the source doc, preserve completed versus pending status, and never mark an unrun smoke test complete.
+- The PR description has two parts. First, a short description in ASD-STE100 that says what the PR does. Second, a flat copy of the PR doc's Implementation Checklist and Smoke Tests, with the same wording and the same check state. Put no links in the description. Generate it from the doc with a command when the repo has one.
+- The PR doc remains the source of truth for scope, progress, decisions, verification, and the production handoff; move future work into its own doc. Change the doc first, then update the description to match it, and read the published description back after you push. Never mark an unrun smoke test complete.
 - When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
 
 ## 6. Production-Mutating Commands Need Named Confirmation
