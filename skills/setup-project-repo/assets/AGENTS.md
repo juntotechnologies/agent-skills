@@ -88,6 +88,13 @@ When working on coding with me, follow this workflow.
 - Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
 - When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
 
+## 11. Write Documentation in ASD-STE100
+
+- Write all documentation in ASD-STE100 Simplified Technical English. This covers PR docs, PR descriptions, READMEs, runbooks, AGENTS.md files, and every other prose file or generated doc block.
+- Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
+- Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
+- This rule covers documentation. Code comments keep the comment rule in section 4.
+
 ## Reviewable delivery by default
 
 When Shaun authorizes repository changes, carry them through implementation,
