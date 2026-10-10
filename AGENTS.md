@@ -85,6 +85,7 @@ When working on coding with me, follow this workflow.
 
 - When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - propose recording it. Do this unprompted.
 - Put it where it applies and nowhere else: a rule for every project goes in the generic template in `agent-skills`; a rule for one project in that project's `AGENTS.md`; a convention for one area of a codebase in that directory's `AGENTS.md`. Never copy a project decision into the generic file, or a generic rule into a project file.
+- Keep every instruction in `AGENTS.md`. Never create or edit `CLAUDE.md`. If a project has a `CLAUDE.md`, move its content into `AGENTS.md` and delete it.
 - Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
 - Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
 - When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
