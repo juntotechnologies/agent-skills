@@ -22,12 +22,10 @@ first (see `AGENTS.md` sections 1-2), not this skill.
 3. **Commit the planned PR doc** (and anything else already staged for this
    PR) with a message describing what it scopes.
 4. **Push and open the PR** via `gh pr create`, with a title describing its
-   final scope and a body derived from the planning doc. Include the goal,
-   tier-by-tier progress, current verification, and outstanding manual smoke
-   walks with their steps and pass criteria. Keep unrun work unchecked.
-   Include a head-branch source link:
-   `https://github.com/<org>/<repo>/blob/<head-branch>/docs/pr-docs/<doc>.md`.
-   Write multiline bodies to a file and pass `--body-file`.
+   final scope and a body in two parts: a short ASD-STE100 description of what
+   the PR does (the doc's Goal), then a flat copy of the doc's Implementation
+   Checklist and Smoke Tests. Put no links in the body. Keep unrun work
+   unchecked. Write multiline bodies to a file and pass `--body-file`.
 5. **Rename the doc** from `docs/pr-docs/planned-<slug>.md` to
    `docs/pr-docs/<PR#>-<slug>.md` now that the PR number is known, update its
    `# PR planned: ...` heading to `# PR <PR#>: ...`, and set `Status:
@@ -45,7 +43,7 @@ first (see `AGENTS.md` sections 1-2), not this skill.
 
 Whenever scope, tier progress, verification, or smoke-test status changes, update
 its source in the PR doc first, derive the description again, publish it, and
-read it back to verify. A pointer-only body is insufficient. Preserve one current
-PR doc; move deferred work to a separate planned doc instead of scattering the
-active record across several documents. Do not create a second independently
-maintained checklist in the PR body.
+read it back to verify. The body has no links. Preserve one current PR doc; move
+deferred work to a separate planned doc instead of scattering the active record
+across several documents. Do not maintain a second checklist by hand in the PR
+body: derive it from the doc.

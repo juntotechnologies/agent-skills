@@ -10,11 +10,12 @@ When working on coding with me, follow this workflow.
 - Once I approve the plan, update the relevant PR planning doc in `docs/pr-docs` to capture the scope. Base new docs on `docs/pr-docs/template.md`.
 - Order the checklist from least consequential/complex first to most consequential/complex last. Knock out the quick, contained wins before the high-blast-radius work.
 - Include smoke tests in the PR doc: aim for the ~20% of effort that covers ~80% of the blast radius - not exhaustive coverage. Smoke tests are things I confirm manually in the running app, never code that probes the API. Only write a manual walk for what automated tests can't cover (how it looks, real multi-step DB writes, production); list checks the tests already cover in a table instead. Write each walk to be scanned, not read, in the PR doc template's format: bold one-line title with the role, numbered one-action steps, and a "Pass if:" list of things visible on screen - no file/function names or implementation reasoning. It should read as easily as your chat summary of it; if the doc version is harder to parse than how you'd explain it to me, rewrite it.
+- Keep the Implementation Checklist for build work only: tests, code, decisions, and investigations. Never put a manual check in it, such as "check this on screen", "make sure it looks right", or "see the smoke test". Every manual check lives only in the Smoke Tests section, as a walk. A check that an automated test already covers goes in that section's table of automated checks.
 - If a single PR doc gets too complicated or starts covering distinct scopes, split it into separate PR docs (per the template) - but ask me first.
 
 ## 3. Branch When Ready
 
-- Use one checkout and switch branches by default. Create worktrees only when I explicitly request them. Preserve unfinished changes before switching.
+- Use one checkout and switch branches by default. Create worktrees only when I explicitly request them. Preserve unfinished changes before switching. After finishing work on a branch, stay on that branch; never switch back to `main` or to another branch unless I ask. I run the dev server from this checkout and it serves whatever is checked out, so a switch hides or breaks what I am testing. If a task forces a switch, switch back to the working branch before reporting.
 - Once a PR doc is nailed down and we're ready to tackle it, create a branch for it: carry the current changes from `main` into the new branch locally, then push to origin.
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
 - ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
@@ -48,9 +49,8 @@ When working on coding with me, follow this workflow.
 
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
-- Keep the GitHub PR description synchronized with its planning doc, including tier-by-tier completion status and outstanding manual smoke tests. Derive the description from the doc, update it whenever progress or scope changes, and verify the published body after pushing.
-- The PR doc remains the source of truth. Put the current PR's scope, progress, decisions, verification, and production handoff in that one doc; move future work into its own doc. The description must show reviewable progress and the actual manual walks, not only links.
-- Publish derived content rather than maintaining a second independent checklist. Include a head-branch link to the source doc, preserve completed versus pending status, and never mark an unrun smoke test complete.
+- The PR description has two parts. First, a short description in ASD-STE100 that says what the PR does. Second, a flat copy of the PR doc's Implementation Checklist and Smoke Tests, with the same wording and the same check state. Put no links in the description. Generate it from the doc with a command when the repo has one.
+- The PR doc remains the source of truth for scope, progress, decisions, verification, and the production handoff; move future work into its own doc. Change the doc first, then update the description to match it, and read the published description back after you push. Never mark an unrun smoke test complete.
 - When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
 
 ## 6. Production-Mutating Commands Need Named Confirmation
@@ -87,6 +87,13 @@ When working on coding with me, follow this workflow.
 - Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
 - Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
 - When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
+
+## 11. Write Documentation in ASD-STE100
+
+- Write all documentation in ASD-STE100 Simplified Technical English. This covers PR docs, PR descriptions, READMEs, runbooks, AGENTS.md files, and every other prose file or generated doc block.
+- Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
+- Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
+- This rule covers documentation. Code comments keep the comment rule in section 4.
 
 ## Reviewable delivery by default
 
