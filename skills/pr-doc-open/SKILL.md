@@ -1,6 +1,6 @@
 ---
 name: PR Doc Open
-description: Turn an approved, planned PR doc (docs/pr-docs/planned-<slug>.md) into a real branch + open GitHub PR, with the doc renamed to include the PR number and the TOC updated. Use when I say a PR doc is "ready", "let's do the PR route", "make the branch and open the PR", or similar, after we've already agreed on a planned PR doc's scope.
+description: Turn an approved, planned PR doc (docs/pr-docs/planned-<slug>.md) into a real branch + open GitHub PR, with the doc renamed to include the PR number and the TOC updated. Use as soon as a planned PR doc's scope is approved and the doc is written - do not ask first and do not wait for the word "ready". Also use when I say "let's do the PR route", "make the branch and open the PR", or similar.
 ---
 
 ## Overview
@@ -18,9 +18,11 @@ first (see `AGENTS.md` sections 1-2), not this skill.
    silently carry someone else's in-progress work into the new branch.
 2. **Create the branch** off the current branch (per `AGENTS.md`'s naming
    convention: `<type>/<pithy-theme-with-dashes>`, matching whatever the
-   planned doc's `Branch:` field already says, if it has one).
+   planned doc's `Branch:` field already says, if it has one). If that
+   branch already exists and carries the planned doc, use it.
 3. **Commit the planned PR doc** (and anything else already staged for this
-   PR) with a message describing what it scopes.
+   PR) with a message describing what it scopes. Skip this step if the doc
+   is already committed.
 4. **Push and open the PR** via `gh pr create`, with a title describing its
    final scope and a body in two parts: a short ASD-STE100 description of what
    the PR does (the doc's Goal), then a flat copy of the doc's Implementation

@@ -16,7 +16,7 @@ When working on coding with me, follow this workflow.
 ## 3. Branch When Ready
 
 - Use one checkout and switch branches by default. Create worktrees only when I explicitly request them. Preserve unfinished changes before switching. After finishing work on a branch, stay on that branch; never switch back to `main` or to another branch unless I ask. I run the dev server from this checkout and it serves whatever is checked out, so a switch hides or breaks what I am testing. If a task forces a switch, switch back to the working branch before reporting.
-- Once a PR doc is nailed down and we're ready to tackle it, create a branch for it: carry the current changes from `main` into the new branch locally, then push to origin.
+- Once I approve the plan and the PR doc is written, create the branch, push it, and open the PR with the **PR Doc Open** skill at once. Do not ask first. Do not wait for a separate "ready". Carry the current changes from `main` into the new branch locally.
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
 - ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
 - Never commit, push, or merge directly on `main`. Draft there if needed, then
@@ -67,6 +67,7 @@ When working on coding with me, follow this workflow.
 ## 8. Verification and Diagnostics Stay With You
 
 - Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
+- Install a local tool that a check needs, such as a test browser, without asking. Ask first only when the install changes the repository or needs administrator rights.
 - Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
 - Local verification is the proof. Before reporting work as done, run the project's full local checks (typecheck, lint, unit and end-to-end tests, or whatever the project defines) on the exact commit being reported, and state the results. Never report results from an earlier session or another agent as if you had run them - rerun, or say they weren't rerun.
 - Don't dispatch or check remote CI routinely; a passing local run on the same commit already covers it. Run CI only when a change touches the CI config/workflows themselves, or when I ask (e.g. right before merge). When you do run it, wait for it to finish before reporting.
@@ -84,6 +85,7 @@ When working on coding with me, follow this workflow.
 
 - When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - propose recording it. Do this unprompted.
 - Put it where it applies and nowhere else: a rule for every project goes in the generic template in `agent-skills`; a rule for one project in that project's `AGENTS.md`; a convention for one area of a codebase in that directory's `AGENTS.md`. Never copy a project decision into the generic file, or a generic rule into a project file.
+- Keep every instruction in `AGENTS.md`. Never create or edit `CLAUDE.md`. If a project has a `CLAUDE.md`, move its content into `AGENTS.md` and delete it.
 - Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
 - Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
 - When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
