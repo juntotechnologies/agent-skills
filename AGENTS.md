@@ -16,7 +16,7 @@ When working on coding with me, follow this workflow.
 ## 3. Branch When Ready
 
 - Use one checkout and switch branches by default. Create worktrees only when I explicitly request them. Preserve unfinished changes before switching. After finishing work on a branch, stay on that branch; never switch back to `main` or to another branch unless I ask. I run the dev server from this checkout and it serves whatever is checked out, so a switch hides or breaks what I am testing. If a task forces a switch, switch back to the working branch before reporting.
-- Once a PR doc is nailed down and we're ready to tackle it, create a branch for it: carry the current changes from `main` into the new branch locally, then push to origin.
+- Once I approve the plan and the PR doc is written, create the branch, push it, and open the PR with the **PR Doc Open** skill at once. Do not ask first. Do not wait for a separate "ready". Carry the current changes from `main` into the new branch locally.
 - Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
 - ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
 - Never commit, push, or merge directly on `main`. Draft there if needed, then
@@ -67,6 +67,7 @@ When working on coding with me, follow this workflow.
 ## 8. Verification and Diagnostics Stay With You
 
 - Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
+- Install a local tool that a check needs, such as a test browser, without asking. Ask first only when the install changes the repository or needs administrator rights.
 - Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
 - Local verification is the proof. Before reporting work as done, run the project's full local checks (typecheck, lint, unit and end-to-end tests, or whatever the project defines) on the exact commit being reported, and state the results. Never report results from an earlier session or another agent as if you had run them - rerun, or say they weren't rerun.
 - Don't dispatch or check remote CI routinely; a passing local run on the same commit already covers it. Run CI only when a change touches the CI config/workflows themselves, or when I ask (e.g. right before merge). When you do run it, wait for it to finish before reporting.
