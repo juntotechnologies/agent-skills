@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 29: Agent-owned verification](./29-agent-verification-workflow.md) | Focused PR scope, agent-run walkthroughs, retained evidence, and independent review. |
 
 ## Archive
 
