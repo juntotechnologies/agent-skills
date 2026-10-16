@@ -18,6 +18,8 @@ Approved by Shaun, 2026-10-16, after a review-pattern audit. Existing templates 
 - [x] Update both PR templates with acceptance coverage, retained walkthroughs, evidence, independent review, and correction capture.
 - [x] Run all local tests, install the global skill updates, and verify the installed copies.
 
+- [x] Restore repository and bootstrap PR checklists, retain their safeguards, and test the new workflow requirements.
+
 ## Acceptance Coverage
 
 | Requirement | Entry points | Roles and data | Persistence | Verification |
@@ -43,10 +45,12 @@ Not applicable: instructions and templates only; policy tests, installer tests, 
 - `scripts/install.sh` synchronizes the setup skill successfully.
 - Direct file comparisons confirm installed instructions and the PR template match their sources.
 - A fresh review finds no remaining blockers after the regression fix.
+- Rereview confirms both restored GitHub checklists retain code quality, rollback, credential, production, and merge safeguards.
 
 ## Review Corrections
 
 | Source | Classification | Prevention | Verification |
+| Shaun review | Defect: template simplification removes review and safety checks | Preserve checklist safeguards during format changes | Template regression checks |
 |---|---|---|---|
 | Independent review | Defect: mocked tests can exclude required browser walks | Explicit browser-persistence rule | Policy test fails before the fix and passes after it |
 

@@ -51,6 +51,8 @@ When working on coding with me, follow this workflow.
 
 ## 5. Track Progress & Follow-Ups
 
+- Preserve existing review and safety checks when updating PR templates. Keep equivalent checks when changing their format.
+
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
 - The PR description has two parts. First, a short description in ASD-STE100 that says what the PR does. Second, a flat copy of the PR doc's Implementation Checklist and Smoke Tests, with the same wording and the same check state. Put no links in the description. Generate it from the doc with a command when the repo has one.

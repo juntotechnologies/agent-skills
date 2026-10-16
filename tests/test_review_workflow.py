@@ -6,6 +6,26 @@ ASSETS = ROOT / 'skills/setup-project-repo/assets'
 
 
 class ReviewWorkflowTests(unittest.TestCase):
+    def test_github_templates_preserve_review_and_safety_checks(self):
+        required = (
+            '## Scope', '## Code Quality', '## Required Checks',
+            '## Conditional Checks', '## Merge Readiness',
+            'one named home', 'typed objects', 'no live credentials',
+            'rollback', 'fresh agent review', 'computer-use',
+            'generated PR body', 'human merge approval',
+        )
+        for base in (ROOT, ASSETS):
+            text = (base / '.github/pull_request_template.md').read_text()
+            for requirement in required:
+                with self.subTest(base=base, requirement=requirement):
+                    self.assertIn(requirement, text)
+
+    def test_repository_template_uses_the_actual_local_checks(self):
+        text = (ROOT / '.github/pull_request_template.md').read_text()
+        self.assertIn('uv run python -m unittest discover -s tests -v', text)
+        self.assertIn('bash tests/test_install.sh', text)
+        self.assertIn('scripts/install.sh', text)
+
     def test_instructions_assign_walkthroughs_to_agents(self):
         for base in (ROOT, ASSETS):
             with self.subTest(base=base):
