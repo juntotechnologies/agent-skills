@@ -48,11 +48,17 @@ A manual check never goes here; it goes in Smoke Tests.
 - [ ] <task>
 - [ ] <test>
 
+## Acceptance Coverage
+
+| Requirement | Entry points | Roles and data | Persistence | Verification |
+|---|---|---|---|---|
+| <user outcome> | <affected surfaces> | <roles and representative states> | <save and reload, or none> | <test or walk> |
+
 ## Smoke Tests
 
-Per AGENTS.md #9: 20% effort for 80% blast-radius coverage. These are **manual**
-checks the user performs in the running app, not scripted API probes. Keep the
-list short and focused on the paths this PR touches.
+The agent runs applicable walkthroughs through computer use on development before human review.
+Use representative data and verify visible results. Use a stated reason when no UI walk applies.
+Keep automated checks in a separate table. Record blocked walks and explicit human waivers honestly.
 
 Write every walk to be **scanned, not read** — the same way you'd explain it
 in a chat message:
@@ -62,9 +68,9 @@ in a chat message:
 - a **Pass if:** list, one thing you can see on screen per bullet
 - plain words only: no file names, function names, or implementation
   reasons (those belong in the tier above)
-- a done walk collapses to one line (`· done by <name> <date>`)
-- checks already covered by automated tests go in a table (check → tests),
-  not in the walk list
+- Keep completed walk steps and pass criteria. Add the tested commit, environment, role, result, and evidence location.
+- Record automated coverage in a separate table. Retain browser walks for visible behavior and real save/reload persistence.
+  Mocked tests do not replace real browser persistence checks.
 
 - [ ] **<What's checked>** · as <role>
   1. <action>
@@ -73,6 +79,16 @@ in a chat message:
   **Pass if:**
   - <what you see>
   - <what you see>
+
+## Agent Review
+
+Record the fresh reviewer, reviewed scope, evidence, and unresolved findings.
+A passing review requires resolved findings and rerun affected checks. Human merge approval remains separate.
+
+## Review Corrections
+
+Record meaningful corrections here: source, classification, prevention, and proof that the prevention detects the failure.
+New product decisions are not defects. Link executable prevention to its owning test instead of repeating its rule.
 
 ## Product Decisions
 

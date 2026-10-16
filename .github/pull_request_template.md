@@ -1,10 +1,11 @@
 # PR Checklist
 
-Use this before merging any PR.
+Use this checklist before review and merge. Publish the generated PR body from the approved planning doc before requesting review.
+The published body contains its Goal, Implementation Checklist, and Smoke Tests with matching wording and check states.
 
 ## Scope
 
-- [ ] The PR has one clear purpose.
+- [ ] The PR delivers one user outcome or one closely connected workflow.
 - [ ] Follow-up work is moved to issues or `docs/pr-docs`, not hidden in review comments.
 - [ ] The PR description is a short summary plus a flat copy of the planning doc's checklist and smoke tests, with no links, and it matches the doc.
 - [ ] Related issues are linked, closed, or explicitly marked as follow-up.
@@ -23,10 +24,14 @@ Use this before merging any PR.
 
 ## Required Checks
 
-- [ ] `uv run --with pytest python -m pytest -q tests` passes.
+- [ ] Acceptance coverage maps requirements to entry points, roles, representative data, persistence, and verification.
+- [ ] The agent completes applicable computer-use walkthroughs and retains their steps, pass criteria, and observed evidence.
+- [ ] A fresh agent review checks requirements, the diff, tests, and walkthrough evidence. No unresolved findings remain.
+
+- [ ] `uv run python -m unittest discover -s tests -v` passes.
 - [ ] `bash tests/test_install.sh` passes.
 - [ ] If an installed skill changed: `scripts/install.sh` synchronizes it without touching project repositories.
-- [ ] CI is green, when the change touches CI or the merge needs it.
+- [ ] Dispatch remote CI only for workflow changes or when Shaun requests it. Report its result when available.
 
 ## Conditional Checks
 
@@ -34,6 +39,8 @@ Use this before merging any PR.
 - [ ] If secrets or private paths changed: no live credentials are committed.
 
 ## Merge Readiness
+
+- [ ] Obtain human merge approval. Production and credential changes retain their separate named approvals.
 
 - [ ] PR branch is up to date enough for a clean merge.
 - [ ] Risky or irreversible changes have a rollback note.

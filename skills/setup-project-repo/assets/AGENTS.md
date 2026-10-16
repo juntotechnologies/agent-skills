@@ -9,9 +9,10 @@ When working on coding with me, follow this workflow.
 
 - Once I approve the plan, update the relevant PR planning doc in `docs/pr-docs` to capture the scope. Base new docs on `docs/pr-docs/template.md`.
 - Order the checklist from least consequential/complex first to most consequential/complex last. Knock out the quick, contained wins before the high-blast-radius work.
-- Include smoke tests in the PR doc: aim for the ~20% of effort that covers ~80% of the blast radius - not exhaustive coverage. Smoke tests are things I confirm manually in the running app, never code that probes the API. Only write a manual walk for what automated tests can't cover (how it looks, real multi-step DB writes, production); list checks the tests already cover in a table instead. Write each walk to be scanned, not read, in the PR doc template's format: bold one-line title with the role, numbered one-action steps, and a "Pass if:" list of things visible on screen - no file/function names or implementation reasoning. It should read as easily as your chat summary of it; if the doc version is harder to parse than how you'd explain it to me, rewrite it.
 - Keep the Implementation Checklist for build work only: tests, code, decisions, and investigations. Never put a manual check in it, such as "check this on screen", "make sure it looks right", or "see the smoke test". Every manual check lives only in the Smoke Tests section, as a walk. A check that an automated test already covers goes in that section's table of automated checks.
-- If a single PR doc gets too complicated or starts covering distinct scopes, split it into separate PR docs (per the template) - but ask me first.
+- Each PR must deliver one user outcome or one closely connected workflow. State its acceptance criteria and release dependencies.
+- Include refactoring required for that outcome. Propose a separate PR for independent cleanup or additional outcomes.
+- When new work adds a separate acceptance goal, show the proposed scope boundary before extending the PR.
 
 ## 3. Branch When Ready
 
@@ -30,6 +31,9 @@ When working on coding with me, follow this workflow.
 
 ## 4. Build with TDD
 
+- Before implementation, list affected entry points, roles, data states, and persistence effects in the PR doc.
+- Map each acceptance requirement to its verification. Check sibling entry points such as Add and Edit.
+
 - Build UI-first. Start with the UI changes (inert/static, not yet wired up) so I can see how it will look and steer direction as we go. Then wire the UI up to data/endpoints. Only then tackle the server-side business logic - the part that tends to need in-depth troubleshooting, error handling, unit testing, refactoring, role/permission gating, and DB work. Order the PR-doc checklist to follow this UI -> wiring -> server sequence.
 - Use TDD: first write tests that fail but describe exactly what I want, then write the code to make them pass.
 - Write code in a DRY, orthogonal way. Build on existing abstractions rather than reinventing them, and avoid multiple implementations of the same thing.
@@ -46,6 +50,8 @@ When working on coding with me, follow this workflow.
 - Get my confirmation before attempting anything you're unsure about, or anything a feature genuinely can't keep orthogonal.
 
 ## 5. Track Progress & Follow-Ups
+
+- Preserve existing review and safety checks when updating PR templates. Keep equivalent checks when changing their format.
 
 - When all tests for a task pass, check that task off in the PR doc checklist.
 - Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
@@ -65,6 +71,19 @@ When working on coding with me, follow this workflow.
 - Before generating or registering any such credential, ask a direct question naming the exact action (e.g. "generate an SSH keypair on the Pi and register it as a read-only deploy key on this repo") and get explicit confirmation, even mid-task and even if the surrounding plan was already approved.
 
 ## 8. Verification and Diagnostics Stay With You
+
+- Run applicable smoke tests and user-task walkthroughs yourself through computer use before requesting human review.
+- Use development fixtures for write tests. Stop at production approvals, missing access, or physical actions.
+- Complete independent checks and report the specific blocker. Do not transfer routine testing to Shaun.
+- Verify the visible result. A screenshot proves layout; it does not prove persistence.
+- For changed save flows, save, reload, and reopen the record. Confirm affected totals and relevant rejection behavior.
+- Record the tested commit, environment, role, relevant data, observed result, and evidence location.
+- Before human review, use a fresh review agent to check approved requirements, the diff, tests, and walkthrough evidence.
+- Request a read-only review. Resolve findings and rerun affected checks before requesting a final review.
+- Report automated checks and browser walkthroughs separately. Report incomplete checks as incomplete.
+- Do not call a PR ready while required checks remain incomplete, unless Shaun explicitly accepts the remaining checks.
+- Classify review feedback as a defect, missed requirement, new decision, or preference.
+- Propose a durable test or automated constraint for recurring failures. Keep the correction and verification in the owning PR doc.
 
 - Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
 - Install a local tool that a check needs, such as a test browser, without asking. Ask first only when the install changes the repository or needs administrator rights.
