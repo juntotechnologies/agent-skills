@@ -1,6 +1,6 @@
 # PR 29: Agent-owned verification before human review
 
-Status: in-scope work complete
+Status: done
 
 Branch: `chore/agent-verification-workflow`
 
