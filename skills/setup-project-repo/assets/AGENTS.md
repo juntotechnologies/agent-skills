@@ -73,6 +73,8 @@ When working on coding with me, follow this workflow.
 ## 8. Verification and Diagnostics Stay With You
 
 - Run applicable smoke tests and user-task walkthroughs yourself through computer use before requesting human review.
+- Run browser walks at the link `npm run dev` prints (the tailnet link), not only at `localhost`. Browsers treat `localhost` as secure, so it hides failures that plain-HTTP addresses show, such as missing `crypto.randomUUID` or clipboard access.
+- When the app's access address or protocol changes, rerun every save walk at the new address before reporting the change done.
 - Use development fixtures for write tests. Stop at production approvals, missing access, or physical actions.
 - Complete independent checks and report the specific blocker. Do not transfer routine testing to Shaun.
 - Verify the visible result. A screenshot proves layout; it does not prove persistence.
