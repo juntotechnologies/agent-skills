@@ -123,6 +123,7 @@ When working on coding with me, follow this workflow.
 - Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
 - Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
 - Code comments keep the comment rule in section 4.
+- End every reply with a Left section: the decisions Shaun owns and the tasks still open, one line each, or "Nothing left". Put the result first. Keep the reply short and leave detail in the files.
 
 ## Reviewable delivery by default
 
