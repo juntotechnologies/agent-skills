@@ -90,6 +90,7 @@ When working on coding with me, follow this workflow.
 - Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
 - Install a local tool that a check needs, such as a test browser, without asking. Ask first only when the install changes the repository or needs administrator rights.
 - Do hands-on steps yourself. When a fix or check needs an action on this machine (stop or restart a local server, clear a cache, open, reload, or close a browser tab, change an app setting), do it with your tools and confirm the result. Do not give me click-by-click steps. Ask first only when the action is destructive, touches another project or service, or needs credentials or administrator rights. When no tool can do it, say so and give the shortest steps.
+- Decide it yourself. Make each choice that is reversible, in scope and within your judgement, then report it in one line. Ask only when the action is destructive, outward-facing, spends money, needs credentials, or needs a fact only Shaun knows. Never end a reply with a confirmation question for a step you can take.
 - Tailnet access. Every locally run app or dev server must be reachable from every device on Shaun's tailnet. Bind it to all interfaces, or publish it with `tailscale serve`. The dev start command (for example `npm run dev`) must print only the one tailnet link to open. Allow its tailnet address (`<machine>.taila4fc43.ts.net` and its tailnet IP) in browser access rules and in login redirect settings. Report only the tailnet link. Verify the tailnet URL from a second device or with `curl` before reporting it.
 - Agent sign-in. Every app must give agents a dev-only command that signs in as any test role without a password and saves a browser session file. Agents use it for every dev check and never ask Shaun to log in.
 - Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
@@ -107,11 +108,11 @@ When working on coding with me, follow this workflow.
 
 ## 10. Improve These Instructions As You Work
 
-- When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - propose recording it. Do this unprompted.
+- When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - record it. Do this unprompted.
 - Put it where it applies and nowhere else: a rule for every project goes in the generic template in `agent-skills`; a rule for one project in that project's `AGENTS.md`; a convention for one area of a codebase in that directory's `AGENTS.md`. Never copy a project decision into the generic file, or a generic rule into a project file.
 - Keep every instruction in `AGENTS.md`. Never create or edit `CLAUDE.md`. If a project has a `CLAUDE.md`, move its content into `AGENTS.md` and delete it.
 - Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
-- Always confirm first: show the exact file, the exact wording, and what it replaces, then wait for approval. Approval of the surrounding task does not cover instruction changes.
+- Add or tighten a rule yourself, then show the exact file and wording in your reply. Ask first only before you remove or weaken an existing rule.
 - When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
 
 ## 11. Write Documentation and Replies in ASD-STE100 Shorthand
@@ -122,6 +123,7 @@ When working on coding with me, follow this workflow.
 - Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
 - Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
 - Code comments keep the comment rule in section 4.
+- End every reply with a Left section: the decisions Shaun owns and the tasks still open, one line each, or "Nothing left". Put the result first. Keep the reply short and leave detail in the files.
 
 ## Reviewable delivery by default
 
