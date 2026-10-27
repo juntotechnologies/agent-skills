@@ -67,9 +67,15 @@ def report_site(taste: Taste, site: Site, roots: tuple[Path, ...]) -> SiteReport
     return SiteReport(site, root, found)
 
 
+def is_stale_pending(report: SiteReport) -> bool:
+    return bool(report.site.pending_pr and report.checkout and not report.problems)
+
+
 def state_of(report: SiteReport) -> str:
     if report.checkout is None:
         return "no checkout here"
+    if is_stale_pending(report):
+        return "ok, but pending_pr is stale: remove it from sites.json"
     return "drift" if report.problems else "ok"
 
 
@@ -82,5 +88,10 @@ def report_lines(report: SiteReport) -> list[str]:
     return [head, *(f"  {line}" for line in report.problems)]
 
 
+def is_failing(report: SiteReport) -> bool:
+    drifted = bool(report.problems) and not report.site.pending_pr
+    return drifted or is_stale_pending(report)
+
+
 def failing(reports: list[SiteReport]) -> list[SiteReport]:
-    return [item for item in reports if item.problems and not item.site.pending_pr]
+    return [item for item in reports if is_failing(item)]

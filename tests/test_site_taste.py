@@ -7,7 +7,7 @@ from pathlib import Path
 import context_site_taste  # noqa: F401  puts the skill scripts on the path
 from taste import HANDLERS, stale_outputs
 from taste_model import Area, Principle, Site, Taste, load_taste
-from taste_render import render_principles, render_sites, row
+from taste_render import render_checklist, render_principles, render_sites, row
 from taste_rules import problems, sentences
 from taste_sites import DEFAULT_ROOTS, checkout_for, expected_files, failing, report_lines, report_site
 
@@ -113,6 +113,11 @@ class TestRender(unittest.TestCase):
         text = render_principles(make_taste({"enforcement": "manual", "checks": []}))
         self.assertIn("Manual walk", text)
 
+    def test_checklist_lists_only_manual_principles(self):
+        manual = make_taste({"enforcement": "manual", "checks": []})
+        self.assertIn("- [ ] **sample-rule** (all): Keep it short.", render_checklist(manual))
+        self.assertNotIn("sample-rule", render_checklist(make_taste()))
+
     def test_pipe_is_escaped(self):
         self.assertEqual(row(("a|b",)), "| a\\|b |")
 
@@ -144,6 +149,14 @@ class TestSites(unittest.TestCase):
             report = report_site(taste, taste.sites[0], (Path(tmp),))
         self.assertEqual(failing([report]), [])
         self.assertIn("(pending org/demo#3)", report_lines(report)[0])
+
+    def test_stale_pending_flag_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            make_checkout(Path(tmp), ["docs/design.md", "tests/a.test.js"], {"check": "x"}, "site-taste")
+            taste = make_taste(site={"pending_pr": "org/demo#3"})
+            report = report_site(taste, taste.sites[0], (Path(tmp),))
+        self.assertEqual(len(failing([report])), 1)
+        self.assertIn("pending_pr is stale", report_lines(report)[0])
 
     def test_make_target_is_found(self):
         with tempfile.TemporaryDirectory() as tmp:

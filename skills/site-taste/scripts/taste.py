@@ -4,12 +4,12 @@ import sys
 from pathlib import Path
 
 from taste_model import Taste, load_taste
-from taste_render import render_principles, render_sites
+from taste_render import render_checklist, render_principles, render_sites
 from taste_rules import problems
 from taste_sites import DEFAULT_ROOTS, failing, report_lines, report_site
 
 REFERENCES = Path(__file__).resolve().parents[1] / "references"
-OUTPUTS = {"principles.md": render_principles, "sites.md": render_sites}
+OUTPUTS = {"principles.md": render_principles, "sites.md": render_sites, "checklist.md": render_checklist}
 
 
 def run_build(args: argparse.Namespace) -> int:

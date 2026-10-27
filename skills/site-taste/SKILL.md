@@ -12,7 +12,7 @@ This skill holds the fundamentals: each failure that Shaun's sites already fixed
 1. Read `references/principles.md`. Each row has a rule, the failure it prevents, the fix and the check.
 2. Read the taste doc of the site you change. `references/sites.md` names that doc and the commands to run.
 3. Build. Take every color, size and timing from the site's tokens.
-4. Run the site's commands. Walk 360, 390, 430, 820 and 1440 px, in the light and the dark theme.
+4. Run the site's commands. Walk 360, 390, 430, 820 and 1440 px, in the light and the dark theme. Tick each line of `references/checklist.md`, which lists the rules that no command checks.
 5. When a new failure appears, add a principle to this skill and a note to the site's taste doc in one change.
 
 ## Where a fact lives
@@ -32,7 +32,7 @@ Run each from this skill's directory.
 
 | Command | Job |
 | --- | --- |
-| `uv run scripts/taste.py build` | Write `references/principles.md` and `references/sites.md`. |
+| `uv run scripts/taste.py build` | Write `references/principles.md`, `references/sites.md` and `references/checklist.md`. |
 | `uv run scripts/taste.py check` | Validate the data. Find stale references. |
 | `uv run scripts/taste.py sites` | Compare the registry with the site checkouts on this machine. It checks taste docs, check files, command names and the pointer in `AGENTS.md`. |
 
