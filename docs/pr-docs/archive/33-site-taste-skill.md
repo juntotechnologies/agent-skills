@@ -1,6 +1,6 @@
 # PR 33: Site taste skill
 
-Status: underway
+Status: done (Shaun merged on 2026-10-27; the skill is installed with `scripts/install.sh`)
 
 Branch: `feature/site-taste-skill`
 
@@ -50,7 +50,7 @@ On 2026-10-27 Shaun said the hub, shaunporwal.com and cheminventory.co look righ
 - [x] `SKILL.md`, `README.md` and the PR template name the new commands.
 - [x] Add the lessons that the CIT site and Bench Bridge PRs report: 15 new principles and updates to 9 more.
 - [x] Point `sites.json` at the taste docs that the CIT site and Bench Bridge PRs add.
-- [ ] When CIT site PR 12 and shaunporwal.com PR 11 merge, remove their `pending_pr` flags. `taste.py sites` fails until then.
+- [x] When CIT site PR 12 and shaunporwal.com PR 11 merged, remove their `pending_pr` flags. Done in the PR that archived this doc: `taste.py sites` reports all five sites ok.
 
 ## Acceptance Coverage
 

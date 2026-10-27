@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 33: Site taste skill](./33-site-taste-skill.md) | Underway; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 33: Site taste skill](./archive/33-site-taste-skill.md) | Merged; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |
 | [PR 29: Agent-owned verification](./archive/29-agent-verification-workflow.md) | Merged; focused PR scope, agent-run walkthroughs, retained evidence, and independent review. |
 | [PR 14: PR Description As Pointer](./archive/14-pr-description-as-pointer.md) | Made a PR body a summary plus links into its PR doc, ending description/doc drift |
 | [PR 19: Delegation Mac only](./archive/19-delegation-mac-only.md) | Merged; delegation runs on the Mac mini and the Spark is reserved for training. Known issue: the helper still labels fan-out `spark-to-mac`. |
