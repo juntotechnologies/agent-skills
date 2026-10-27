@@ -43,11 +43,17 @@ The repository's own workflow/template files are ordinary files too. Generic
 assets live under `skills/setup-project-repo/assets/`; update this repo's own
 copies separately when a shared change applies.
 
+## Site taste
+
+The `site-taste` skill holds the design rules that apply to every Junto site and app screen. The JSON files in `skills/site-taste/data/` are the source. `uv run skills/site-taste/scripts/taste.py build` writes the readable references. Each site keeps its own taste doc in its own repository. `taste.py sites` compares the two.
+
 ## Verification
 
 ```sh
 uv run python -m unittest discover -s tests -v
 bash tests/test_install.sh
+ruff check .
+uv run skills/site-taste/scripts/taste.py check
 ```
 
 ## Migration ordering

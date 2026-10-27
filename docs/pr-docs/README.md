@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 33: Site taste skill](./33-site-taste-skill.md) | Underway; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |
 
 ## Archive
 

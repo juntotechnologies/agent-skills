@@ -1,0 +1,122 @@
+{
+  "sites": [
+    {
+      "id": "hub",
+      "name": "Junto Technologies hub",
+      "repo": "juntotechnologies/juntotechnologies.github.io",
+      "url": "https://juntotechnologies.com/",
+      "kind": "public-site",
+      "taste_docs": [
+        "docs/design.md"
+      ],
+      "commands": [
+        {
+          "run": "npm run check",
+          "does": "Lint, tests and stale generated files"
+        },
+        {
+          "run": "npm run check:fit",
+          "does": "Card height, sideways scroll, heading lines and margins at four widths"
+        },
+        {
+          "run": "npm run check:upstream",
+          "does": "Hub colors and instruments against each project's own source"
+        }
+      ]
+    },
+    {
+      "id": "cheminventory",
+      "name": "ChemInventory marketing site",
+      "repo": "juntotechnologies/chem-inventory-site",
+      "url": "https://cheminventory.co/",
+      "kind": "public-site",
+      "taste_docs": [
+        "docs/design.md"
+      ],
+      "commands": [
+        {
+          "run": "npm run test",
+          "does": "Alive CSS, phone menu, claims and discovery files"
+        },
+        {
+          "run": "npm run seo",
+          "does": "Regenerate the discovery files"
+        }
+      ]
+    },
+    {
+      "id": "shaunporwal",
+      "name": "shaunporwal.com",
+      "repo": "shaunporwal/shaunporwal.github.io",
+      "url": "https://www.shaunporwal.com/",
+      "kind": "public-site",
+      "taste_docs": [
+        "docs/development.md"
+      ],
+      "commands": [
+        {
+          "run": "make test",
+          "does": "Lint, code shape, alive CSS, menu CSS, tokens, contrast and discovery files"
+        },
+        {
+          "run": "make sync",
+          "does": "Regenerate every generated block and file"
+        }
+      ],
+      "pending_pr": "shaunporwal/shaunporwal.github.io#11"
+    },
+    {
+      "id": "bench-bridge",
+      "name": "Bench Bridge demo",
+      "repo": "juntotechnologies/bench-bridge",
+      "url": "https://bench-bridge.juntotechnologies.com/",
+      "kind": "app",
+      "taste_docs": [
+        "design/SPEC.md"
+      ],
+      "commands": [
+        {
+          "run": "npm run design",
+          "does": "Regenerate the design spec from its JSON sources"
+        },
+        {
+          "run": "npm run fit",
+          "does": "Open every window size in the viewports file and check the fit"
+        },
+        {
+          "run": "npm run check",
+          "does": "Typecheck, lint and tests"
+        }
+      ]
+    },
+    {
+      "id": "cit-site",
+      "name": "CHEM-IS-TRY, Inc. site",
+      "repo": "juntotechnologies/cit-site",
+      "url": "https://chem-is-try.com/",
+      "kind": "client-site",
+      "taste_docs": [
+        "docs/design.md"
+      ],
+      "commands": [
+        {
+          "run": "npm run test",
+          "does": "Unit tests for the data, the discovery files, the contrast and the product cards"
+        },
+        {
+          "run": "npm run lint",
+          "does": "ESLint and the code shape limits"
+        },
+        {
+          "run": "npm run check:dist",
+          "does": "The built site: one canonical link, one h1, the sitemap and no email address"
+        },
+        {
+          "run": "npm run check:layout",
+          "does": "Sideways scroll, heading lines, margins and tap targets at five widths"
+        }
+      ],
+      "pending_pr": "juntotechnologies/cit-site#12"
+    }
+  ]
+}
