@@ -27,7 +27,7 @@ On 2026-10-27 Shaun said the hub, shaunporwal.com and cheminventory.co look righ
 
 ### Tier 1 - Data and models
 
-- [x] `data/principles.json`: 7 areas and 43 principles, each with a rule, why, fix, enforcement, check files and evidence.
+- [x] `data/principles.json`: 7 areas and 58 principles, each with a rule, why, fix, enforcement, check files and evidence.
 - [x] `data/sites.json`: the five sites, their taste docs and check commands.
 - [x] `taste_model.py`: typed models. An unknown key, a missing key or a bad enum value fails at load.
 
@@ -48,8 +48,9 @@ On 2026-10-27 Shaun said the hub, shaunporwal.com and cheminventory.co look righ
 - [x] `ruff.toml` for the new code: complexity 5, 15 statements, 4 arguments, depth 1.
 - [x] `tests/test_site_taste_shape.py`: no nested function and no lambda.
 - [x] `SKILL.md`, `README.md` and the PR template name the new commands.
-- [ ] Add the lessons that the CIT site and Bench Bridge PRs report.
-- [ ] Point `sites.json` at the taste docs that the CIT site and Bench Bridge PRs add.
+- [x] Add the lessons that the CIT site and Bench Bridge PRs report: 15 new principles and updates to 9 more.
+- [x] Point `sites.json` at the taste docs that the CIT site and Bench Bridge PRs add.
+- [ ] When CIT site PR 12 and shaunporwal.com PR 11 merge, remove their `pending_pr` flags. `taste.py sites` fails until then.
 
 ## Acceptance Coverage
 

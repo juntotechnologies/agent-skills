@@ -5,16 +5,21 @@
 No command checks these rules. Walk each one before you call a page done. Run the site's commands too.
 
 - [ ] **picture-first** (public-site): Lead each project card with its own picture or looping clip. Put one line of text below it.
+- [ ] **native-details** (all): Use details and summary for an FAQ, not a script accordion.
 - [ ] **no-customer-names** (public-site): Name no prospect and no customer on a public site without consent.
+- [ ] **mark-sample-data** (app): Mark sample data on screen wherever a result or a record shows.
 - [ ] **phone-first** (all): Judge every page at 390 px wide, in dark mode, before any wider width.
-- [ ] **buttons-share-width** (all): Buttons in one row share one width, or stack at full width. Give each card one primary button.
-- [ ] **tap-targets** (all): Make each tap target at least 44 px wide and 44 px high.
 - [ ] **judge-by-tiles** (all): Judge a page from tall tile screenshots, not from one full-page image.
+- [ ] **input-16px** (all): Set each form input to 16 px or larger.
 - [ ] **no-text-shimmer** (public-site): Do not animate the hero accent word. Use the accent color.
 - [ ] **calm-for-clients** (client-site): A client's business site stays calm. Use press and hover states and a gentle reveal. Skip pointer light.
-- [ ] **no-ai-tells** (all): Avoid the AI tells: gradient blobs, glow text, three-color icon chips, three-part slogans and filler words.
+- [ ] **press-after-hover** (all): In CSS, write the :active rule after the hover rule.
+- [ ] **one-ambient-cue** (app): Give the main action one ambient cue and the tappable part one. Pulse no status dot on a demo.
+- [ ] **entrance-opacity-only** (app): Animate the entrance of a region by opacity only.
+- [ ] **no-ai-tells** (all): Avoid the AI tells: gradient blobs, glow text, emoji icons, stat tiles and justified text. Also avoid three-color icon chips, three-part slogans and filler.
 - [ ] **one-accent** (all): Use one accent color.
 - [ ] **no-third-party-packs** (all): Do not install third-party design skill packs. Do not copy third-party component code into a public repository.
+- [ ] **facts-not-tiles** (all): Show facts as a key-value list, not as a wall of stat tiles.
 - [ ] **live-discovery-check** (public-site): After a deploy, fetch each discovery file from the live host.
 - [ ] **walk-live-site** (public-site): Walk the live site at phone width after each merge.
 - [ ] **walk-tailnet-link** (all): Run browser walks at the tailnet link, not only at localhost.

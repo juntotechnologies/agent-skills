@@ -142,6 +142,22 @@
       ]
     },
     {
+      "id": "native-details",
+      "area": "content",
+      "scope": "all",
+      "rule": "Use details and summary for an FAQ, not a script accordion.",
+      "why": "The native element works without script and with a keyboard.",
+      "fix": "Style the summary. Keep its tap target at 44 px.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
       "id": "claim-from-source",
       "area": "claims",
       "scope": "public-site",
@@ -242,6 +258,43 @@
       "evidence": []
     },
     {
+      "id": "facts-from-one-json",
+      "area": "claims",
+      "scope": "public-site",
+      "rule": "Derive address, phone links, counts and years from one JSON file. Write prose with placeholders.",
+      "why": "Two copies of one fact drift apart.",
+      "fix": "Test the derived text against the source.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cit-site",
+          "file": "tests/site.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "mark-sample-data",
+      "area": "claims",
+      "scope": "app",
+      "rule": "Mark sample data on screen wherever a result or a record shows.",
+      "why": "A demo record can look real.",
+      "fix": "Show a Sample data tag on the stage. Say it again in the result view.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
+    },
+    {
       "id": "phone-first",
       "area": "layout",
       "scope": "all",
@@ -268,6 +321,14 @@
         {
           "site": "hub",
           "file": "tests/layout.test.mjs"
+        },
+        {
+          "site": "cit-site",
+          "file": "scripts/check-layout.mjs"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/check-fit.ts"
         }
       ],
       "evidence": [
@@ -288,9 +349,19 @@
       "rule": "Buttons in one row share one width, or stack at full width. Give each card one primary button.",
       "why": "Buttons in ragged rows looked broken.",
       "fix": "Set a minimum action width token. Let the row stack when it is too narrow.",
-      "enforcement": "manual",
-      "checks": [],
-      "evidence": []
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/layoutBudget.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
     },
     {
       "id": "headings-two-lines",
@@ -304,6 +375,14 @@
         {
           "site": "hub",
           "file": "tools/checks/layout.mjs"
+        },
+        {
+          "site": "cit-site",
+          "file": "scripts/check-layout.mjs"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/check-fit.ts"
         }
       ],
       "evidence": [
@@ -325,6 +404,10 @@
         {
           "site": "hub",
           "file": "tools/checks/layout.mjs"
+        },
+        {
+          "site": "cit-site",
+          "file": "scripts/check-layout.mjs"
         }
       ],
       "evidence": [
@@ -377,13 +460,30 @@
       "scope": "all",
       "rule": "Make each tap target at least 44 px wide and 44 px high.",
       "why": "Small targets cause missed taps.",
-      "fix": "Pad the target, not the glyph. Use the touch token.",
-      "enforcement": "manual",
-      "checks": [],
+      "fix": "Pad the target, not the glyph. Add min-height and a negative margin to keep the row height.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/layoutBudget.ts"
+        },
+        {
+          "site": "cit-site",
+          "file": "scripts/check-layout.mjs"
+        }
+      ],
       "evidence": [
         {
           "site": "shaunporwal",
           "pr": 7
+        },
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        },
+        {
+          "site": "cit-site",
+          "pr": 12
         }
       ]
     },
@@ -474,6 +574,68 @@
       ]
     },
     {
+      "id": "input-16px",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Set each form input to 16 px or larger.",
+      "why": "iOS zooms the page when a smaller input takes focus.",
+      "fix": "Raise the input font size. Leave the rest of the form as it is.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "count-matches-grid",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Make a card count divide the grid columns, so no card stands alone.",
+      "why": "A lone card in the last row looks unfinished.",
+      "fix": "Tie the count to the grid in a test.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cit-site",
+          "file": "tests/home.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "child-overflow",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Check each child of a bar against its parent.",
+      "why": "A parent box can fit while a child leaves it. The Bench Bridge top bar lost its theme button at 360 px.",
+      "fix": "List the bars in fit.json. Fail when a child ends beyond its parent.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/fit.json"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "client/scripts/check-fit.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
+    },
+    {
       "id": "alive-kit",
       "area": "motion",
       "scope": "public-site",
@@ -516,7 +678,7 @@
       "scope": "all",
       "rule": "Run hover effects only where a pointer can hover.",
       "why": "A touch screen keeps the hover state after a tap.",
-      "fix": "Wrap each hover rule in the media query hover: hover and pointer: fine.",
+      "fix": "Wrap each hover rule in the media query hover: hover and pointer: fine. Gate the pointer light once, with one query.",
       "enforcement": "check",
       "checks": [
         {
@@ -526,6 +688,10 @@
         {
           "site": "shaunporwal",
           "file": "tests/test_alive_css.py"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "tests/client/pointerLight.test.ts"
         }
       ],
       "evidence": []
@@ -535,8 +701,8 @@
       "area": "motion",
       "scope": "all",
       "rule": "A visitor who asks for reduced motion sees a still page with all content.",
-      "why": "Moving effects can cause discomfort.",
-      "fix": "Stop each animation. Hide pointer light, edge light and lit dots. Keep clips on their still.",
+      "why": "Moving effects can cause discomfort. A global 0.01 ms rule leaves a loop frozen in view.",
+      "fix": "Stop each animation. Hide each infinite loop, the pointer light, the edge light and the lit dots. Keep clips on their still.",
       "enforcement": "check",
       "checks": [
         {
@@ -653,18 +819,97 @@
       "fix": "Keep the brand palette. Fix the AI tells. Skip the rest of the alive kit.",
       "enforcement": "manual",
       "checks": [],
-      "evidence": []
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "slider-pause",
+      "area": "motion",
+      "scope": "all",
+      "rule": "Give a slideshow a pause button, and stop it under reduced motion.",
+      "why": "WCAG 2.2.2 requires a way to pause moving content.",
+      "fix": "Add the button. Stop the timer when the visitor asks for reduced motion.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cit-site",
+          "file": "tests/slider.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "press-after-hover",
+      "area": "motion",
+      "scope": "all",
+      "rule": "In CSS, write the :active rule after the hover rule.",
+      "why": "A later hover rule overrides the press effect on desktop.",
+      "fix": "Order the rules hover first, then active.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "one-ambient-cue",
+      "area": "motion",
+      "scope": "app",
+      "rule": "Give the main action one ambient cue and the tappable part one. Pulse no status dot on a demo.",
+      "why": "A pulsing dot implies a live connection.",
+      "fix": "List the cues in the design spec. Cut any cue beyond those two.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
+    },
+    {
+      "id": "entrance-opacity-only",
+      "area": "motion",
+      "scope": "app",
+      "rule": "Animate the entrance of a region by opacity only.",
+      "why": "A moving box makes the layout checks measure unstable boxes.",
+      "fix": "Use opacity for arrival. Keep transform for press and lift.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
     },
     {
       "id": "no-ai-tells",
       "area": "look",
       "scope": "all",
-      "rule": "Avoid the AI tells: gradient blobs, glow text, three-color icon chips, three-part slogans and filler words.",
+      "rule": "Avoid the AI tells: gradient blobs, glow text, emoji icons, stat tiles and justified text. Also avoid three-color icon chips, three-part slogans and filler.",
       "why": "Shaun calls such pages AI generated.",
       "fix": "Use one accent. Write plain nouns and verbs. Cut filler.",
       "enforcement": "manual",
       "checks": [],
-      "evidence": []
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
     },
     {
       "id": "one-accent",
@@ -725,6 +970,10 @@
         {
           "site": "bench-bridge",
           "file": "design/contrast.json"
+        },
+        {
+          "site": "cit-site",
+          "file": "tests/contrast.test.mjs"
         }
       ],
       "evidence": []
@@ -739,6 +988,22 @@
       "enforcement": "manual",
       "checks": [],
       "evidence": []
+    },
+    {
+      "id": "facts-not-tiles",
+      "area": "look",
+      "scope": "all",
+      "rule": "Show facts as a key-value list, not as a wall of stat tiles.",
+      "why": "Stat tiles make a long page and read as generic.",
+      "fix": "Use one list. Put a label and a value on each row.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
     },
     {
       "id": "discovery-from-json",
@@ -792,12 +1057,58 @@
       "evidence": []
     },
     {
+      "id": "check-the-built-site",
+      "area": "discovery",
+      "scope": "public-site",
+      "rule": "Check the built site, not only the code.",
+      "why": "Build output can break in ways that the source tests do not see.",
+      "fix": "Read the output folder after each build. Fail on a missing canonical link, a second h1, a sitemap mismatch or an email address.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cit-site",
+          "file": "scripts/check-dist.mjs"
+        },
+        {
+          "site": "cit-site",
+          "file": "tests/dist-check.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "og-image-exists",
+      "area": "discovery",
+      "scope": "public-site",
+      "rule": "The default og:image must be a file that exists.",
+      "why": "A client site pointed its default social image at a 404.",
+      "fix": "Render the image from the data. Let the build check fail on a missing file.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cit-site",
+          "file": "scripts/check-dist.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cit-site",
+          "pr": 12
+        }
+      ]
+    },
+    {
       "id": "measure-the-complaint",
       "area": "process",
       "scope": "all",
       "rule": "Turn each taste complaint into a measured check.",
       "why": "Words like busy or off-center are not repeatable.",
-      "fix": "Add the check to the site's check command. Show that it fails when you tighten the limit.",
+      "fix": "Add the check to the site's check command. Run it on the old code and see it fail.",
       "enforcement": "check",
       "checks": [
         {
@@ -813,6 +1124,10 @@
         {
           "site": "hub",
           "pr": 17
+        },
+        {
+          "site": "bench-bridge",
+          "pr": 1
         }
       ]
     },
@@ -859,6 +1174,56 @@
       "enforcement": "manual",
       "checks": [],
       "evidence": []
+    },
+    {
+      "id": "css-js-drift-test",
+      "area": "process",
+      "scope": "all",
+      "rule": "When CSS and a script repeat a media query, add a test that ties them.",
+      "why": "The two copies drift silently.",
+      "fix": "Test that both hold the same query.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "bench-bridge",
+          "file": "tests/client/pointerLight.test.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
+    },
+    {
+      "id": "measure-then-judge",
+      "area": "process",
+      "scope": "all",
+      "rule": "Let the browser measure and pure functions judge. Unit-test the judging rules.",
+      "why": "The rules then need no browser to test.",
+      "fix": "Keep one pure budget module beside the runner.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/layout.test.mjs"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "tests/client/layoutBudget.test.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 17
+        },
+        {
+          "site": "bench-bridge",
+          "pr": 1
+        }
+      ]
     }
   ]
 }

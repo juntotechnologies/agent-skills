@@ -95,17 +95,28 @@
       "repo": "juntotechnologies/cit-site",
       "url": "https://chem-is-try.com/",
       "kind": "client-site",
-      "taste_docs": [],
+      "taste_docs": [
+        "docs/design.md"
+      ],
       "commands": [
         {
           "run": "npm run test",
-          "does": "Unit tests for the product data, search and redirects"
+          "does": "Unit tests for the data, the discovery files, the contrast and the product cards"
         },
         {
-          "run": "npm run build",
-          "does": "Build the site"
+          "run": "npm run lint",
+          "does": "ESLint and the code shape limits"
+        },
+        {
+          "run": "npm run check:dist",
+          "does": "The built site: one canonical link, one h1, the sitemap and no email address"
+        },
+        {
+          "run": "npm run check:layout",
+          "does": "Sideways scroll, heading lines, margins and tap targets at five widths"
         }
-      ]
+      ],
+      "pending_pr": "juntotechnologies/cit-site#12"
     }
   ]
 }
