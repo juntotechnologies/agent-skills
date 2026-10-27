@@ -6,11 +6,22 @@
       "repo": "juntotechnologies/juntotechnologies.github.io",
       "url": "https://juntotechnologies.com/",
       "kind": "public-site",
-      "taste_docs": ["docs/design.md"],
+      "taste_docs": [
+        "docs/design.md"
+      ],
       "commands": [
-        { "run": "npm run check", "does": "Lint, tests and stale generated files" },
-        { "run": "npm run check:fit", "does": "Card height, sideways scroll, heading lines and margins at four widths" },
-        { "run": "npm run check:upstream", "does": "Hub colors and instruments against each project's own source" }
+        {
+          "run": "npm run check",
+          "does": "Lint, tests and stale generated files"
+        },
+        {
+          "run": "npm run check:fit",
+          "does": "Card height, sideways scroll, heading lines and margins at four widths"
+        },
+        {
+          "run": "npm run check:upstream",
+          "does": "Hub colors and instruments against each project's own source"
+        }
       ]
     },
     {
@@ -19,10 +30,18 @@
       "repo": "juntotechnologies/chem-inventory-site",
       "url": "https://cheminventory.co/",
       "kind": "public-site",
-      "taste_docs": ["docs/design.md"],
+      "taste_docs": [
+        "docs/design.md"
+      ],
       "commands": [
-        { "run": "npm run test", "does": "Alive CSS, phone menu, claims and discovery files" },
-        { "run": "npm run seo", "does": "Regenerate the discovery files" }
+        {
+          "run": "npm run test",
+          "does": "Alive CSS, phone menu, claims and discovery files"
+        },
+        {
+          "run": "npm run seo",
+          "does": "Regenerate the discovery files"
+        }
       ]
     },
     {
@@ -31,11 +50,20 @@
       "repo": "shaunporwal/shaunporwal.github.io",
       "url": "https://www.shaunporwal.com/",
       "kind": "public-site",
-      "taste_docs": ["docs/development.md"],
+      "taste_docs": [
+        "docs/development.md"
+      ],
       "commands": [
-        { "run": "make test", "does": "Lint, code shape, alive CSS, menu CSS, tokens, contrast and discovery files" },
-        { "run": "make sync", "does": "Regenerate every generated block and file" }
-      ]
+        {
+          "run": "make test",
+          "does": "Lint, code shape, alive CSS, menu CSS, tokens, contrast and discovery files"
+        },
+        {
+          "run": "make sync",
+          "does": "Regenerate every generated block and file"
+        }
+      ],
+      "pending_pr": "shaunporwal/shaunporwal.github.io#11"
     },
     {
       "id": "bench-bridge",
@@ -43,11 +71,22 @@
       "repo": "juntotechnologies/bench-bridge",
       "url": "https://bench-bridge.juntotechnologies.com/",
       "kind": "app",
-      "taste_docs": ["design/SPEC.md"],
+      "taste_docs": [
+        "design/SPEC.md"
+      ],
       "commands": [
-        { "run": "npm run design", "does": "Regenerate the design spec from its JSON sources" },
-        { "run": "npm run fit", "does": "Open every window size in the viewports file and check the fit" },
-        { "run": "npm run check", "does": "Typecheck, lint and tests" }
+        {
+          "run": "npm run design",
+          "does": "Regenerate the design spec from its JSON sources"
+        },
+        {
+          "run": "npm run fit",
+          "does": "Open every window size in the viewports file and check the fit"
+        },
+        {
+          "run": "npm run check",
+          "does": "Typecheck, lint and tests"
+        }
       ]
     },
     {
@@ -58,8 +97,14 @@
       "kind": "client-site",
       "taste_docs": [],
       "commands": [
-        { "run": "npm run test", "does": "Unit tests for the product data, search and redirects" },
-        { "run": "npm run build", "does": "Build the site" }
+        {
+          "run": "npm run test",
+          "does": "Unit tests for the product data, search and redirects"
+        },
+        {
+          "run": "npm run build",
+          "does": "Build the site"
+        }
       ]
     }
   ]
