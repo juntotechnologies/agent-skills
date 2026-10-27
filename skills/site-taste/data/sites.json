@@ -62,8 +62,7 @@
           "run": "make sync",
           "does": "Regenerate every generated block and file"
         }
-      ],
-      "pending_pr": "shaunporwal/shaunporwal.github.io#11"
+      ]
     },
     {
       "id": "bench-bridge",
@@ -115,8 +114,7 @@
           "run": "npm run check:layout",
           "does": "Sideways scroll, heading lines, margins and tap targets at five widths"
         }
-      ],
-      "pending_pr": "juntotechnologies/cit-site#12"
+      ]
     }
   ]
 }
