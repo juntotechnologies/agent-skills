@@ -1,0 +1,839 @@
+{
+  "areas": [
+    {
+      "id": "content",
+      "title": "Content",
+      "summary": "What a page says and shows."
+    },
+    {
+      "id": "claims",
+      "title": "Claims",
+      "summary": "What a page may state."
+    },
+    {
+      "id": "layout",
+      "title": "Layout",
+      "summary": "How a page fits a phone."
+    },
+    {
+      "id": "motion",
+      "title": "Motion",
+      "summary": "How a page feels alive."
+    },
+    {
+      "id": "look",
+      "title": "Look",
+      "summary": "Color, type and the AI tells."
+    },
+    {
+      "id": "discovery",
+      "title": "Discovery",
+      "summary": "How search engines and agents read a site."
+    },
+    {
+      "id": "process",
+      "title": "Process",
+      "summary": "How to prove the work."
+    }
+  ],
+  "principles": [
+    {
+      "id": "least-text",
+      "area": "content",
+      "scope": "all",
+      "rule": "Show the least text that works. Give each card one picture, one short sentence and one action.",
+      "why": "Shaun called the hub Open source section busy and messy. A wall of text in a card is not acceptable.",
+      "fix": "Delete fact lists. Let a picture or a demo carry the detail. Keep the summary to one sentence.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/fit.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tools/checks/fit.json"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 15
+        }
+      ]
+    },
+    {
+      "id": "picture-first",
+      "area": "content",
+      "scope": "public-site",
+      "rule": "Lead each project card with its own picture or looping clip. Put one line of text below it.",
+      "why": "Text-first cards read as a wall of words. Shaun asked for a visual that moves on each project.",
+      "fix": "Put the screenshot, clip or drawing first. On a phone, hide the browser bar of the preview.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 15
+        }
+      ]
+    },
+    {
+      "id": "proof-over-words",
+      "area": "content",
+      "scope": "all",
+      "rule": "Prefer a small interactive proof to a paragraph of explanation.",
+      "why": "A paragraph on net benefit asks the reader to trust it. A slider lets the reader see it.",
+      "fix": "Build the simplest control that shows the effect. The dcurves threshold slider is the model.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/decision-curve.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 14
+        }
+      ]
+    },
+    {
+      "id": "clips-not-embeds",
+      "area": "content",
+      "scope": "all",
+      "rule": "Show a demo as a short silent looping clip. Do not embed a video player.",
+      "why": "Shaun finds embedded YouTube players tacky.",
+      "fix": "Record MP4 and WebM clips from the live demo. Play a clip only while it is on screen.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/clips.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 13
+        }
+      ]
+    },
+    {
+      "id": "label-illustrations",
+      "area": "content",
+      "scope": "all",
+      "rule": "Label every drawing that uses invented numbers: Illustration only. Not real data.",
+      "why": "A sample curve can pass as a real result.",
+      "fix": "Generate the drawing from declared sample values. Put the label in the caption.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/figure.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 14
+        }
+      ]
+    },
+    {
+      "id": "claim-from-source",
+      "area": "claims",
+      "scope": "public-site",
+      "rule": "Check each claim against the project's own repository before you publish it.",
+      "why": "A card that says open source for a repository with no license is wrong.",
+      "fix": "Record the evidence in a table. Compare shared facts with a script.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/upstream.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tests/upstream.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "banned-words-in-json",
+      "area": "claims",
+      "scope": "all",
+      "rule": "Keep banned words in one JSON file. A test fails when public copy uses one.",
+      "why": "Brand wording drifts back unless a test holds it.",
+      "fix": "Scan page text and generated files. Name the allowed exceptions in the same file.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/brand.json"
+        },
+        {
+          "site": "hub",
+          "file": "tests/brand.test.mjs"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_brand_copy.py"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 11
+        }
+      ]
+    },
+    {
+      "id": "no-unbacked-numbers",
+      "area": "claims",
+      "scope": "public-site",
+      "rule": "State no price, no star count and no compliance claim. Show a count only with its source and date.",
+      "why": "An unbacked number reads as a promise.",
+      "fix": "Keep a count in a data file. Refresh it with a workflow. Keep it out of discovery files.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/claims.test.ts"
+        },
+        {
+          "site": "hub",
+          "file": "tests/discovery.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "no-customer-names",
+      "area": "claims",
+      "scope": "public-site",
+      "rule": "Name no prospect and no customer on a public site without consent.",
+      "why": "A name on a public page leaks a sales lead.",
+      "fix": "Keep names in the private sales repository.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "no-email-in-generated-files",
+      "area": "claims",
+      "scope": "public-site",
+      "rule": "Never write the contact email in a discovery file or in structured data.",
+      "why": "Scrapers read these files.",
+      "fix": "Link the booking page or the contact page. Test the generated files.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_site_contract.py"
+        },
+        {
+          "site": "hub",
+          "file": "tests/discovery.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "phone-first",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Judge every page at 390 px wide, in dark mode, before any wider width.",
+      "why": "Shaun judges the sites on his phone. He called the first hub redesign terrible.",
+      "fix": "Walk 360, 390, 430, 820 and 1440 px, in both themes. Start at 390.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "centre-and-balance",
+      "area": "layout",
+      "scope": "all",
+      "rule": "On a phone, center headings, chips and short copy. Keep the left and right margins equal.",
+      "why": "Content sat off-center on the hub and on shaunporwal.com.",
+      "fix": "Use one gutter token. Left-align a list or a long text inside a centered block.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/layout.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tests/layout.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 17
+        },
+        {
+          "site": "shaunporwal",
+          "pr": 7
+        }
+      ]
+    },
+    {
+      "id": "buttons-share-width",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Buttons in one row share one width, or stack at full width. Give each card one primary button.",
+      "why": "Buttons in ragged rows looked broken.",
+      "fix": "Set a minimum action width token. Let the row stack when it is too narrow.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "headings-two-lines",
+      "area": "layout",
+      "scope": "public-site",
+      "rule": "A heading takes two lines or fewer at 360, 390, 820 and 1440 px.",
+      "why": "A heading that wraps to many lines looks broken on a phone.",
+      "fix": "Shorten the heading. Use the fluid title tokens.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/layout.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 17
+        }
+      ]
+    },
+    {
+      "id": "no-sideways-scroll",
+      "area": "layout",
+      "scope": "all",
+      "rule": "No page scrolls sideways at any width.",
+      "why": "Sideways scroll means something overflows its frame.",
+      "fix": "Find the wide element. Wrap it, shrink it or clip it on purpose.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/layout.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 17
+        },
+        {
+          "site": "hub",
+          "pr": 10
+        }
+      ]
+    },
+    {
+      "id": "card-fits-screen",
+      "area": "layout",
+      "scope": "public-site",
+      "rule": "A project card fits the screen below the sticky header on an iPhone 15 Pro.",
+      "why": "Shaun said the cards were too tall.",
+      "fix": "Cut text. Put the picture first. Measure with the fit check.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/fit.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tools/checks/fit.json"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 15
+        },
+        {
+          "site": "hub",
+          "pr": 5
+        },
+        {
+          "site": "hub",
+          "pr": 8
+        }
+      ]
+    },
+    {
+      "id": "tap-targets",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Make each tap target at least 44 px wide and 44 px high.",
+      "why": "Small targets cause missed taps.",
+      "fix": "Pad the target, not the glyph. Use the touch token.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "shaunporwal",
+          "pr": 7
+        }
+      ]
+    },
+    {
+      "id": "menu-cannot-stretch",
+      "area": "layout",
+      "scope": "public-site",
+      "rule": "Build the phone menu so no browser can stretch its rows. Do not use a grid in a tall panel.",
+      "why": "Some WebKit browsers stretch grid rows. No WebKit browser is installed here to test.",
+      "fix": "Use a flex or block layout. Test the CSS rule.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/menu.test.ts"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_menu_css.py"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cheminventory",
+          "pr": 11
+        }
+      ]
+    },
+    {
+      "id": "menu-covers-page",
+      "area": "layout",
+      "scope": "public-site",
+      "rule": "An open phone menu covers the page, locks scroll and makes the page inert.",
+      "why": "Shaun called the shaunporwal.com burger menu extremely unnatural.",
+      "fix": "Use an opaque full panel. Move focus into it. Close it on Escape and at the wide breakpoint.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/menu.test.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cheminventory",
+          "pr": 11
+        },
+        {
+          "site": "shaunporwal",
+          "pr": 7
+        }
+      ]
+    },
+    {
+      "id": "judge-by-tiles",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Judge a page from tall tile screenshots, not from one full-page image.",
+      "why": "A full-page image is too small to show a flaw.",
+      "fix": "Scroll first so lazy images load. Shoot 900 px tiles at 360, 390 and 430 px, in both themes.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "alive-kit",
+      "area": "motion",
+      "scope": "public-site",
+      "rule": "Give each public site the same alive kit. It has pointer light, raised buttons, edge light, lit dots and a header edge.",
+      "why": "Static pages felt flat to Shaun.",
+      "fix": "Take colors and timings from tokens. Reuse the kit. Do not invent a new effect for one site.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/alive-css.test.ts"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_alive_css.py"
+        },
+        {
+          "site": "hub",
+          "file": "tests/css.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cheminventory",
+          "pr": 10
+        },
+        {
+          "site": "shaunporwal",
+          "pr": 9
+        },
+        {
+          "site": "hub",
+          "pr": 12
+        }
+      ]
+    },
+    {
+      "id": "hover-gated",
+      "area": "motion",
+      "scope": "all",
+      "rule": "Run hover effects only where a pointer can hover.",
+      "why": "A touch screen keeps the hover state after a tap.",
+      "fix": "Wrap each hover rule in the media query hover: hover and pointer: fine.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/alive-css.test.ts"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_alive_css.py"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "reduced-motion-still",
+      "area": "motion",
+      "scope": "all",
+      "rule": "A visitor who asks for reduced motion sees a still page with all content.",
+      "why": "Moving effects can cause discomfort.",
+      "fix": "Stop each animation. Hide pointer light, edge light and lit dots. Keep clips on their still.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/css.test.mjs"
+        },
+        {
+          "site": "cheminventory",
+          "file": "tests/alive-css.test.ts"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "cheap-properties",
+      "area": "motion",
+      "scope": "all",
+      "rule": "Animate only transform, opacity, filter, color or shadow. No effect changes layout.",
+      "why": "A layout effect moves the content and costs paint.",
+      "fix": "List each effect and its property in the design doc. A test compares the list with the CSS.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/css.test.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tests/docs.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "no-script-shows-all",
+      "area": "motion",
+      "scope": "public-site",
+      "rule": "Without script, show every section and every panel in full.",
+      "why": "A feature class that hides content fails when the script fails.",
+      "fix": "Let the script add the feature class. Remove the class after 3 s if the script has not started.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/css.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "no-text-shimmer",
+      "area": "motion",
+      "scope": "public-site",
+      "rule": "Do not animate the hero accent word. Use the accent color.",
+      "why": "Shaun dropped the shimmer on 2026-10-27.",
+      "fix": "Remove the keyframes and the timing token. Keep the color.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 16
+        }
+      ]
+    },
+    {
+      "id": "clips-save-data",
+      "area": "motion",
+      "scope": "public-site",
+      "rule": "A demo clip stays on its still under reduced motion and when the browser asks to save data.",
+      "why": "A clip costs bandwidth and motion.",
+      "fix": "Load the clip only after those checks pass. Pause it when it leaves the screen.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/clips.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 13
+        }
+      ]
+    },
+    {
+      "id": "background-longhand",
+      "area": "motion",
+      "scope": "all",
+      "rule": "On a button or card, set background-image or background-color. Never set the background shorthand.",
+      "why": "The shorthand removes the pointer-light image.",
+      "fix": "Write the longhand. A CSS test fails on the shorthand.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/alive-css.test.ts"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "cheminventory",
+          "pr": 10
+        }
+      ]
+    },
+    {
+      "id": "calm-for-clients",
+      "area": "motion",
+      "scope": "client-site",
+      "rule": "A client's business site stays calm. Use press and hover states and a gentle reveal. Skip pointer light.",
+      "why": "Shaun said a business may want to look conservative.",
+      "fix": "Keep the brand palette. Fix the AI tells. Skip the rest of the alive kit.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "no-ai-tells",
+      "area": "look",
+      "scope": "all",
+      "rule": "Avoid the AI tells: gradient blobs, glow text, three-color icon chips, three-part slogans and filler words.",
+      "why": "Shaun calls such pages AI generated.",
+      "fix": "Use one accent. Write plain nouns and verbs. Cut filler.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "one-accent",
+      "area": "look",
+      "scope": "all",
+      "rule": "Use one accent color.",
+      "why": "One accent tells the reader where to look.",
+      "fix": "Mark links, focus and the one primary action with it. A project color never colors a button.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "tokens-only",
+      "area": "look",
+      "scope": "all",
+      "rule": "Take every color, size and timing from a token file. A raw value in CSS fails a test.",
+      "why": "One source means one change.",
+      "fix": "Add a token before you write a literal.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/css.test.mjs"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_css_tokens.py"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "design/check.ts"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "contrast-both-themes",
+      "area": "look",
+      "scope": "all",
+      "rule": "Text pairs meet WCAG AA in the light theme and in the dark theme.",
+      "why": "A pair can pass in one theme and fail in the other.",
+      "fix": "Give every color a dark value. List each pair with its least ratio. Let a test check the list.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/contrast.test.mjs"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_theme_contrast.py"
+        },
+        {
+          "site": "cheminventory",
+          "file": "tests/palette.test.ts"
+        },
+        {
+          "site": "bench-bridge",
+          "file": "design/contrast.json"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "no-third-party-packs",
+      "area": "look",
+      "scope": "all",
+      "rule": "Do not install third-party design skill packs. Do not copy third-party component code into a public repository.",
+      "why": "The Taste Skill pack bans glows and shadows. That conflicts with the alive kit.",
+      "fix": "Read a pack for ideas. Turn an idea into a measured check of your own.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "discovery-from-json",
+      "area": "discovery",
+      "scope": "public-site",
+      "rule": "Generate robots.txt, sitemap.xml, llms.txt, agents.txt, agents.json, meta tags and JSON-LD from one JSON file.",
+      "why": "Hand-copied facts drift apart.",
+      "fix": "Add a test that fails when a file disagrees with the source.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "cheminventory",
+          "file": "tests/seo-files.test.ts"
+        },
+        {
+          "site": "hub",
+          "file": "tests/discovery.test.mjs"
+        },
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_gen_crawler_files.py"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "canonical-host",
+      "area": "discovery",
+      "scope": "public-site",
+      "rule": "Set the canonical base URL to the host that serves the page without a redirect.",
+      "why": "A canonical link that redirects confuses crawlers.",
+      "fix": "Name the base URL once in the source JSON. Derive every canonical link from it.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "shaunporwal",
+          "file": "tests/test_gen_crawler_files.py"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "live-discovery-check",
+      "area": "discovery",
+      "scope": "public-site",
+      "rule": "After a deploy, fetch each discovery file from the live host.",
+      "why": "A dev server can hide a file that the live host serves.",
+      "fix": "Request robots.txt, sitemap.xml, llms.txt and .well-known/agents.json with curl.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "measure-the-complaint",
+      "area": "process",
+      "scope": "all",
+      "rule": "Turn each taste complaint into a measured check.",
+      "why": "Words like busy or off-center are not repeatable.",
+      "fix": "Add the check to the site's check command. Show that it fails when you tighten the limit.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/layout.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tests/layout.test.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 17
+        }
+      ]
+    },
+    {
+      "id": "walk-live-site",
+      "area": "process",
+      "scope": "public-site",
+      "rule": "Walk the live site at phone width after each merge.",
+      "why": "Shaun judges the sites on production, not on a preview.",
+      "fix": "Check for overflow at four widths in both themes. Fetch the discovery files.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "walk-tailnet-link",
+      "area": "process",
+      "scope": "all",
+      "rule": "Run browser walks at the tailnet link, not only at localhost.",
+      "why": "A browser treats localhost as secure. That hides failures such as a missing crypto.randomUUID.",
+      "fix": "Use the link that npm run dev prints.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "propose-repeat-fixes",
+      "area": "process",
+      "scope": "all",
+      "rule": "When the same fix applies to another page, propose it. Build it after approval.",
+      "why": "A fix built unasked on another page is a change of scope.",
+      "fix": "Name the page and the fix in one line. Wait for a yes.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    },
+    {
+      "id": "taste-in-situ",
+      "area": "process",
+      "scope": "all",
+      "rule": "Keep each site's own taste in its design doc. Keep the shared fundamentals in this skill.",
+      "why": "Two copies of one rule drift apart.",
+      "fix": "Add a new fundamental to this skill and to the site doc in one change. Run the sites check.",
+      "enforcement": "manual",
+      "checks": [],
+      "evidence": []
+    }
+  ]
+}

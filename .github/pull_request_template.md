@@ -30,6 +30,7 @@ The published body contains its Goal, Implementation Checklist, and Smoke Tests 
 
 - [ ] `uv run python -m unittest discover -s tests -v` passes.
 - [ ] `bash tests/test_install.sh` passes.
+- [ ] `ruff check .` and `uv run skills/site-taste/scripts/taste.py check` pass.
 - [ ] If an installed skill changed: `scripts/install.sh` synchronizes it without touching project repositories.
 - [ ] Dispatch remote CI only for workflow changes or when Shaun requests it. Report its result when available.
 
