@@ -27,7 +27,7 @@ On 2026-10-27 Shaun said the hub, shaunporwal.com and cheminventory.co look righ
 
 ### Tier 1 - Data and models
 
-- [x] `data/principles.json`: 7 areas and 42 principles, each with a rule, why, fix, enforcement, check files and evidence.
+- [x] `data/principles.json`: 7 areas and 43 principles, each with a rule, why, fix, enforcement, check files and evidence.
 - [x] `data/sites.json`: the five sites, their taste docs and check commands.
 - [x] `taste_model.py`: typed models. An unknown key, a missing key or a bad enum value fails at load.
 

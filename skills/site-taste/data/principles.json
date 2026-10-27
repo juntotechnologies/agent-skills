@@ -449,6 +449,31 @@
       "evidence": []
     },
     {
+      "id": "hero-reading-order",
+      "area": "layout",
+      "scope": "public-site",
+      "rule": "In the hero, the title comes first and the supporting text sits below it at every width.",
+      "why": "At 1040 px and wider the hub title sat low in its row, beside text that started higher. Shaun disliked it.",
+      "fix": "Give the title its own row. Put the text and the buttons below it. Run the layout check at 1040, 1280 and 1920 px too.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tools/checks/layout.mjs"
+        },
+        {
+          "site": "hub",
+          "file": "tools/checks/layoutBudget.mjs"
+        }
+      ],
+      "evidence": [
+        {
+          "site": "hub",
+          "pr": 19
+        }
+      ]
+    },
+    {
       "id": "alive-kit",
       "area": "motion",
       "scope": "public-site",

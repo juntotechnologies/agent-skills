@@ -44,6 +44,7 @@ How a page fits a phone.
 | `menu-cannot-stretch`<br>public-site | Build the phone menu so no browser can stretch its rows. Do not use a grid in a tall panel. | Some WebKit browsers stretch grid rows. No WebKit browser is installed here to test. | Use a flex or block layout. Test the CSS rule. | cheminventory: `tests/menu.test.ts`<br>shaunporwal: `tests/test_menu_css.py` | cheminventory #11 |
 | `menu-covers-page`<br>public-site | An open phone menu covers the page, locks scroll and makes the page inert. | Shaun called the shaunporwal.com burger menu extremely unnatural. | Use an opaque full panel. Move focus into it. Close it on Escape and at the wide breakpoint. | cheminventory: `tests/menu.test.ts` | cheminventory #11, shaunporwal #7 |
 | `judge-by-tiles`<br>all | Judge a page from tall tile screenshots, not from one full-page image. | A full-page image is too small to show a flaw. | Scroll first so lazy images load. Shoot 900 px tiles at 360, 390 and 430 px, in both themes. | Manual walk | - |
+| `hero-reading-order`<br>public-site | In the hero, the title comes first and the supporting text sits below it at every width. | At 1040 px and wider the hub title sat low in its row, beside text that started higher. Shaun disliked it. | Give the title its own row. Put the text and the buttons below it. Run the layout check at 1040, 1280 and 1920 px too. | hub: `tools/checks/layout.mjs`<br>hub: `tools/checks/layoutBudget.mjs` | hub #19 |
 
 ## Motion
 
