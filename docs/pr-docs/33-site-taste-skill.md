@@ -66,7 +66,7 @@ Automated checks:
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Unit tests | `uv run python -m unittest discover -s tests -v` | 65 pass |
+| Unit tests | `uv run python -m unittest discover -s tests -v` | 69 pass |
 | Install tests | `bash tests/test_install.sh` | 8 pass |
 | Lint | `ruff check .` | Pass |
 | Data and references | `uv run skills/site-taste/scripts/taste.py check` | Pass |
