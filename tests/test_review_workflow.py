@@ -30,15 +30,15 @@ class ReviewWorkflowTests(unittest.TestCase):
         for base in (ROOT, ASSETS):
             with self.subTest(base=base):
                 text = (base / 'AGENTS.md').read_text()
-                self.assertIn('Run applicable smoke tests and user-task walkthroughs yourself through computer use', text)
+                self.assertIn('Run smoke tests + user-task walks yourself (computer use)', text)
                 self.assertNotIn('Smoke tests are things I confirm manually', text)
 
     def test_scope_has_a_user_outcome_and_refactor_boundary(self):
         for base in (ROOT, ASSETS):
             with self.subTest(base=base):
                 text = (base / 'AGENTS.md').read_text()
-                self.assertIn('one user outcome or one closely connected workflow', text)
-                self.assertIn('independent cleanup or additional outcomes', text)
+                self.assertIn('1 PR = 1 user outcome or 1 tight workflow', text)
+                self.assertIn('Separate cleanup / extra outcomes', text)
 
     def test_templates_retain_repeatable_walks_and_review_evidence(self):
         for base in (ROOT, ASSETS):
@@ -54,13 +54,13 @@ class ReviewWorkflowTests(unittest.TestCase):
     def test_reusable_workflow_sections_stay_consistent(self):
         source = (ASSETS / 'AGENTS.md').read_text()
         own = (ROOT / 'AGENTS.md').read_text()
-        heading = '## 8. Verification and Diagnostics Stay With You'
+        heading = '## 8. Verification + diagnostics stay w/ you'
         self.assertEqual(own.split(heading)[1].split('\n## ')[0], source.split(heading)[1].split('\n## ')[0])
 
     def test_readiness_requires_observation_and_classifies_feedback(self):
         for base in (ROOT, ASSETS):
             with self.subTest(base=base):
                 text = (base / 'AGENTS.md').read_text()
-                self.assertIn('A screenshot proves layout; it does not prove persistence', text)
-                self.assertIn('defect, missed requirement, new decision, or preference', text)
+                self.assertIn('Screenshot proves layout, not persistence', text)
+                self.assertIn('defect / missed req / new decision / preference', text)
                 self.assertIn('fresh review agent', text)

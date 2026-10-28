@@ -34,9 +34,9 @@ require recovery from this source checkout and the manifest.
 
 ## Global instructions
 
-`global/AGENTS.md` is the source of the user-wide instructions. The installer copies it to
-each path in `global/targets.json` (`~/AGENTS.md`, `~/.codex/AGENTS.md`). A local edit to
-a copy stops the install. A test fails when the reply rules drift from the project template.
+- Source: `global/AGENTS.md`. Installer copies it → each path in `global/targets.json`.
+- Local edit to a copy → install stops.
+- Test fails if Writing rules drift from template §11.
 
 ## Project ownership
 
