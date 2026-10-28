@@ -32,6 +32,12 @@ The installer stages each replacement and records completed changes incrementall
 It is not a transaction across the whole skill collection; an I/O failure can
 require recovery from this source checkout and the manifest.
 
+## Global instructions
+
+- Source: `global/AGENTS.md`. Installer copies it → each path in `global/targets.json`.
+- Local edit to a copy → install stops.
+- Test fails if Writing rules drift from template §11.
+
 ## Project ownership
 
 Projects track real `AGENTS.md` files, scoped directory guidance, and project

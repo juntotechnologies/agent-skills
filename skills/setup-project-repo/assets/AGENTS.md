@@ -1,144 +1,116 @@
-When working on coding with me, follow this workflow.
+Coding workflow w/ Shaun ("me").
 
-## 1. Discuss First
+## 1. Discuss first
+- Discuss change first. No code or PR doc edits until I approve plan.
+- New feature → confirm right away: new PR doc + PR from `docs/pr-docs/template.md`.
 
-- Always start by discussing a change with me. Don't write code or edit the PR doc until I give explicit approval of the plan we discussed.
-- When I want to build a new feature, immediately confirm with me that we should create a new PR doc + PR for it, based on the template at `docs/pr-docs/template.md`.
+## 2. Plan in PR doc
+- Plan approved → update PR doc in `docs/pr-docs` w/ scope. New docs from `docs/pr-docs/template.md`.
+- Checklist order: least → most consequential/complex. Quick contained wins first, high blast radius last.
+- Implementation Checklist = build work only: tests, code, decisions, investigations. No manual checks ("check on screen", "looks right", "see smoke test"). Manual checks → Smoke Tests only, as walks. Check already covered by auto test → that section's auto-checks table.
+- 1 PR = 1 user outcome or 1 tight workflow. State acceptance criteria + release deps.
+- Include refactor needed for that outcome. Separate cleanup / extra outcomes → propose separate PR.
+- New work adds separate acceptance goal → show proposed scope boundary before extending PR.
 
-## 2. Plan in a PR Doc
+## 3. Branch when ready
+- 1 checkout, switch branches. Worktrees only if I ask. Preserve unfinished changes before switch.
+- Done on branch → stay on it. Never switch to `main`/other branch unless I ask. Dev server serves this checkout; switch hides/breaks what I test. Task forces switch → switch back before report.
+- Plan approved + PR doc written → branch, push, open PR via **PR Doc Open** skill at once. Don't ask, don't wait for "ready". Carry current `main` changes into new branch locally.
+- Branch name: `<type>/<pithy-theme-with-dashes>` (eg `feature/pricing-sandbox`, `bugfix/history-latency`).
+- Every local branch → push + open PR w/ description filled in (template preloads generic content; replace it). Use **PR Doc Open**.
+- Never commit/push/merge on `main`. Draft there ok; branch before commit. Only Shaun merges to `main`, or you when Shaun says merge.
+- Exception: post-merge cleanup (delete merged branch, prune remote ref, archive PR doc: status, move to `archive/`, README TOC, fix moved links) → commit + push straight to `main`. Bookkeeping only; never code.
 
-- Once I approve the plan, update the relevant PR planning doc in `docs/pr-docs` to capture the scope. Base new docs on `docs/pr-docs/template.md`.
-- Order the checklist from least consequential/complex first to most consequential/complex last. Knock out the quick, contained wins before the high-blast-radius work.
-- Keep the Implementation Checklist for build work only: tests, code, decisions, and investigations. Never put a manual check in it, such as "check this on screen", "make sure it looks right", or "see the smoke test". Every manual check lives only in the Smoke Tests section, as a walk. A check that an automated test already covers goes in that section's table of automated checks.
-- Each PR must deliver one user outcome or one closely connected workflow. State its acceptance criteria and release dependencies.
-- Include refactoring required for that outcome. Propose a separate PR for independent cleanup or additional outcomes.
-- When new work adds a separate acceptance goal, show the proposed scope boundary before extending the PR.
+## 4. Build w/ TDD
+- Before impl: list affected entry points, roles, data states, persistence effects in PR doc.
+- Map each acceptance req → its verification. Check sibling entry points (eg Add + Edit).
+- UI-first: inert/static UI → wire to data/endpoints → server logic (troubleshooting, errors, unit tests, refactor, role gating, DB). Checklist follows UI → wiring → server.
+- TDD: failing tests describing exactly what I want → code to pass.
+- DRY + orthogonal. Build on existing abstractions; no 2nd impl of same thing.
+- Self-documenting code: clear names, small fns. Comments/docstrings sparse: only non-obvious *why*, never restate *what*, never in bulk.
+- SSOT: each fact 1 source (JSON pref: registry, constants, labels). Derive rest: import in code, gen configs, inject docs as gen blocks. Covers UI copy, config constants, hosts, ports, models, routing, tools in use, prose stating them. No hand restatement. Fact changes → edit source, regen; never patch copies. New literal → add to existing source first. Fact about to appear 2x → make source. Can't gen → add drift check.
+- 1 job/fn. Pure logic (parse, check, decide) apart from side effects (files, DB, network, clock). Deps passed as args. Coordinator fn thin. Multi-step fn → 1 fn/step. No nested fns; top level so testable. Reusable abstractions → own file.
+- Fns short + flat. >~15 lines, nesting >1 block, or `if`/`elif` chain on cmd/type → split, or handler table.
+- SQL in `.sql` files. Each table/file layout reached only via its 1 owning module; no other module writes SQL against it or knows its paths.
+- Across modules: typed objects, never loose dicts. Parse + validate external input (files, requests, config) once at boundary into typed object; pass only that inward. Declared schemas (typed models / JSON Schema), no hand checks inside fns.
+- Logging: on failure or notable decision → stable event name, structured fields, IDs tying to request/record, level = severity. Happy path quiet. No secrets/payloads. Health = 1 cmd, not log reading.
+- Enforce w/ tooling, not memory: linter complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.
+- Every module/abstraction individually tested.
+- New/experimental feature → orthogonal + rollback-safe: own files; touch shared/core only via additive removable seams (route registration, nav link, schema append; never rewire existing fns). 1 feature flag → dark launch or remove w/o revert. DRY by reusing abstractions, never by making them depend on new feature.
+- Unsure, or feature can't stay orthogonal → confirm w/ me first.
 
-## 3. Branch When Ready
+## 5. Track progress + follow-ups
+- Updating PR templates → keep existing review/safety checks (or equivalents if format changes).
+- Task's tests pass → check it off in PR doc.
+- Found work for another PR/doc or later in checklist → add to list right away, after confirming w/ me.
+- PR description = (1) short STE100 summary of what PR does, (2) flat copy of PR doc Implementation Checklist + Smoke Tests, same wording + check state. No links. Gen from doc via cmd if repo has one.
+- PR doc = SSOT for scope, progress, decisions, verification, prod handoff. Future work → own doc. Change doc first → update description → read published description back after push. Never mark unrun smoke test done.
+- PR merges → PR doc `Status: done`, move to `docs/pr-docs/archive/`, update `docs/pr-docs/README.md` TOC (add Archive section if missing). Proactive. Use **PR Doc Archive**.
 
-- Use one checkout and switch branches by default. Create worktrees only when I explicitly request them. Preserve unfinished changes before switching. After finishing work on a branch, stay on that branch; never switch back to `main` or to another branch unless I ask. I run the dev server from this checkout and it serves whatever is checked out, so a switch hides or breaks what I am testing. If a task forces a switch, switch back to the working branch before reporting.
-- Once I approve the plan and the PR doc is written, create the branch, push it, and open the PR with the **PR Doc Open** skill at once. Do not ask first. Do not wait for a separate "ready". Carry the current changes from `main` into the new branch locally.
-- Branch naming convention: `<type>/<pithy-theme-with-dashes>` (e.g. `feature/pricing-sandbox`, `bugfix/history-latency`).
-- ALWAYS, when a branch is created locally, push to origin, and OPEN A PR FROM IT. MAKE SURE TO FILL OUT THE PR DESCRIPTION. IT SHOULD COME PRE-LOADED FORM THE TEMPLATE WITH THE GENERIC CONTENT. FILL IT IN. Use the **PR Doc Open** skill for this step.
-- Never commit, push, or merge directly on `main`. Draft there if needed, then
-  branch before committing; only Shaun merges PRs to `main`.
-- Exception: routine post-merge cleanup - deleting the now-merged local
-  branch, pruning the remote-tracking ref, and archiving the PR doc (status,
-  move to `archive/`, README TOC, fixing links broken by the move) - commits
-  and pushes straight to `main`, no new branch/PR. This is bookkeeping about
-  a merge that already happened, not new code or scope; it never includes
-  actual code changes.
+## 6. Prod-mutating cmds need named confirmation
+- General go-ahead ("go ahead", "proceed", etc.) = consent for plan, not each prod-writing cmd in it: schema migrations, backfill/rewrite scripts (w/ or w/o `--apply`), deploys, anything mutating prod data/infra.
+- Before each such cmd: ask direct question naming exact cmd + effect. Even if runbook approved, even if prior step (eg backup check) just confirmed. 1 confirm ≠ consent for next.
+- Applies however low-risk/additive (additive migration still needs own confirm).
 
-## 4. Build with TDD
+## 7. Credential/security actions need named confirmation
+- General go-ahead ≠ consent to generate/register creds: SSH keys, tokens, passwords, API keys, deploy keys, access grants, etc.
+- Before each: ask direct question naming exact action (eg "generate SSH keypair on Pi, register as read-only deploy key on this repo"). Get explicit yes, even mid-task.
 
-- Before implementation, list affected entry points, roles, data states, and persistence effects in the PR doc.
-- Map each acceptance requirement to its verification. Check sibling entry points such as Add and Edit.
+## 8. Verification + diagnostics stay w/ you
+- Run smoke tests + user-task walks yourself (computer use) before asking for human review.
+- Browser walks at tailnet link from `npm run dev`, not only localhost. Localhost = secure ctx; hides plain-HTTP fails (`crypto.randomUUID`, clipboard).
+- Access address/protocol changes → rerun every save walk at new address before done.
+- Write tests use dev fixtures. Stop at prod approvals, missing access, physical actions.
+- Finish independent checks; report specific blocker. Never hand routine testing to Shaun.
+- Verify visible result. Screenshot proves layout, not persistence.
+- Changed save flow → save, reload, reopen record. Confirm affected totals + rejection behavior.
+- Record tested commit, env, role, data, observed result, evidence location.
+- Before human review: fresh review agent checks approved reqs, diff, tests, walk evidence. Read-only review. Fix findings, rerun affected checks, then final review.
+- Report auto checks + browser walks separately. Incomplete = say incomplete.
+- PR not "ready" while required checks incomplete, unless Shaun explicitly accepts.
+- Classify review feedback: defect / missed req / new decision / preference.
+- Recurring failure → propose durable test or auto constraint. Correction + verification in owning PR doc.
+- Run tests, lint, typecheck, all checks yourself; report results. Never ask me to run a cmd or hand me one.
+- Install local tool a check needs (eg test browser) w/o asking. Ask only if install changes repo or needs admin.
+- Hands-on step on this machine (restart server, clear cache, browser tab, app setting) → do w/ tools, confirm result. No click-by-click for me. Ask first only if destructive, touches other project/service, or needs creds/admin. No tool → say so + shortest steps.
+- Reversible in-scope choice → decide, report in 1 line. Ask only if destructive, outward-facing, costs money, needs creds, or needs fact only Shaun knows. Never end w/ confirm question for step you can take.
+- Tailnet: every local app/dev server reachable from all tailnet devices. Bind all interfaces or `tailscale serve`. Dev cmd (eg `npm run dev`) prints only tailnet link. Allow `<machine>.taila4fc43.ts.net` + tailnet IP in browser access rules + login redirects. Report only tailnet link; verify via `curl` or 2nd device first.
+- Agent sign-in: every app has dev-only cmd → sign in as any test role, no password, saves browser session file. Agents use it for all dev checks. Never ask Shaun to log in.
+- No human-browse artifacts nobody opens (eg HTML coverage). Prefer console text or JSON you/CI read.
+- Local verification = proof. Before "done": run full local checks (typecheck, lint, unit + e2e, whatever project defines) on exact commit reported; state results. Never pass off earlier-session/other-agent results; rerun or say not rerun.
+- No routine remote CI; local pass on same commit covers it. Run CI only if change touches CI config, or I ask (eg pre-merge). Then wait for finish before report.
+- Report measurement only w/ method that produced it; check method first.
+- Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
 
-- Build UI-first. Start with the UI changes (inert/static, not yet wired up) so I can see how it will look and steer direction as we go. Then wire the UI up to data/endpoints. Only then tackle the server-side business logic - the part that tends to need in-depth troubleshooting, error handling, unit testing, refactoring, role/permission gating, and DB work. Order the PR-doc checklist to follow this UI -> wiring -> server sequence.
-- Use TDD: first write tests that fail but describe exactly what I want, then write the code to make them pass.
-- Write code in a DRY, orthogonal way. Build on existing abstractions rather than reinventing them, and avoid multiple implementations of the same thing.
-- Default to self-documenting code - clear names, small well-structured functions - so reading it doesn't require outside context. Add comments/docstrings parsimoniously on top of that: only when they carry real value (a non-obvious *why*, never a restatement of *what* the code already says), never as a substitute for clarity, and never in bulk.
-- Keep each fact in exactly one structured source of truth - a JSON file wherever possible, such as a registry or a constants/labels file - and derive every other appearance from it: import it in code, generate configs from it, and inject it into docs as generated blocks. This covers UI copy and config constants, and equally hosts, ports, model names, routing, which tools are in use, and any prose that states them. Never restate a fact by hand in a second place. When a fact changes, change the source and regenerate; never patch the copies one at a time. Add an entry to an existing source before writing a literal, and create a source as soon as a fact would otherwise appear twice. If a restatement genuinely cannot be generated, add a check that fails when it drifts from the source.
-- Give each function one job. Keep pure logic (parsing, checking, deciding) separate from side effects (files, databases, network, clocks), pass dependencies in as arguments, and keep the function that coordinates them thin. A function that runs several steps in sequence becomes one function per step. Never define a function inside another; make it top level so it can be tested on its own. Abstractions reusable elsewhere go in their own file.
-- Keep functions short and flat. A function longer than about 15 lines, nested more than one block deep, or branching through an `if`/`elif` chain on a command or type is doing several jobs: split it, or dispatch through a table of named handlers.
-- SQL lives in `.sql` files. Each table or file layout is reached only through the one module that owns it; no other module writes SQL against it or knows its paths.
-- Pass data between modules as typed objects, never loose dictionaries. Parse and validate external input (files, requests, configuration) once, at the boundary, into a typed object, and pass only that object inward. Validate with declared schemas (typed models or JSON Schema), never hand-written checks inside functions.
-- Build with logging in mind. When something fails or a notable decision is made, log a stable event name with structured fields, including the IDs that tie it to its request or record, at a level that matches its severity. Keep the happy path quiet, never log secrets or payload contents, and make health checkable with one command rather than by reading logs.
-- Enforce these rules with tooling, not memory: configure the linter's complexity and length limits and a check for nested functions and inline SQL, and run them before every commit.
-- Every modular piece of code or abstraction must be individually tested.
-- When building a new or experimental feature, default to keeping it orthogonal and rollback-safe: put its code in its own files, and touch shared/core code only through additive, removable seams (a route registration, a nav link, a schema append - never rewiring existing functions). Gate it behind a single feature flag so it can be dark-launched or removed without a revert. Stay DRY by reusing existing abstractions, never by making them depend on the new feature.
-- Get my confirmation before attempting anything you're unsure about, or anything a feature genuinely can't keep orthogonal.
+## 9. Python via uv only
+- Every Python call via `uv`: `uv run <script.py>`, `uv run python -m pytest`, `uv run --with <pkg>` for one-off dep, `uvx <tool>` for CLI. Never bare `python`, `python3`, `/usr/bin/python3`, `pip`.
+- Why: bare `python3` = whatever's 1st on PATH, packages = machine accident. Same test can pass on one interpreter, fail import on another; skipped suite shows as 1 error, not dozens of unrun tests.
+- `uv run --with <pkg>` makes dep explicit at call site → no hand-rolled substitutes.
+- CI too: `astral-sh/setup-uv` + `uv run ...`, not `setup-python` + bare `python3`. CI w/ no packages silently limits tests to stdlib; choose that, don't inherit it.
 
-## 5. Track Progress & Follow-Ups
+## 10. Improve these instructions as you work
+- Heuristic worth keeping (my correction, mistake worth not repeating, lasting decision) → record it, unprompted.
+- Put it where it applies only: all projects → generic template in `agent-skills`; 1 project → its `AGENTS.md`; 1 code area → that dir's `AGENTS.md`. Never copy project decision into generic, or generic rule into project file.
+- All instructions in `AGENTS.md`. Never create/edit `CLAUDE.md`. Project has one → move content to `AGENTS.md`, delete it.
+- Parsimonious. Tighten/replace existing rule over adding. Record only what changes future behavior; one-off fix → code or test. Enforceable by test/check → propose that, not prose.
+- Add/tighten rule yourself; show exact file + wording in reply. Ask first only before removing/weakening a rule.
+- I correct how you work → update instruction files FIRST, then resume.
 
-- Preserve existing review and safety checks when updating PR templates. Keep equivalent checks when changing their format.
-
-- When all tests for a task pass, check that task off in the PR doc checklist.
-- Whenever you discover something that should be handled in another PR/doc or later in the current checklist, add it to the list immediately so we don't forget - after confirming with me.
-- The PR description has two parts. First, a short description in ASD-STE100 that says what the PR does. Second, a flat copy of the PR doc's Implementation Checklist and Smoke Tests, with the same wording and the same check state. Put no links in the description. Generate it from the doc with a command when the repo has one.
-- The PR doc remains the source of truth for scope, progress, decisions, verification, and the production handoff; move future work into its own doc. Change the doc first, then update the description to match it, and read the published description back after you push. Never mark an unrun smoke test complete.
-- When a PR merges, mark its PR doc `Status: done`, move it into `docs/pr-docs/archive/`, and update `docs/pr-docs/README.md`'s table of contents (add an Archive section if one doesn't exist yet) - do this proactively, without waiting to be asked. Use the **PR Doc Archive** skill for this step.
-
-## 6. Production-Mutating Commands Need Named Confirmation
-
-- A general go-ahead on a multi-step plan ("go ahead", "proceed", "go forth and act", etc.) is consent for the plan, not for each individual command inside it that writes to production - schema migrations, backfill/rewrite scripts (with or without an explicit `--apply` flag), deploys, and anything else that mutates prod data or infra.
-- Before running any such command, ask a direct question naming that exact command and what it does, even if I already approved the surrounding runbook/plan and even if a prior step in the same runbook (e.g. confirming a backup exists) was just confirmed. Confirming one step is not consent for the next one.
-- This applies regardless of how low-risk or additive the command seems (e.g. a purely additive schema migration still needs its own confirmation, not just the backup check).
-
-## 7. Credential and Security-Sensitive Actions Need Named Confirmation
-
-- A general go-ahead on a multi-step plan is consent for the plan, not for generating or registering credentials inside it - SSH keypairs, tokens, passwords, API keys, deploy keys, access grants, and anything similar.
-- Before generating or registering any such credential, ask a direct question naming the exact action (e.g. "generate an SSH keypair on the Pi and register it as a read-only deploy key on this repo") and get explicit confirmation, even mid-task and even if the surrounding plan was already approved.
-
-## 8. Verification and Diagnostics Stay With You
-
-- Run applicable smoke tests and user-task walkthroughs yourself through computer use before requesting human review.
-- Run browser walks at the link `npm run dev` prints (the tailnet link), not only at `localhost`. Browsers treat `localhost` as secure, so it hides failures that plain-HTTP addresses show, such as missing `crypto.randomUUID` or clipboard access.
-- When the app's access address or protocol changes, rerun every save walk at the new address before reporting the change done.
-- Use development fixtures for write tests. Stop at production approvals, missing access, or physical actions.
-- Complete independent checks and report the specific blocker. Do not transfer routine testing to Shaun.
-- Verify the visible result. A screenshot proves layout; it does not prove persistence.
-- For changed save flows, save, reload, and reopen the record. Confirm affected totals and relevant rejection behavior.
-- Record the tested commit, environment, role, relevant data, observed result, and evidence location.
-- Before human review, use a fresh review agent to check approved requirements, the diff, tests, and walkthrough evidence.
-- Request a read-only review. Resolve findings and rerun affected checks before requesting a final review.
-- Report automated checks and browser walkthroughs separately. Report incomplete checks as incomplete.
-- Do not call a PR ready while required checks remain incomplete, unless Shaun explicitly accepts the remaining checks.
-- Classify review feedback as a defect, missed requirement, new decision, or preference.
-- Propose a durable test or automated constraint for recurring failures. Keep the correction and verification in the owning PR doc.
-
-- Always run tests, lint, typecheck, and any other verification yourself, then report the results in prose - never ask me to run a command myself or hand me one to run. I want to be the one reading your diagnostic output, not generating it myself.
-- Install a local tool that a check needs, such as a test browser, without asking. Ask first only when the install changes the repository or needs administrator rights.
-- Do hands-on steps yourself. When a fix or check needs an action on this machine (stop or restart a local server, clear a cache, open, reload, or close a browser tab, change an app setting), do it with your tools and confirm the result. Do not give me click-by-click steps. Ask first only when the action is destructive, touches another project or service, or needs credentials or administrator rights. When no tool can do it, say so and give the shortest steps.
-- Decide it yourself. Make each choice that is reversible, in scope and within your judgement, then report it in one line. Ask only when the action is destructive, outward-facing, spends money, needs credentials, or needs a fact only Shaun knows. Never end a reply with a confirmation question for a step you can take.
-- Tailnet access. Every locally run app or dev server must be reachable from every device on Shaun's tailnet. Bind it to all interfaces, or publish it with `tailscale serve`. The dev start command (for example `npm run dev`) must print only the one tailnet link to open. Allow its tailnet address (`<machine>.taila4fc43.ts.net` and its tailnet IP) in browser access rules and in login redirect settings. Report only the tailnet link. Verify the tailnet URL from a second device or with `curl` before reporting it.
-- Agent sign-in. Every app must give agents a dev-only command that signs in as any test role without a password and saves a browser session file. Agents use it for every dev check and never ask Shaun to log in.
-- Avoid configuring tooling to produce artifacts meant for a human to browse locally (e.g. an HTML coverage report) when no one will actually open them - prefer console/text or machine-readable (JSON) output that you read directly or that CI/other tooling consumes instead.
-- Local verification is the proof. Before reporting work as done, run the project's full local checks (typecheck, lint, unit and end-to-end tests, or whatever the project defines) on the exact commit being reported, and state the results. Never report results from an earlier session or another agent as if you had run them - rerun, or say they weren't rerun.
-- Don't dispatch or check remote CI routinely; a passing local run on the same commit already covers it. Run CI only when a change touches the CI config/workflows themselves, or when I ask (e.g. right before merge). When you do run it, wait for it to finish before reporting.
-- Report a measurement only with the method that produced it, and check that method before publishing the number.
-- Before committing, reread the whole diff as a hostile reviewer would, including every function you touched. Never patch lines into an ugly function: restructure it in the same change, or say explicitly why not.
-
-## 9. Run Python Through uv, Never Bare python/python3
-
-- Use `uv` for every Python invocation: `uv run <script.py>`, `uv run python -m pytest`, `uv run --with <pkg>` for a one-off dependency, `uvx <tool>` for a CLI. Never call `python`, `python3`, `/usr/bin/python3`, or `pip` directly.
-- Bare `python3` resolves to whatever interpreter happens to be first on PATH, and its available packages are an accident of that machine. That difference is invisible until it isn't: the same test file can pass under one interpreter and fail to even import under another on the same box, and a test suite silently skipped for a missing import reads as a single error rather than as the dozens of tests that never ran.
-- `uv run --with <pkg>` makes a dependency explicit at the call site instead of assuming the environment has it, so a test needing a third-party library is a solved problem rather than a reason to hand-roll a substitute.
-- This applies to CI too. Use `astral-sh/setup-uv` and `uv run ...` in workflows rather than `setup-python` plus bare `python3`, so local and CI resolve the same way. A repo whose CI installs no packages quietly constrains every test in it to the standard library, which is a real design constraint that should be chosen rather than inherited.
-
-## 10. Improve These Instructions As You Work
-
-- When work surfaces a heuristic worth keeping - a correction the user gave, a mistake worth not repeating, or a decision that should hold beyond the task at hand - record it. Do this unprompted.
-- Put it where it applies and nowhere else: a rule for every project goes in the generic template in `agent-skills`; a rule for one project in that project's `AGENTS.md`; a convention for one area of a codebase in that directory's `AGENTS.md`. Never copy a project decision into the generic file, or a generic rule into a project file.
-- Keep every instruction in `AGENTS.md`. Never create or edit `CLAUDE.md`. If a project has a `CLAUDE.md`, move its content into `AGENTS.md` and delete it.
-- Be parsimonious. Prefer tightening or replacing an existing rule to adding one. Record only what changes future behaviour; a one-off fix belongs in code or a test. If a lesson can be enforced by a test or check, propose that instead of prose.
-- Add or tighten a rule yourself, then show the exact file and wording in your reply. Ask first only before you remove or weaken an existing rule.
-- When the user corrects how you work, update the instruction files first, before resuming the task, so the correction governs the rest of the work.
-
-## 11. Write Documentation and Replies in ASD-STE100 Shorthand
-
-- Write all documentation and every reply to the user in ASD-STE100 Simplified Technical English. Documentation covers PR docs, PR descriptions, READMEs, runbooks, AGENTS.md files, notebooks, and every other prose file or generated doc block.
-- Be pithy. Use shorthand: fragments, tables and one-line bullets where possible. The reader must be able to scan fast: high signal, low noise.
-- Do not add flavor text: no extended analogies, asides or restated points.
-- Write replies terse, almost caveman-like. Drop filler words. This applies to explanations and discussions too.
-- When Shaun has a decision to make, give only the options and a recommendation. Explain only when Shaun asks.
-- Never restate or recap a point. Never use a points-then-summary template.
-- Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
-- Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
-- Code comments keep the comment rule in section 4.
-- Finish every task the request implies before you reply. Do not stop with in-scope work open. End every reply with a Left section: the decisions Shaun owns, and the tasks that a named blocker stops, one line each, or "Nothing left". Write Left as a numbered table of ten rows or fewer, most urgent first, with a recommended answer in each row. Group minor items in one row. Name the grouped items only when Shaun asks. A row whose recommended answer is "yes" is work, not a decision: do it before you reply. Put the result first. Keep the reply short and leave detail in the files.
+## 11. Writing
+- Extreme shorthand everywhere: replies, docs, PR docs + descs, READMEs, runbooks, AGENTS.md, notebooks, gen doc blocks. Caveman ok. Grammar/spelling optional; meaning must stay clear. Save tokens.
+- Fragments, tables, 1-line bullets. High signal, low noise.
+- No flavor text, analogies, asides, recaps. Never points-then-summary.
+- Shaun has decision → options + rec only. Explain only if asked; then still shorthand.
+- 1 word = 1 meaning. Define term on 1st use. No idioms, unexplained jargon, >3-noun stacks. "must" = required.
+- Finish all implied work before reply. No in-scope work left open.
+- Result first. Detail in files, not reply.
+- End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
+- Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
+- Code comments: see §4.
 
 ## Reviewable delivery by default
-
-When Shaun authorizes repository changes, carry them through implementation,
-verification, commit, push to origin, and an open pull request for his review.
-Default to a new branch and PR for distinct work. Reuse an existing open PR only
-for small, related changes that fit its scope. Do not ask again merely to commit,
-push, or open the PR; authorization to do the work includes those steps.
-Never merge without explicit authorization. Keep production-mutating commands
-and credential/access changes subject to their separate named approvals.
-If Shaun explicitly waives a planning doc, open a PR with a self-contained
-summary and validation instead; do not recreate the waived planning step.
-Before editing a checkout, check whether another agent is working in it: recent
-file changes, or uncommitted work you did not make. Never modify, commit or
-discard someone else's uncommitted work without asking.
+- Shaun authorizes repo changes → carry through impl, verification, commit, push, open PR for his review. No re-asking to commit/push/open PR.
+- Distinct work → new branch + PR. Reuse open PR only for small related changes in its scope.
+- Never merge w/o explicit authorization. Prod-mutating cmds + cred/access changes keep separate named approvals.
+- Shaun waives planning doc → PR w/ self-contained summary + validation; don't recreate waived step.
+- Before editing a checkout: check for other agent (recent file changes, uncommitted work you didn't make). Never modify/commit/discard others' uncommitted work w/o asking.

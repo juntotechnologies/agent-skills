@@ -9,6 +9,8 @@ import shutil
 import sys
 import tempfile
 
+from install_global import GlobalConflict, install_global
+
 
 class Conflict(Exception):
     pass
@@ -112,8 +114,10 @@ def main():
     parser.add_argument('--workspace-root', help='Deprecated; accepted for older bootstrap callers, never scanned')
     parser.parse_args()
     try:
-        sync(Path(__file__).resolve().parents[1] / 'skills', Path.home() / '.agents/skills')
-    except (Conflict, OSError, ValueError) as error:
+        repo_root = Path(__file__).resolve().parents[1]
+        sync(repo_root / 'skills', Path.home() / '.agents/skills')
+        install_global(repo_root, Path.home())
+    except (Conflict, GlobalConflict, OSError, ValueError) as error:
         print(f'Install stopped: {error}', file=sys.stderr)
         return 1
     return 0

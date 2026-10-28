@@ -15,6 +15,7 @@ class InstallTests(unittest.TestCase):
         self.base = Path(self.tmp.name)
         self.repo = self.base / 'repo'
         shutil.copytree(ROOT / 'scripts', self.repo / 'scripts')
+        shutil.copytree(ROOT / 'global', self.repo / 'global')
         self.source = self.repo / 'skills/example'
         self.source.mkdir(parents=True)
         (self.source / 'SKILL.md').write_text('original')
@@ -94,6 +95,32 @@ class InstallTests(unittest.TestCase):
     def test_unknown_flag(self):
         self.run_install(2, '--claude-compat')
         self.assertFalse((self.home / '.agents').exists())
+
+    def test_global_instructions_installed_and_updated(self):
+        self.run_install()
+        source = (self.repo / 'global/AGENTS.md').read_text()
+        for name in ('AGENTS.md', '.codex/AGENTS.md'):
+            self.assertEqual((self.home / name).read_text(), source)
+        (self.repo / 'global/AGENTS.md').write_text('upstream')
+        self.run_install()
+        self.assertEqual((self.home / '.codex/AGENTS.md').read_text(), 'upstream')
+
+    def test_global_local_edit_blocks_install(self):
+        self.run_install()
+        (self.home / 'AGENTS.md').write_text('local')
+        (self.repo / 'global/AGENTS.md').write_text('upstream')
+        self.run_install(1)
+        self.assertEqual((self.home / 'AGENTS.md').read_text(), 'local')
+        self.assertNotEqual((self.home / '.codex/AGENTS.md').read_text(), 'upstream')
+
+    def test_global_writing_rules_match_template(self):
+        template = (ROOT / 'skills/setup-project-repo/assets/AGENTS.md').read_text().splitlines()
+        global_text = (ROOT / 'global/AGENTS.md').read_text()
+        section = global_text.split('## Writing\n')[1].split('\n## ')[0]
+        rules = [line for line in section.splitlines() if line.startswith('- ')]
+        self.assertGreater(len(rules), 5)
+        for rule in rules:
+            self.assertIn(rule, template)
 
 if __name__ == '__main__':
     unittest.main()
