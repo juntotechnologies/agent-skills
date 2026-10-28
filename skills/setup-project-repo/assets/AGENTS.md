@@ -120,6 +120,9 @@ When working on coding with me, follow this workflow.
 - Write all documentation and every reply to the user in ASD-STE100 Simplified Technical English. Documentation covers PR docs, PR descriptions, READMEs, runbooks, AGENTS.md files, notebooks, and every other prose file or generated doc block.
 - Be pithy. Use shorthand: fragments, tables and one-line bullets where possible. The reader must be able to scan fast: high signal, low noise.
 - Do not add flavor text: no extended analogies, asides or restated points.
+- Write replies terse, almost caveman-like. Drop filler words. This applies to explanations and discussions too.
+- When Shaun has a decision to make, give only the options and a recommendation. Explain only when Shaun asks.
+- Never restate or recap a point. Never use a points-then-summary template.
 - Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
 - Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
 - Code comments keep the comment rule in section 4.
