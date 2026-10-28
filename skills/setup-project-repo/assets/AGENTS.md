@@ -18,7 +18,7 @@ Coding workflow w/ Shaun ("me").
 - Plan approved + PR doc written → branch, push, open PR via **PR Doc Open** skill at once. Don't ask, don't wait for "ready". Carry current `main` changes into new branch locally.
 - Branch name: `<type>/<pithy-theme-with-dashes>` (eg `feature/pricing-sandbox`, `bugfix/history-latency`).
 - Every local branch → push + open PR w/ description filled in (template preloads generic content; replace it). Use **PR Doc Open**.
-- Never commit/push/merge on `main`. Draft there ok; branch before commit. Only Shaun merges to `main`.
+- Never commit/push/merge on `main`. Draft there ok; branch before commit. Only Shaun merges to `main`, or you when Shaun says merge.
 - Exception: post-merge cleanup (delete merged branch, prune remote ref, archive PR doc: status, move to `archive/`, README TOC, fix moved links) → commit + push straight to `main`. Bookkeeping only; never code.
 
 ## 4. Build w/ TDD
