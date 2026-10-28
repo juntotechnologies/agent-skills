@@ -126,6 +126,7 @@ When working on coding with me, follow this workflow.
 - Use short sentences: 20 words or fewer for an instruction, 25 or fewer for a description. Give one instruction in each sentence. Use the active voice and the present tense. Keep a paragraph to six sentences or fewer.
 - Use one word for one meaning. Do not use synonyms for variety, idioms, or unexplained jargon and abbreviations. Define a term where it first appears. Use "must" for a required action. Do not stack more than three nouns in a row.
 - Code comments keep the comment rule in section 4.
+- Finish every task the request implies before you reply. Do not stop with in-scope work open. End every reply with a Left section: the decisions Shaun owns, and the tasks that a named blocker stops, one line each, or "Nothing left". Write Left as a numbered table of ten rows or fewer, most urgent first, with a recommended answer in each row. Group minor items in one row. Name the grouped items only when Shaun asks. A row whose recommended answer is "yes" or "do it" is work, not a decision: do it before you reply. Never ask Shaun to approve or do a reversible, in-scope step. Put the result first. Keep the reply short and leave detail in the files.
 
 ## Reviewable delivery by default
 
