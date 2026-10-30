@@ -15,6 +15,7 @@
 - Failure logs structured: stable event name, correlating IDs, severity. No secrets/payloads. Health = 1 cmd.
 - Linter: complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.
 - Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
+- Tests count only on committed tree (untracked files hide test failures). Never rec merge until PR CI green (`gh pr checks`).
 
 ## Writing
 - Extreme shorthand everywhere: replies, docs, PR docs + descs, READMEs, runbooks, AGENTS.md, notebooks, gen doc blocks. Caveman ok. Grammar/spelling optional; meaning must stay clear. Save tokens.
@@ -24,6 +25,7 @@
 - 1 word = 1 meaning. Define term on 1st use. No idioms, unexplained jargon, >3-noun stacks. "must" = required.
 - Finish all implied work before reply. No in-scope work left open.
 - Result first. Detail in files, not reply.
+- Reply body ≤8 lines + Left table. Explanations/discussions too: top 3 points max; rest in a file, linked.
 - End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
 - Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
 
