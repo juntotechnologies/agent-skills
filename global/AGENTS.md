@@ -15,6 +15,7 @@
 - Failure logs structured: stable event name, correlating IDs, severity. No secrets/payloads. Health = 1 cmd.
 - Linter: complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.
 - Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
+- Tests count only on committed tree (untracked files hide test failures). Never rec merge until PR CI green (`gh pr checks`).
 
 ## Writing
 - Extreme shorthand everywhere: replies, docs, PR docs + descs, READMEs, runbooks, AGENTS.md, notebooks, gen doc blocks. Caveman ok. Grammar/spelling optional; meaning must stay clear. Save tokens.
