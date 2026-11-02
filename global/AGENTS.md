@@ -27,6 +27,7 @@
 - Result first. Detail in files, not reply.
 - Reply body ≤8 lines + Left table. Explanations/discussions too: top 3 points max; rest in a file, linked.
 - End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
+- Each Left row self-contained: exact action + full clickable URL or path + what to send back. Shaun must never scroll up to act. Grouped row still gets its links.
 - Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
 
 ## Acting
