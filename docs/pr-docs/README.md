@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Deferred tasks](./50-deferred-tasks.md) | Issue, not Left |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Deferred tasks](./archive/50-deferred-tasks.md) | Issue, not Left |
 | [Rules map](./archive/49-rules-map.md) | Where rules live |
 | [Checker fails closed](./archive/48-checker-fail-closed.md) | Crash = fault |
 | [Enforced rules leave prose](./archive/47-enforced-rules-leave-prose.md) | Smaller instructions |

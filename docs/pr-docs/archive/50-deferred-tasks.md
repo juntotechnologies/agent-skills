@@ -1,6 +1,6 @@
 # PR 50: Deferred tasks go to issues
 
-Status: in-scope work complete
+Status: done
 
 Branch: `docs/deferred-tasks-to-issues`
 
