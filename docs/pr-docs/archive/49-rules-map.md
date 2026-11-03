@@ -1,6 +1,6 @@
 # PR 49: Rules map
 
-Status: in-scope work complete
+Status: done
 
 Branch: `docs/rules-map`
 
