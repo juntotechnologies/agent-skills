@@ -1,6 +1,6 @@
-# PR planned: Add CLI over prose rule
+# PR 40: Add CLI over prose rule
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/cli-over-prose`
 

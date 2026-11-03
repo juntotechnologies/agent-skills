@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [CLI over prose rule](./planned-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
+| [CLI over prose rule](./40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
 
 ## Archive
 
