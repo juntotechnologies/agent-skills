@@ -1,6 +1,6 @@
-# PR planned: Comment rule autofix
+# PR 52: Comment rule autofix
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feat/why-comments-fixer`
 
