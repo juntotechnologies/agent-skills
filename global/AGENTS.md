@@ -48,7 +48,7 @@ Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats re
 - Judgment order: patient safety > no data loss > truthful evidence > reversible > cheap > fast > elegant. 2 OK options → reversible + simpler; record choice in 1 line.
 - Stop + ask only for: money; creds/access grants; prod data writes (migrations, backfills, deletes); messages or public claims in Shaun's name; destructive step w/ no backup; patient/private data; medical/regulatory claims; another agent's uncommitted work; fact only Shaun knows.
 - Repo auto-deploys on merge → ok if tested + has health cmd; run it after; failed → revert.
-- Blocked item → keep doing all else; batch asks in Left. Permission denial → don't route around; report + name the rule needed. 1 risky step per cmd: bundled cmds get denied whole.
+- Blocked item → keep doing all else; batch asks in Left. Permission denial → judge it. On stop list → stop, ask Shaun explicit question. Else → append 1 narrow rule to `~/.claude/settings.json` `autoMode.allow` (names action + what it excludes), retry, report rule in 1 line. Settings edit denied → don't route around; report + give exact rule. 1 risky step per cmd: bundled cmds get denied whole.
 - Report: what changed, evidence, surprises. Left = stop-list items only. Shaun audits: `ops digest`.
 
 ## CLI over prose
