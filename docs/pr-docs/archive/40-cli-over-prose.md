@@ -1,6 +1,6 @@
 # PR 40: Add CLI over prose rule
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/cli-over-prose`
 

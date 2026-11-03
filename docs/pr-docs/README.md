@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [CLI over prose rule](./40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [CLI over prose rule](./archive/40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
 | [PR 33: Site taste skill](./archive/33-site-taste-skill.md) | Merged; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |
 | [PR 29: Agent-owned verification](./archive/29-agent-verification-workflow.md) | Merged; focused PR scope, agent-run walkthroughs, retained evidence, and independent review. |
 | [PR 14: PR Description As Pointer](./archive/14-pr-description-as-pointer.md) | Made a PR body a summary plus links into its PR doc, ending description/doc drift |
