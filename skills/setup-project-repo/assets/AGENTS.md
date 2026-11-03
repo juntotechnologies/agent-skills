@@ -104,9 +104,14 @@ Coding workflow w/ Shaun ("me").
 - 1 word = 1 meaning. Define term on 1st use. No idioms, unexplained jargon, >3-noun stacks. "must" = required.
 - Finish all implied work before reply. No in-scope work left open.
 - Result first. Detail in files, not reply.
+- Reply body ≤8 lines + Left table. Explanations/discussions too: top 3 points max; rest in a file, linked.
 - End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
+- Each Left row self-contained: exact action + full clickable URL or path + what to send back. Shaun must never scroll up to act. Grouped row still gets its links.
 - Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
 - Code comments: see §4.
+
+## Tools
+<!-- 1 line per repo CLI: - Tool: `path --help` - what it does. Create: `ops new <name> --repo`. -->
 
 ## Reviewable delivery by default
 - Shaun authorizes repo changes → carry through impl, verification, commit, push, open PR for his review. No re-asking to commit/push/open PR.
