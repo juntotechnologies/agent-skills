@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Autonomy rule](./planned-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |
 
 ## Archive
 

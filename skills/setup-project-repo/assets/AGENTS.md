@@ -18,7 +18,7 @@ Coding workflow w/ Shaun ("me").
 - Plan approved + PR doc written → branch, push, open PR via **PR Doc Open** skill at once. Don't ask, don't wait for "ready". Carry current `main` changes into new branch locally.
 - Branch name: `<type>/<pithy-theme-with-dashes>` (eg `feature/pricing-sandbox`, `bugfix/history-latency`).
 - Every local branch → push + open PR w/ description filled in (template preloads generic content; replace it). Use **PR Doc Open**.
-- Never commit/push/merge on `main`. Draft there ok; branch before commit. Only Shaun merges to `main`, or you when Shaun says merge.
+- Never commit/push/merge on `main`. Draft there ok; branch before commit. Merge per global Autonomy (`ops ship`).
 - Exception: post-merge cleanup (delete merged branch, prune remote ref, archive PR doc: status, move to `archive/`, README TOC, fix moved links) → commit + push straight to `main`. Bookkeeping only; never code.
 
 ## 4. Build w/ TDD
@@ -116,6 +116,6 @@ Coding workflow w/ Shaun ("me").
 ## Reviewable delivery by default
 - Shaun authorizes repo changes → carry through impl, verification, commit, push, open PR for his review. No re-asking to commit/push/open PR.
 - Distinct work → new branch + PR. Reuse open PR only for small related changes in its scope.
-- Never merge w/o explicit authorization. Prod-mutating cmds + cred/access changes keep separate named approvals.
+- Merge per global Autonomy. Prod data writes + cred/access changes keep separate named approvals.
 - Shaun waives planning doc → PR w/ self-contained summary + validation; don't recreate waived step.
 - Before editing a checkout: check for other agent (recent file changes, uncommitted work you didn't make). Never modify/commit/discard others' uncommitted work w/o asking.
