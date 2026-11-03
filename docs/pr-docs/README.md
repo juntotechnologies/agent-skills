@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Claude skill links](./planned-claude-skill-links.md) | Link skills for Claude Code |
 
 ## Archive
 

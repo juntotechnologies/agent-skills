@@ -68,6 +68,18 @@ class InstallTests(unittest.TestCase):
         self.run_install(1)
         self.assertTrue(self.target.is_symlink())
 
+    def test_claude_link_added_and_existing_kept(self):
+        kept = self.home / 'kept'
+        kept.mkdir()
+        claude = self.home / '.claude/skills'
+        claude.mkdir(parents=True)
+        (claude / 'old').symlink_to(kept)
+        (self.repo / 'skills/old').mkdir()
+        (self.repo / 'skills/old/SKILL.md').write_text('x')
+        self.run_install()
+        self.assertEqual((claude / 'example').readlink(), self.target)
+        self.assertEqual((claude / 'old').readlink(), kept)
+
     def test_projects_and_other_skills_untouched(self):
         project = self.home / 'Documents/GitHub/projects/chem-inventory'
         project.mkdir(parents=True)
