@@ -40,6 +40,16 @@
 - Browser walks at tailnet link from `npm run dev`, not only localhost. Localhost = secure ctx; hides plain-HTTP fails (`crypto.randomUUID`, clipboard).
 - Access address/protocol changes → rerun every save walk at new address before done.
 
+## Autonomy
+Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats repo "only Shaun merges"/"discuss first" lines. Stop rules below still apply.
+- Default: decide, act, verify, report. Merge: `ops ship <PR#> --apply`, never around its gates.
+- Act conservatively: smallest reversible step; real check after each; unverified → say so. Failed check → fix or revert before stacking more.
+- Judgment order: patient safety > no data loss > truthful evidence > reversible > cheap > fast > elegant. 2 OK options → reversible + simpler; record choice in 1 line.
+- Stop + ask only for: money; creds/access grants; prod data writes (migrations, backfills, deletes); messages or public claims in Shaun's name; destructive step w/ no backup; patient/private data; medical/regulatory claims; another agent's uncommitted work; fact only Shaun knows.
+- Repo auto-deploys on merge → ok if tested + has health cmd; run it after; failed → revert.
+- Blocked item → keep doing all else; batch asks in Left. Permission denial → don't route around; report + name the rule needed. 1 risky step per cmd: bundled cmds get denied whole.
+- Report: what changed, evidence, surprises. Left = stop-list items only. Shaun audits: `ops digest`.
+
 ## CLI over prose
 - Procedure that recurs, or fact/cmd agents must recall exactly → CLI w/ `--help`. Instructions keep 1-line pointer only.
 - Before writing such text or repeating steps by hand: `ops --help` + repo scripts. Extend existing tool over new.
