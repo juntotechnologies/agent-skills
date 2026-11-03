@@ -1,6 +1,6 @@
 # PR 52: Comment rule autofix
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feat/why-comments-fixer`
 
