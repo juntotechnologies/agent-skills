@@ -1,6 +1,6 @@
-# PR planned: Enforced rules leave prose
+# PR 47: Enforced rules leave prose
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/enforced-rules-leave-prose`
 
