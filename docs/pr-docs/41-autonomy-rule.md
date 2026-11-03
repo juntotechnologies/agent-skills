@@ -1,6 +1,6 @@
-# PR planned: Standing autonomy rule
+# PR 41: Standing autonomy rule
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/autonomy-rule`
 
