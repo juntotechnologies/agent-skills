@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Checker fails closed](./48-checker-fail-closed.md) | Crash = fault |
 
 ## Archive
 
