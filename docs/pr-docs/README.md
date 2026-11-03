@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Checker fails closed](./planned-checker-fail-closed.md) | Crash = fault |
 
 ## Archive
 

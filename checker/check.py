@@ -62,6 +62,12 @@ def run_tool(command):
     return subprocess.run(command, capture_output=True, text=True, check=False)
 
 
+def tool_failed(name, done):
+    if done.returncode in (0, 1):
+        return []
+    return [Fault(name, 1, 1, 'tool-failed', f'exit {done.returncode}: {done.stderr.strip()[:200]}')]
+
+
 def ruff_fault(row, spans):
     path = str(Path(row['filename']).resolve().relative_to(Path.cwd()))
     line = row['location']['row']
@@ -80,7 +86,7 @@ def ruff_faults(paths, limits):
         return []
     done = run_tool(['uvx', limits['ruff'], 'check', '--config', str(HERE / 'ruff.toml'), '--output-format', 'json', *paths])
     spans = {path: spans_of(path) for path in paths}
-    return [ruff_fault(row, spans) for row in json.loads(done.stdout or '[]')]
+    return [*tool_failed('ruff', done), *(ruff_fault(row, spans) for row in json.loads(done.stdout or '[]'))]
 
 
 def python_faults(paths, limits):
@@ -106,7 +112,8 @@ def js_faults(paths):
     config = str(HERE / 'js/eslint.config.mjs')
     eslint = str(HERE / 'js/node_modules/.bin/eslint')
     done = run_tool([eslint, '--no-inline-config', '--no-config-lookup', '-c', config, '--format', 'json', *paths])
-    return [fault for result in json.loads(done.stdout or '[]') for fault in eslint_row_faults(result)]
+    rows = [fault for result in json.loads(done.stdout or '[]') for fault in eslint_row_faults(result)]
+    return [*tool_failed('eslint', done), *rows]
 
 
 def text_faults(changed, limits):
@@ -122,11 +129,15 @@ def exempt(fault, settings):
     return any(fnmatch.fnmatch(fault.path, pattern) for pattern in patterns)
 
 
+def counts(fault, changed):
+    return fault.rule == 'tool-failed' or scope.touched(fault, changed)
+
+
 def lint(changed, settings, limits):
     python = with_suffix(changed, limits['python_suffixes'])
     javascript = with_suffix(changed, limits['js_suffixes'])
     found = [*python_faults(python, limits), *js_faults(javascript), *text_faults(changed, limits)]
-    return [fault for fault in found if scope.touched(fault, changed) and not exempt(fault, settings)]
+    return [fault for fault in found if counts(fault, changed) and not exempt(fault, settings)]
 
 
 def test_faults(settings):

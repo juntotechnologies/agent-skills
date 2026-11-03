@@ -21,4 +21,5 @@ jobs:
         with:
           node-version: 24
       - uses: astral-sh/setup-uv@v6
-      - run: uv run --no-project python .agent-skills/checker/check.py --setup --base origin/${{ github.base_ref }}
+      - run: mv .agent-skills "$RUNNER_TEMP/agent-skills"
+      - run: uv run --no-project python "$RUNNER_TEMP/agent-skills/checker/check.py" --setup --base origin/${{ github.base_ref }}

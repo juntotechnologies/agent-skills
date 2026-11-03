@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'checker'))
 sys.path.insert(0, str(ROOT / 'scripts'))
+import check  # noqa: E402
 import gen_rules  # noqa: E402
 import model  # noqa: E402
 import pyrules  # noqa: E402
@@ -56,6 +57,15 @@ class ScopeTests(unittest.TestCase):
         self.assertEqual(changed, {'a.py': {5, 6, 12}})
         self.assertTrue(scope.touched(model.Fault('a.py', 1, 5, 'r', 'm'), changed))
         self.assertFalse(scope.touched(model.Fault('a.py', 1, 4, 'r', 'm'), changed))
+
+
+class FailClosedTests(unittest.TestCase):
+    def test_crashed_tool_is_a_fault_even_outside_changed_lines(self):
+        done = subprocess.CompletedProcess([], 2, '', 'boom')
+        faults = check.tool_failed('eslint', done)
+        self.assertEqual(faults[0].rule, 'tool-failed')
+        self.assertTrue(check.counts(faults[0], {}))
+        self.assertEqual(check.tool_failed('eslint', subprocess.CompletedProcess([], 1, '[]', '')), [])
 
 
 class TextRuleTests(unittest.TestCase):
