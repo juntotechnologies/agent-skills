@@ -1,6 +1,6 @@
 # PR 48: Checker fails closed
 
-Status: in-scope work complete
+Status: done
 
 Branch: `bugfix/checker-fail-closed`
 

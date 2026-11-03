@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Checker fails closed](./48-checker-fail-closed.md) | Crash = fault |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Checker fails closed](./archive/48-checker-fail-closed.md) | Crash = fault |
 | [Enforced rules leave prose](./archive/47-enforced-rules-leave-prose.md) | Smaller instructions |
 | [Rule registry](./archive/46-rule-registry.md) | Registry + shared checker |
 | [Claude skill links](./archive/45-claude-skill-links.md) | Link skills for Claude Code |
