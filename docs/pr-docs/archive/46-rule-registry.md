@@ -1,6 +1,6 @@
 # PR 46: Rule registry + shared checker
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/rule-registry`
 
