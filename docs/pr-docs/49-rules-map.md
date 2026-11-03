@@ -1,6 +1,6 @@
-# PR planned: Rules map
+# PR 49: Rules map
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `docs/rules-map`
 

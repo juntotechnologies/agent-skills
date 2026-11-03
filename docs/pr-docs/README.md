@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Rules map](./planned-rules-map.md) | Where rules live |
+| [Rules map](./49-rules-map.md) | Where rules live |
 
 ## Archive
 
