@@ -12,6 +12,8 @@ to do this proactively, without being asked.
 
 ## Steps
 
+If `ops` is on PATH: `ops prdoc archive <PR#> --apply` does these steps (dry run w/o `--apply`). Steps below = what it does + fallback.
+
 1. **Confirm the PR actually merged** — `gh pr view <PR#> --json
    state,mergedAt`, or check `git log` on `main` if no PR number is given.
    Don't archive a doc for a PR that's only open/in-review.

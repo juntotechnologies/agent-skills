@@ -108,6 +108,9 @@ Coding workflow w/ Shaun ("me").
 - Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
 - Code comments: see §4.
 
+## Tools
+<!-- 1 line per repo CLI: - Tool: `path --help` - what it does. Create: `ops new <name> --repo`. -->
+
 ## Reviewable delivery by default
 - Shaun authorizes repo changes → carry through impl, verification, commit, push, open PR for his review. No re-asking to commit/push/open PR.
 - Distinct work → new branch + PR. Reuse open PR only for small related changes in its scope.

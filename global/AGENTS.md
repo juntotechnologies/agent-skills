@@ -40,6 +40,13 @@
 - Browser walks at tailnet link from `npm run dev`, not only localhost. Localhost = secure ctx; hides plain-HTTP fails (`crypto.randomUUID`, clipboard).
 - Access address/protocol changes → rerun every save walk at new address before done.
 
+## CLI over prose
+- Procedure that recurs, or fact/cmd agents must recall exactly → CLI w/ `--help`. Instructions keep 1-line pointer only.
+- Before writing such text or repeating steps by hand: `ops --help` + repo scripts. Extend existing tool over new.
+- 1 repo → repo CLI. 2nd repo needs it, or machine-wide → move to `ops`. New: `ops new <name>`; add `--repo` for repo CLI.
+- Build w/o asking. Judgment rules stay prose. Mutating tool: dry-run default; confirmation rules still apply.
+- `ops lint` before commit. Warn-only for now.
+
 ## Upkeep
 - Shaun corrects how you work → update instruction files FIRST, then resume.
 - Correction / mistake worth not repeating / lasting decision → record where it applies (all projects: agent-skills template; 1 project: its AGENTS.md; 1 dir: dir AGENTS.md). Parsimonious. Show exact wording in reply. Ask only before removing/weakening a rule.

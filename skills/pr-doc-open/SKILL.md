@@ -13,6 +13,8 @@ first (see `AGENTS.md` sections 1-2), not this skill.
 
 ## Steps
 
+If `ops` is on PATH: `ops prdoc open <planned doc> --apply` does these steps (dry run w/o `--apply`). Steps below = what it does + fallback.
+
 1. **Check for a clean starting point.** Run `git status --short`. If there
    are unrelated uncommitted changes, stop and ask before branching — don't
    silently carry someone else's in-progress work into the new branch.
