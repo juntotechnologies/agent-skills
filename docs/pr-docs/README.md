@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [No retry creates](./42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
 
 ## Archive
 
