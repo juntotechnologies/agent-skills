@@ -543,7 +543,7 @@
       "scope": "all",
       "rule": "Judge a page from tall tile screenshots, not from one full-page image.",
       "why": "A full-page image is too small to show a flaw.",
-      "fix": "Scroll first so lazy images load. Shoot 900 px tiles at 360, 390 and 430 px, in both themes.",
+      "fix": "Run ops site-check shots <url> <dir> --long. It writes one PNG per screen. Read the phone ones. A shrunk full-page image hid the hub's padding faults.",
       "enforcement": "manual",
       "checks": [],
       "evidence": []
@@ -1224,6 +1224,38 @@
           "pr": 1
         }
       ]
+    },
+    {
+      "id": "control-padding",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Keep every button label away from the button's edges at every width. Wrap a row before a button loses its padding.",
+      "why": "A friend flagged the dcurves button on the hub: its label touched the edge on a phone.",
+      "fix": "Let a row of buttons wrap with flex: 1 1 0 and min-width: max-content. Run ops site-check, which fails on a tight label.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/layout.test.mjs"
+        }
+      ],
+      "evidence": []
+    },
+    {
+      "id": "one-card-padding",
+      "area": "layout",
+      "scope": "all",
+      "rule": "Give all cards of one kind one padding token. Never set it again in a media query.",
+      "why": "The hub had 8, 12, 16 and 24 px cards on one phone screen, and Shaun had to point it out.",
+      "fix": "Use one clamp() token, such as --card-pad. A check compares the computed padding of each card at each width.",
+      "enforcement": "check",
+      "checks": [
+        {
+          "site": "hub",
+          "file": "tests/layout.test.mjs"
+        }
+      ],
+      "evidence": []
     }
   ]
 }
