@@ -1,6 +1,6 @@
-# PR planned: Checker fails closed
+# PR 48: Checker fails closed
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `bugfix/checker-fail-closed`
 
