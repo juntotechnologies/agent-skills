@@ -1,6 +1,6 @@
-# PR planned: Rule registry + shared checker
+# PR 46: Rule registry + shared checker
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/rule-registry`
 
