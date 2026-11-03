@@ -1,4 +1,4 @@
-Coding workflow w/ Shaun ("me").
+Coding workflow w/ Shaun ("me"). Global rules + `ops check` apply; this file adds project workflow only.
 
 ## 1. Discuss first
 - Discuss change first. No code or PR doc edits until I approve plan.
@@ -27,14 +27,10 @@ Coding workflow w/ Shaun ("me").
 - UI-first: inert/static UI → wire to data/endpoints → server logic (troubleshooting, errors, unit tests, refactor, role gating, DB). Checklist follows UI → wiring → server.
 - TDD: failing tests describing exactly what I want → code to pass.
 - DRY + orthogonal. Build on existing abstractions; no 2nd impl of same thing.
-- Self-documenting code: clear names, small fns. Comments/docstrings sparse: only non-obvious *why*, never restate *what*, never in bulk.
 - SSOT: each fact 1 source (JSON pref: registry, constants, labels). Derive rest: import in code, gen configs, inject docs as gen blocks. Covers UI copy, config constants, hosts, ports, models, routing, tools in use, prose stating them. No hand restatement. Fact changes → edit source, regen; never patch copies. New literal → add to existing source first. Fact about to appear 2x → make source. Can't gen → add drift check.
 - 1 job/fn. Pure logic (parse, check, decide) apart from side effects (files, DB, network, clock). Deps passed as args. Coordinator fn thin. Multi-step fn → 1 fn/step. No nested fns; top level so testable. Reusable abstractions → own file.
-- Fns short + flat. >~15 lines, nesting >1 block, or `if`/`elif` chain on cmd/type → split, or handler table.
-- SQL in `.sql` files. Each table/file layout reached only via its 1 owning module; no other module writes SQL against it or knows its paths.
 - Across modules: typed objects, never loose dicts. Parse + validate external input (files, requests, config) once at boundary into typed object; pass only that inward. Declared schemas (typed models / JSON Schema), no hand checks inside fns.
 - Logging: on failure or notable decision → stable event name, structured fields, IDs tying to request/record, level = severity. Happy path quiet. No secrets/payloads. Health = 1 cmd, not log reading.
-- Enforce w/ tooling, not memory: linter complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.
 - Every module/abstraction individually tested.
 - New/experimental feature → orthogonal + rollback-safe: own files; touch shared/core only via additive removable seams (route registration, nav link, schema append; never rewire existing fns). 1 feature flag → dark launch or remove w/o revert. DRY by reusing abstractions, never by making them depend on new feature.
 - Unsure, or feature can't stay orthogonal → confirm w/ me first.
@@ -58,8 +54,6 @@ Coding workflow w/ Shaun ("me").
 
 ## 8. Verification + diagnostics stay w/ you
 - Run smoke tests + user-task walks yourself (computer use) before asking for human review.
-- Browser walks at tailnet link from `npm run dev`, not only localhost. Localhost = secure ctx; hides plain-HTTP fails (`crypto.randomUUID`, clipboard).
-- Access address/protocol changes → rerun every save walk at new address before done.
 - Write tests use dev fixtures. Stop at prod approvals, missing access, physical actions.
 - Finish independent checks; report specific blocker. Never hand routine testing to Shaun.
 - Verify visible result. Screenshot proves layout, not persistence.
@@ -73,42 +67,17 @@ Coding workflow w/ Shaun ("me").
 - Run tests, lint, typecheck, all checks yourself; report results. Never ask me to run a cmd or hand me one.
 - Install local tool a check needs (eg test browser) w/o asking. Ask only if install changes repo or needs admin.
 - Hands-on step on this machine (restart server, clear cache, browser tab, app setting) → do w/ tools, confirm result. No click-by-click for me. Ask first only if destructive, touches other project/service, or needs creds/admin. No tool → say so + shortest steps.
-- Reversible in-scope choice → decide, report in 1 line. Ask only if destructive, outward-facing, costs money, needs creds, or needs fact only Shaun knows. Never end w/ confirm question for step you can take.
-- Tailnet: every local app/dev server reachable from all tailnet devices. Bind all interfaces or `tailscale serve`. Dev cmd (eg `npm run dev`) prints only tailnet link. Allow `<machine>.taila4fc43.ts.net` + tailnet IP in browser access rules + login redirects. Report only tailnet link; verify via `curl` or 2nd device first.
-- Agent sign-in: every app has dev-only cmd → sign in as any test role, no password, saves browser session file. Agents use it for all dev checks. Never ask Shaun to log in.
 - No human-browse artifacts nobody opens (eg HTML coverage). Prefer console text or JSON you/CI read.
 - Local verification = proof. Before "done": run full local checks (typecheck, lint, unit + e2e, whatever project defines) on exact commit reported; state results. Never pass off earlier-session/other-agent results; rerun or say not rerun.
 - No routine remote CI; local pass on same commit covers it. Run CI only if change touches CI config, or I ask (eg pre-merge). Then wait for finish before report.
 - Report measurement only w/ method that produced it; check method first.
-- Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
 
-## 9. Python via uv only
-- Every Python call via `uv`: `uv run <script.py>`, `uv run python -m pytest`, `uv run --with <pkg>` for one-off dep, `uvx <tool>` for CLI. Never bare `python`, `python3`, `/usr/bin/python3`, `pip`.
-- Why: bare `python3` = whatever's 1st on PATH, packages = machine accident. Same test can pass on one interpreter, fail import on another; skipped suite shows as 1 error, not dozens of unrun tests.
-- `uv run --with <pkg>` makes dep explicit at call site → no hand-rolled substitutes.
-- CI too: `astral-sh/setup-uv` + `uv run ...`, not `setup-python` + bare `python3`. CI w/ no packages silently limits tests to stdlib; choose that, don't inherit it.
-
-## 10. Improve these instructions as you work
+## 9. Improve these instructions as you work
 - Heuristic worth keeping (my correction, mistake worth not repeating, lasting decision) → record it, unprompted.
 - Put it where it applies only: all projects → generic template in `agent-skills`; 1 project → its `AGENTS.md`; 1 code area → that dir's `AGENTS.md`. Never copy project decision into generic, or generic rule into project file.
-- All instructions in `AGENTS.md`. Never create/edit `CLAUDE.md`. Project has one → move content to `AGENTS.md`, delete it.
 - Parsimonious. Tighten/replace existing rule over adding. Record only what changes future behavior; one-off fix → code or test. Enforceable by test/check → propose that, not prose.
 - Add/tighten rule yourself; show exact file + wording in reply. Ask first only before removing/weakening a rule.
 - I correct how you work → update instruction files FIRST, then resume.
-
-## 11. Writing
-- Extreme shorthand everywhere: replies, docs, PR docs + descs, READMEs, runbooks, AGENTS.md, notebooks, gen doc blocks. Caveman ok. Grammar/spelling optional; meaning must stay clear. Save tokens.
-- Fragments, tables, 1-line bullets. High signal, low noise.
-- No flavor text, analogies, asides, recaps. Never points-then-summary.
-- Shaun has decision → options + rec only. Explain only if asked; then still shorthand.
-- 1 word = 1 meaning. Define term on 1st use. No idioms, unexplained jargon, >3-noun stacks. "must" = required.
-- Finish all implied work before reply. No in-scope work left open.
-- Result first. Detail in files, not reply.
-- Reply body ≤8 lines + Left table. Explanations/discussions too: top 3 points max; rest in a file, linked.
-- End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
-- Each Left row self-contained: exact action + full clickable URL or path + what to send back. Shaun must never scroll up to act. Grouped row still gets its links.
-- Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
-- Code comments: see §4.
 
 ## Tools
 <!-- 1 line per repo CLI: - Tool: `path --help` - what it does. Create: `ops new <name> --repo`. -->

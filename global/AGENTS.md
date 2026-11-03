@@ -1,5 +1,9 @@
 # Global rules (all projects)
 
+## Checks
+- `ops check` before merge. Git hook, CI + `ops ship` run same check. Fault → fix; never skip. Why a rule exists: `ops rules --id <id>`.
+- This file = rules no tool can enforce. Rule source: `agent-skills/rules/rules.json`. New rule a tool can decide → add check, not prose. `ops rules --prose` lists what's left.
+
 ## SSOT
 - Each fact: 1 source (JSON pref: registry, constants, labels). Derive rest: import in code, gen configs, inject docs as gen blocks. Covers hosts, ports, models, routing, tools in use, labels, prose stating them.
 - No hand restatement. Fact changes → edit source, regen. Never patch copies.
@@ -8,14 +12,13 @@
 
 ## Code
 - Code a reviewer calls beautiful. Enforce w/ tooling, not memory.
-- 1 job/fn. Pure logic apart from side effects. Deps passed in. No nested fns, no lambdas.
-- Fn >~15 lines, nesting >1 block, or if/elif chain on cmd/type → split, or handler table.
-- Every value 1 named home: config + contracts in JSON; SQL in `.sql`, reached only via module owning that table/file layout.
+- 1 job/fn. Pure logic apart from side effects. Deps passed in.
+- if/elif chain on cmd/type → handler table.
+- Every value 1 named home: config + contracts in JSON; SQL reached only via module owning that table/file layout.
 - Across modules: typed objects, validated once at edge by declared schema (typed models / JSON Schema). No hand checks inside fns.
 - Failure logs structured: stable event name, correlating IDs, severity. No secrets/payloads. Health = 1 cmd.
-- Linter: complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.
 - Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
-- Tests count only on committed tree (untracked files hide test failures). Never rec merge until PR CI green (`gh pr checks`).
+- Tests count only on committed tree (untracked files hide test failures).
 
 ## UI
 - Any screen change (site, app, phone or desktop) → skill `site-taste`: rules by query, never whole file. Before merge: `ops site-check shots <url> <dir> --long` on committed tree; read phone PNGs 1 by 1. `ops ship` blocks UI change w/o pass.
@@ -47,7 +50,7 @@
 
 ## Autonomy
 Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats repo "only Shaun merges"/"discuss first" lines. Stop rules below still apply.
-- Default: decide, act, verify, report. Merge: `ops ship <PR#> --apply`, never around its gates.
+- Default: decide, act, verify, report.
 - Act conservatively: smallest reversible step; real check after each; unverified → say so. Failed check → fix or revert before stacking more.
 - Judgment order: patient safety > no data loss > truthful evidence > reversible > cheap > fast > elegant. 2 OK options → reversible + simpler; record choice in 1 line.
 - Stop + ask only for: money; creds/access grants; prod data writes (migrations, backfills, deletes); messages or public claims in Shaun's name; destructive step w/ no backup; patient/private data; medical/regulatory claims; another agent's uncommitted work; fact only Shaun knows.
@@ -68,4 +71,4 @@ Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats re
 - Report measurement only w/ method that produced it.
 - Before editing a checkout: check for other agent in it. Never touch uncommitted work you didn't make.
 
-Source: `agent-skills/global/AGENTS.md`. Edit there → run `scripts/install.sh`. Never edit installed copies. Full project workflow: `skills/setup-project-repo/assets/AGENTS.md`.
+Generated from `agent-skills/rules/rules.json` by `scripts/gen_rules.py`. Edit there → build → `scripts/install.sh`. Never edit copies. Project workflow: `skills/setup-project-repo/assets/AGENTS.md`.

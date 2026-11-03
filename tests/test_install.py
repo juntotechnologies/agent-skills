@@ -125,14 +125,11 @@ class InstallTests(unittest.TestCase):
         self.assertEqual((self.home / 'AGENTS.md').read_text(), 'local')
         self.assertNotEqual((self.home / '.codex/AGENTS.md').read_text(), 'upstream')
 
-    def test_global_writing_rules_match_template(self):
+    def test_project_template_restates_no_global_rule(self):
+        rules = set((ROOT / 'global/AGENTS.md').read_text().splitlines())
         template = (ROOT / 'skills/setup-project-repo/assets/AGENTS.md').read_text().splitlines()
-        global_text = (ROOT / 'global/AGENTS.md').read_text()
-        section = global_text.split('## Writing\n')[1].split('\n## ')[0]
-        rules = [line for line in section.splitlines() if line.startswith('- ')]
-        self.assertGreater(len(rules), 5)
-        for rule in rules:
-            self.assertIn(rule, template)
+        self.assertEqual([line for line in template if line.startswith('- ') and line in rules], [])
+
 
 if __name__ == '__main__':
     unittest.main()

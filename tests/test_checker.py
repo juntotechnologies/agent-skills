@@ -89,7 +89,7 @@ class RegistryTests(unittest.TestCase):
 
 
 def git(*args, cwd):
-    subprocess.run(['git', *args], cwd=cwd, check=True, capture_output=True)
+    subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', *args], cwd=cwd, check=True, capture_output=True)
 
 
 class EndToEndTests(unittest.TestCase):
