@@ -1,6 +1,6 @@
-# PR planned: No retry loops on create cmds
+# PR 42: No retry loops on create cmds
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/no-retry-creates`
 
