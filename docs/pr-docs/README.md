@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Deferred tasks](./planned-deferred-tasks.md) | Issue, not Left |
 
 ## Archive
 

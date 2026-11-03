@@ -259,6 +259,12 @@
       "enforcer": null
     },
     {
+      "id": "deferred-tasks-to-issues",
+      "section": "Writing",
+      "text": "- Shaun says he'll do a task later → GitHub issue in owning repo; drop from Left, never remind.",
+      "enforcer": null
+    },
+    {
       "id": "cmd-that-creates-sends-failed",
       "section": "Acting",
       "text": "- Cmd that creates/sends failed → check for partial result before retry; never loop it (`clasp create` loop: 18 blank Sheets).",
