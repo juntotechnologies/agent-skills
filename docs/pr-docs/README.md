@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Comment rule autofix](./planned-why-comments-fixer.md) | Fixer deletes disallowed comments |
 
 ## Archive
 

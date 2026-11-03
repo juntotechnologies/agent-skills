@@ -68,6 +68,35 @@ class FailClosedTests(unittest.TestCase):
         self.assertEqual(check.tool_failed('eslint', subprocess.CompletedProcess([], 1, '[]', '')), [])
 
 
+ESLINT = ROOT / 'checker/js/node_modules/.bin/eslint'
+FIX_INPUT = """/** top stays */
+export const a = 1 // goes
+// goes
+export const b = <div>
+  {/* goes */}
+</div>
+// why: stays
+"""
+FIX_OUTPUT = """/** top stays */
+export const a = 1
+export const b = <div>
+</div>
+// why: stays
+"""
+
+
+@unittest.skipUnless(ESLINT.exists(), 'needs checker/js npm install')
+class CommentFixerTests(unittest.TestCase):
+    def test_fix_removes_only_disallowed_comments(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / 'a.tsx'
+            target.write_text(FIX_INPUT)
+            config = ROOT / 'checker/js/eslint.config.mjs'
+            command = [ESLINT, '--no-config-lookup', '-c', config, '--fix', 'a.tsx']
+            subprocess.run(command, cwd=tmp, check=True, capture_output=True)
+            self.assertEqual(target.read_text(), FIX_OUTPUT)
+
+
 class TextRuleTests(unittest.TestCase):
     def test_uv_only(self):
         self.assertTrue(textrules.line_breaks_uv('python3 run.py'))
