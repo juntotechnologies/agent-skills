@@ -1,0 +1,24 @@
+name: Shared check
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: juntotechnologies/agent-skills
+          path: .agent-skills
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project python .agent-skills/checker/check.py --setup --base origin/${{ github.base_ref }}

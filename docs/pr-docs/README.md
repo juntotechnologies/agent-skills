@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Rule registry](./planned-rule-registry.md) | Registry + shared checker |
 
 ## Archive
 

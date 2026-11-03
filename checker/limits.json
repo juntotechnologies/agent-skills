@@ -1,0 +1,8 @@
+{
+  "max_function_lines": 15,
+  "ruff": "ruff==0.17.0",
+  "test_paths": ["tests/*", "test/*", "*/tests/*", "*/test/*", "*test_*.py", "*.test.*", "*.spec.*"],
+  "shell_paths": ["*.sh", "*.yml", "*.yaml", "Makefile", "package.json"],
+  "python_suffixes": [".py"],
+  "js_suffixes": [".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx"]
+}
