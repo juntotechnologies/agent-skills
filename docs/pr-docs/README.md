@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [UI rules on demand](./44-ui-rules-on-demand.md) | Query rules, UI pointer |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [UI rules on demand](./archive/44-ui-rules-on-demand.md) | Query rules, UI pointer |
 | [Judge denials](./archive/43-denial-judgment.md) | Narrow allow rule + retry, or stop + ask |
 | [No retry creates](./archive/42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
 | [Autonomy rule](./archive/41-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |

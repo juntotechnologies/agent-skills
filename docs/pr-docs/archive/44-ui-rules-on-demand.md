@@ -1,6 +1,6 @@
 # PR 44: UI rules on demand
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/ui-rules-on-demand`
 
