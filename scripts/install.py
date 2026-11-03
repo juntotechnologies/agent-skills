@@ -101,6 +101,15 @@ def sync(source_root, destination):
         print('Global skills synchronized; project repositories were not touched.')
 
 
+def link_for_claude(source_root, installed, claude_skills):
+    """Claude Code reads ~/.claude/skills only. Add a link for each skill; leave existing entries alone."""
+    claude_skills.mkdir(parents=True, exist_ok=True)
+    for skill in sorted(path.name for path in source_root.iterdir() if (path / 'SKILL.md').exists()):
+        link = claude_skills / skill
+        if not link.exists() and not link.is_symlink():
+            link.symlink_to(installed / skill)
+
+
 def write_manifest(path, contents):
     with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as file:
         json.dump(contents, file, indent=2, sort_keys=True)
@@ -116,6 +125,7 @@ def main():
     try:
         repo_root = Path(__file__).resolve().parents[1]
         sync(repo_root / 'skills', Path.home() / '.agents/skills')
+        link_for_claude(repo_root / 'skills', Path.home() / '.agents/skills', Path.home() / '.claude/skills')
         install_global(repo_root, Path.home())
     except (Conflict, GlobalConflict, OSError, ValueError) as error:
         print(f'Install stopped: {error}', file=sys.stderr)
