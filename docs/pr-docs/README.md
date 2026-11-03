@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Enforced rules leave prose](./planned-enforced-rules-leave-prose.md) | Smaller instructions |
 
 ## Archive
 

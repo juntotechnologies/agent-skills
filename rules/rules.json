@@ -1,7 +1,8 @@
 {
   "title": "Global rules (all projects)",
-  "footer": "Source: `agent-skills/global/AGENTS.md`. Edit there → run `scripts/install.sh`. Never edit installed copies. Full project workflow: `skills/setup-project-repo/assets/AGENTS.md`.",
+  "footer": "Generated from `agent-skills/rules/rules.json` by `scripts/gen_rules.py`. Edit there → build → `scripts/install.sh`. Never edit copies. Project workflow: `skills/setup-project-repo/assets/AGENTS.md`.",
   "sections": [
+    "Checks",
     "SSOT",
     "Code",
     "UI",
@@ -13,6 +14,18 @@
     "Upkeep"
   ],
   "rules": [
+    {
+      "id": "checks-pointer",
+      "section": "Checks",
+      "text": "- `ops check` before merge. Git hook, CI + `ops ship` run same check. Fault → fix; never skip. Why a rule exists: `ops rules --id <id>`.",
+      "enforcer": null
+    },
+    {
+      "id": "automate-over-prose",
+      "section": "Checks",
+      "text": "- This file = rules no tool can enforce. Rule source: `agent-skills/rules/rules.json`. New rule a tool can decide → add check, not prose. `ops rules --prose` lists what's left.",
+      "enforcer": null
+    },
     {
       "id": "each-fact-1-source-json",
       "section": "SSOT",
@@ -46,20 +59,57 @@
     {
       "id": "1-job-fn-pure-logic",
       "section": "Code",
-      "text": "- 1 job/fn. Pure logic apart from side effects. Deps passed in. No nested fns, no lambdas.",
+      "text": "- 1 job/fn. Pure logic apart from side effects. Deps passed in.",
       "enforcer": null
     },
     {
-      "id": "fn-15-lines-nesting-1",
+      "id": "no-nested-functions-or-lambdas",
       "section": "Code",
-      "text": "- Fn >~15 lines, nesting >1 block, or if/elif chain on cmd/type → split, or handler table.",
+      "text": "- No nested fns, no lambdas.",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "no-nested-function",
+          "no-lambda",
+          "eslint"
+        ]
+      }
+    },
+    {
+      "id": "handler-table-over-chains",
+      "section": "Code",
+      "text": "- if/elif chain on cmd/type → handler table.",
       "enforcer": null
+    },
+    {
+      "id": "function-size-limits",
+      "section": "Code",
+      "text": "- Fn over 15 lines, complexity over 5, nesting over 1 block → split.",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "function-length",
+          "ruff",
+          "eslint"
+        ]
+      }
     },
     {
       "id": "every-value-1-named-home",
       "section": "Code",
-      "text": "- Every value 1 named home: config + contracts in JSON; SQL in `.sql`, reached only via module owning that table/file layout.",
+      "text": "- Every value 1 named home: config + contracts in JSON; SQL reached only via module owning that table/file layout.",
       "enforcer": null
+    },
+    {
+      "id": "sql-in-sql-files",
+      "section": "Code",
+      "text": "- SQL in `.sql` files, never inline.",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "inline-sql"
+        ]
+      }
     },
     {
       "id": "across-modules-typed-objects-validated",
@@ -74,10 +124,40 @@
       "enforcer": null
     },
     {
-      "id": "linter-complexity-length-limits-nested",
+      "id": "comments-why-only",
       "section": "Code",
-      "text": "- Linter: complexity + length limits, nested-fn + inline-SQL checks. Run before every commit.",
-      "enforcer": null
+      "text": "- Comments must start `why:`. Code explains itself: clear names, small fns. Module docstring allowed.",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "comment-why-only",
+          "docstring-why-only",
+          "eslint"
+        ]
+      }
+    },
+    {
+      "id": "agents-md-not-claude-md",
+      "section": "Code",
+      "text": "- Instructions in `AGENTS.md`, never `CLAUDE.md`.",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "no-claude-md"
+        ]
+      }
+    },
+    {
+      "id": "python-through-uv",
+      "section": "Code",
+      "text": "- Python only via `uv`.",
+      "enforcer": {
+        "kind": "hook",
+        "rules": [
+          "uv-only"
+        ],
+        "by": "checker + ops guard"
+      }
     },
     {
       "id": "pre-commit-reread-whole-diff",
@@ -88,8 +168,17 @@
     {
       "id": "tests-count-only-on-committed",
       "section": "Code",
-      "text": "- Tests count only on committed tree (untracked files hide test failures). Never rec merge until PR CI green (`gh pr checks`).",
+      "text": "- Tests count only on committed tree (untracked files hide test failures).",
       "enforcer": null
+    },
+    {
+      "id": "merge-needs-check",
+      "section": "Code",
+      "text": "- Merge needs `ops check` pass on head or green CI.",
+      "enforcer": {
+        "kind": "gate",
+        "by": "ops ship"
+      }
     },
     {
       "id": "any-screen-change-site-app",
@@ -220,8 +309,17 @@
     {
       "id": "default-decide-act-verify-report",
       "section": "Autonomy",
-      "text": "- Default: decide, act, verify, report. Merge: `ops ship <PR#> --apply`, never around its gates.",
+      "text": "- Default: decide, act, verify, report.",
       "enforcer": null
+    },
+    {
+      "id": "merge-through-ops-ship",
+      "section": "Autonomy",
+      "text": "- Merge: `ops ship <PR#> --apply`, never around its gates.",
+      "enforcer": {
+        "kind": "hook",
+        "by": "ops guard"
+      }
     },
     {
       "id": "act-conservatively-smallest-reversible-step",
