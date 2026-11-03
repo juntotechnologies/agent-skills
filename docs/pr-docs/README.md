@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Enforced rules leave prose](./47-enforced-rules-leave-prose.md) | Smaller instructions |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Enforced rules leave prose](./archive/47-enforced-rules-leave-prose.md) | Smaller instructions |
 | [Rule registry](./archive/46-rule-registry.md) | Registry + shared checker |
 | [Claude skill links](./archive/45-claude-skill-links.md) | Link skills for Claude Code |
 | [UI rules on demand](./archive/44-ui-rules-on-demand.md) | Query rules, UI pointer |
