@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [No retry creates](./42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [No retry creates](./archive/42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
 | [Autonomy rule](./archive/41-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |
 | [CLI over prose rule](./archive/40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
 | [PR 33: Site taste skill](./archive/33-site-taste-skill.md) | Merged; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |

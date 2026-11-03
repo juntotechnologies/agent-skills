@@ -1,6 +1,6 @@
 # PR 42: No retry loops on create cmds
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/no-retry-creates`
 
