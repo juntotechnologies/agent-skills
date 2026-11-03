@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Judge denials](./43-denial-judgment.md) | Narrow allow rule + retry, or stop + ask |
 
 ## Archive
 
