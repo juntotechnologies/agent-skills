@@ -1,6 +1,6 @@
 # PR 43: Judge permission denials
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/denial-judgment`
 

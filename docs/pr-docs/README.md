@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Judge denials](./43-denial-judgment.md) | Narrow allow rule + retry, or stop + ask |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Judge denials](./archive/43-denial-judgment.md) | Narrow allow rule + retry, or stop + ask |
 | [No retry creates](./archive/42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
 | [Autonomy rule](./archive/41-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |
 | [CLI over prose rule](./archive/40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
