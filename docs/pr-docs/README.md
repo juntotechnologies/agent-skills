@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Claude skill links](./45-claude-skill-links.md) | Link skills for Claude Code |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Claude skill links](./archive/45-claude-skill-links.md) | Link skills for Claude Code |
 | [UI rules on demand](./archive/44-ui-rules-on-demand.md) | Query rules, UI pointer |
 | [Judge denials](./archive/43-denial-judgment.md) | Narrow allow rule + retry, or stop + ask |
 | [No retry creates](./archive/42-no-retry-creates.md) | Check for partial result before retrying create/send cmds |
