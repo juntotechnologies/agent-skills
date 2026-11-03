@@ -1,6 +1,6 @@
-# PR planned: Judge permission denials
+# PR 43: Judge permission denials
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `feature/denial-judgment`
 
