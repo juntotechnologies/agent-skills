@@ -17,6 +17,10 @@
 - Pre-commit: reread whole diff as hostile reviewer, incl every touched fn. Ugly fn → restructure in same change, or say why not.
 - Tests count only on committed tree (untracked files hide test failures). Never rec merge until PR CI green (`gh pr checks`).
 
+## UI
+- Any screen change (site, app, phone or desktop) → skill `site-taste`: rules by query, never whole file. Before merge: `ops site-check shots <url> <dir> --long` on committed tree; read phone PNGs 1 by 1. `ops ship` blocks UI change w/o pass.
+- UI fault found by Shaun or anyone → fix + new rule + check in same change, so it can't recur.
+
 ## Writing
 - Extreme shorthand everywhere: replies, docs, PR docs + descs, READMEs, runbooks, AGENTS.md, notebooks, gen doc blocks. Caveman ok. Grammar/spelling optional; meaning must stay clear. Save tokens.
 - Fragments, tables, 1-line bullets. High signal, low noise.

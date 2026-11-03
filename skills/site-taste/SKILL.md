@@ -9,11 +9,11 @@ This skill holds the fundamentals: each failure that Shaun's sites already fixed
 
 ## Workflow
 
-1. Read `references/principles.md`. Each row has a rule, the failure it prevents, the fix and the check.
+1. Run `uv run scripts/taste.py rules --area layout` for each area you touch (content, claims, layout, motion, look, discovery, process). `--id <rule>` gives the why and fix. Do not read `references/principles.md` whole.
 2. Read the taste doc of the site you change. `references/sites.md` names that doc and the commands to run.
 3. Build. Take every color, size and timing from the site's tokens.
-4. Run the site's commands. Walk 360, 390, 430, 820 and 1440 px, in the light and the dark theme. Tick each line of `references/checklist.md`, which lists the rules that no command checks.
-5. When a new failure appears, add a principle to this skill and a note to the site's taste doc in one change.
+4. Run the site's commands, then `ops site-check shots <url> <dir> --long` on the committed tree. `ops ship` refuses a UI change without that pass. Read the phone PNGs one by one, in light and dark. Tick each line of `references/checklist.md`, which lists the rules that no command checks.
+5. When a new failure appears, add a principle to this skill and a note to the site's taste doc in one change. If a browser can measure it, also add it to `ops/site_audit.js` in personal-config with a fixture, and state it as `check`. Shaun should never flag the same fault twice.
 
 ## Where a fact lives
 
@@ -34,6 +34,7 @@ Run each from this skill's directory.
 | --- | --- |
 | `uv run scripts/taste.py build` | Write `references/principles.md`, `references/sites.md` and `references/checklist.md`. |
 | `uv run scripts/taste.py check` | Validate the data. Find stale references. |
+| `uv run scripts/taste.py rules [--area A] [--id I]` | Print the rules, 1 line each. Load only these. |
 | `uv run scripts/taste.py sites` | Compare the registry with the site checkouts on this machine. It checks taste docs, check files, command names and the pointer in `AGENTS.md`. |
 
 `sites` reads the checkouts in `~/GitHub/projects` and `~/GitHub/sites`. Add `--root DIR` for another folder. It skips a site that has no checkout.

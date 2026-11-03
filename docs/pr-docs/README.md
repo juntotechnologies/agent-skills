@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [UI rules on demand](./planned-ui-rules-on-demand.md) | Query rules, UI pointer |
 
 ## Archive
 
