@@ -1,0 +1,15 @@
+line-length = 120
+
+[format]
+quote-style = "preserve"
+
+[lint]
+select = ["E", "F", "W", "C90", "PLR0912", "PLR0913", "PLR0915", "B"]
+
+[lint.mccabe]
+max-complexity = 5
+
+[lint.pylint]
+max-args = 6
+max-branches = 5
+max-statements = 15

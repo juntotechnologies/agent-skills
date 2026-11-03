@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Rule registry](./46-rule-registry.md) | Registry + shared checker |
 
 ## Archive
 
