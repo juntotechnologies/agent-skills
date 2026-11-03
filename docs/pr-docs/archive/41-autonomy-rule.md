@@ -1,6 +1,6 @@
 # PR 41: Standing autonomy rule
 
-Status: in-scope work complete
+Status: done
 
 Branch: `feature/autonomy-rule`
 

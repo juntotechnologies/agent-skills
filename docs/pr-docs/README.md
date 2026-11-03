@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Autonomy rule](./41-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [Autonomy rule](./archive/41-autonomy-rule.md) | Standing decision rules so Shaun stays hands-off |
 | [CLI over prose rule](./archive/40-cli-over-prose.md) | Global rule: agents build + use CLIs by default |
 | [PR 33: Site taste skill](./archive/33-site-taste-skill.md) | Merged; design rules that Shaun's sites proved, as data, with a drift check against the site checkouts. |
 | [PR 29: Agent-owned verification](./archive/29-agent-verification-workflow.md) | Merged; focused PR scope, agent-run walkthroughs, retained evidence, and independent review. |
