@@ -1,6 +1,6 @@
-# PR planned: Link skills for Claude Code
+# PR 45: Link skills for Claude Code
 
-Status: planned
+Status: in-scope work complete
 
 Branch: `bugfix/claude-skill-links`
 
