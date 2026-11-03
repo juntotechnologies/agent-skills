@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Comment rule autofix](./52-why-comments-fixer.md) | Fixer deletes disallowed comments |
 
 ## Archive
 
