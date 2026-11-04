@@ -136,6 +136,25 @@ class TextRuleTests(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertFalse(textrules.line_breaks_uv(line))
 
+    def test_uv_only_catches_an_interpreter_quoted_in_data_files(self):
+        for line in ('"command": ["/usr/bin/python3", "x.py"]', '["python3", "-m", "x"]', "- 'python' x.py",
+                     '<string>/usr/bin/python3</string>', 'ProgramArguments: [/opt/homebrew/bin/python3.14, a.py]'):
+            with self.subTest(line=line):
+                self.assertTrue(textrules.line_breaks_uv(line))
+        for line in ('"python": "3.14.10"', '"python" : "3.14.10"', '"command": ["uv", "run", "x.py"]',
+                     '<key>python_version</key>'):
+            with self.subTest(line=line):
+                self.assertFalse(textrules.line_breaks_uv(line))
+
+    def test_the_shebang_rule_runs_in_the_text_pass_for_any_file_type(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bare = Path(tmp) / 'tool'
+            bare.write_text('#!/usr/bin/env python3\nprint(1)\n')
+            uv = Path(tmp) / 'tool2'
+            uv.write_text('#!/usr/bin/env -S uv run --script\nprint(1)\n')
+            faults = check.text_faults({str(bare): {1}, str(uv): {1}}, LIMITS)
+        self.assertEqual([(Path(fault.path).name, fault.rule) for fault in faults], [('tool', 'uv-only')])
+
     def test_a_python_shebang_is_a_fault_and_a_uv_shebang_is_not(self):
         self.assertEqual(textrules.shebang_faults('a.py', '#!/usr/bin/env python3\nx = 1\n', {1})[0].rule, 'uv-only')
         self.assertEqual(textrules.shebang_faults('a.py', '#!/usr/bin/env -S uv run --script\n', {1}), [])

@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Planned: uv-only gate holes](planned-uv-only-gate-holes.md) | Shebang rule never ran; quoted interpreters in json and plist slipped; both now fault. |
 
 ## Archive
 

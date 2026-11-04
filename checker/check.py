@@ -132,8 +132,15 @@ def text_faults(changed, limits):
     faults = []
     for path, lines in changed.items():
         faults += textrules.claude_md_faults(path, lines)
-        faults += textrules.uv_faults(path, read_text(path), lines, limits) if Path(path).is_file() else []
+        faults += file_text_faults(path, lines, limits)
     return faults
+
+
+def file_text_faults(path, lines, limits):
+    if not Path(path).is_file():
+        return []
+    source = read_text(path)
+    return [*textrules.uv_faults(path, source, lines, limits), *textrules.shebang_faults(path, source, lines)]
 
 
 def exempt(fault, settings):
