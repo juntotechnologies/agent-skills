@@ -1,6 +1,6 @@
 # PR 58: uv-only reads JavaScript and TypeScript files
 
-Status: underway
+Status: done
 
 Branch: `fix/uv-only-js-files`
 
