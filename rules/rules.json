@@ -156,7 +156,7 @@
     {
       "id": "python-through-uv",
       "section": "Code",
-      "text": "- Python only via `uv`.",
+      "text": "- Python only via `uv`: run, install, version pins. No hand-extracted binary, Homebrew, pyenv or conda interpreter; no bare `python`, `pip`, `sys.executable` spawn or python shebang. Checker (write, commit, push, CI) + `ops guard` enforce it.",
       "enforcer": {
         "kind": "hook",
         "rules": [

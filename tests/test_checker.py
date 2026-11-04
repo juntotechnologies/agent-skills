@@ -51,6 +51,22 @@ class PythonRuleTests(unittest.TestCase):
         self.assertEqual(rules_of('def\n'), {'syntax'})
 
 
+class PythonProcessRuleTests(unittest.TestCase):
+    def test_running_python_outside_uv_from_python_code_is_a_fault(self):
+        for source in ("subprocess.run(['python3', 'x.py'])", "subprocess.run([sys.executable, 'x'])",
+                       "os.system('pip install x')", "subprocess.run(f'python3 {x}', shell=True)",
+                       "os.execv('/usr/bin/python3', ['python3'])", "subprocess.check_output(('python', '-c', '1'))"):
+            with self.subTest(source=source):
+                self.assertIn('uv-only', rules_of(source + '\n'))
+
+    def test_uv_and_unrelated_commands_pass(self):
+        for source in ("subprocess.run(['uv', 'run', 'python', 'x'])", "subprocess.run(['git', 'status'])",
+                       "print(sys.executable)", "subprocess.run(['uv', 'python', 'install', '3.14'])",
+                       "run(['python3'])"):
+            with self.subTest(source=source):
+                self.assertNotIn('uv-only', rules_of(source + '\n'))
+
+
 class ScopeTests(unittest.TestCase):
     def test_only_changed_lines_count(self):
         changed = scope.parse_diff('+++ b/a.py\n@@ -1,0 +5,2 @@\n+x\n+y\n@@ -9 +12 @@\n-z\n+z\n')
@@ -104,6 +120,31 @@ class TextRuleTests(unittest.TestCase):
         self.assertTrue(textrules.line_breaks_uv('uses: actions/setup-python@v5'))
         self.assertFalse(textrules.line_breaks_uv('uv run python x.py'))
         self.assertFalse(textrules.line_breaks_uv('uv run --with a python x.py && uvx ruff check'))
+
+    def test_uv_only_catches_every_other_way_to_run_or_install_python(self):
+        download = 'curl -L https://github.com/astral-sh/python-build-standalone/releases/download/x/cpython-3.14.tar.gz'
+        for line in ('/usr/bin/python3 a.py', './venv/bin/python -m x', 'PYTHON=python3 make',
+                     'brew install python@3.14', 'sudo apt-get install -y python3-pip', 'pyenv install 3.14',
+                     'conda create -n x', 'pipx install ruff', 'poetry run pytest',
+                     'uses: conda-incubator/setup-miniconda@v3', download, 'tar xzf cpython-3.14.10.tar.gz'):
+            with self.subTest(line=line):
+                self.assertTrue(textrules.line_breaks_uv(line))
+
+    def test_uv_only_leaves_uv_and_plain_words_alone(self):
+        for line in ('uv python install 3.14.10', 'uv sync --python /x/python3.14', 'uvx ruff check', 'brew install uv',
+                     '"python": "3.14.10"', 'requires-python = ">=3.11"', 'echo see python.org', 'name: Python tests'):
+            with self.subTest(line=line):
+                self.assertFalse(textrules.line_breaks_uv(line))
+
+    def test_a_python_shebang_is_a_fault_and_a_uv_shebang_is_not(self):
+        self.assertEqual(textrules.shebang_faults('a.py', '#!/usr/bin/env python3\nx = 1\n', {1})[0].rule, 'uv-only')
+        self.assertEqual(textrules.shebang_faults('a.py', '#!/usr/bin/env -S uv run --script\n', {1}), [])
+        self.assertEqual(textrules.shebang_faults('a.sh', '#!/bin/sh\n', {1}), [])
+        self.assertEqual(textrules.shebang_faults('a.py', '#!/usr/bin/env python3\n', {2}), [])
+
+    def test_the_uv_only_patterns_are_one_data_file(self):
+        patterns = json.loads((ROOT / 'checker/uv_only.json').read_text())
+        self.assertEqual(sorted(patterns), ['alternatives', 'ci_actions', 'installs', 'interpreters', 'shebang'])
 
     def test_claude_md(self):
         self.assertEqual(textrules.claude_md_faults('x/CLAUDE.md', {1})[0].rule, 'no-claude-md')

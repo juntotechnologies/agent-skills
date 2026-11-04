@@ -1,0 +1,12 @@
+{
+  "interpreters": ["python[0-9.]*w?", "pip[0-9.]*"],
+  "alternatives": ["pyenv", "conda", "mamba", "micromamba", "pipx", "pipenv", "poetry", "pdm", "virtualenv", "ensurepip", "get-pip", "easy_install"],
+  "installs": [
+    "^(brew|port)\\s+(install|upgrade|reinstall|link)\\b.*python",
+    "^(apt|apt-get|dnf|yum|apk|pacman|zypper|choco|winget|scoop)\\b.*\\b(install|add)\\b.*python",
+    "^(curl|wget|aria2c|gh\\s+release\\s+download)\\b.*(python-build-standalone|cpython|get-pip|python\\.org|python-[0-9])",
+    "^(tar|unzip|installer|hdiutil)\\b.*(cpython|python-build-standalone|python-[0-9])"
+  ],
+  "ci_actions": ["actions/setup-python", "conda-incubator/setup-miniconda"],
+  "shebang": "#!/usr/bin/env -S uv run --script"
+}

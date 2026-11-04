@@ -1,1 +1,9 @@
-{"test":"uv run --no-project python -m unittest discover -s tests"}
+{
+  "exempt": {
+    "uv-only": [
+      "checker/uv_only.json",
+      "rules/rules.json"
+    ]
+  },
+  "test": "uv run --no-project python -m unittest discover -s tests"
+}
