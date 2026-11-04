@@ -1,6 +1,6 @@
-# PR planned: North star rule
+# PR 59: North star rule
 
-Status: planned
+Status: underway
 
 Branch: `feature/north-star-rule`
 
