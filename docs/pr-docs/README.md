@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 54: A slip adds its gate](./54-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 54: A slip adds its gate](./archive/54-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
 | [PR 53: Checker `--worktree` mode](./archive/53-lint-worktree-mode.md) | Lint uncommitted edits + untracked files, for the write-time hook |
 | [Comment rule autofix](./archive/52-why-comments-fixer.md) | Fixer deletes disallowed comments |
 | [Deferred tasks](./archive/50-deferred-tasks.md) | Issue, not Left |

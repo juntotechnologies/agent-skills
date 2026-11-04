@@ -1,6 +1,6 @@
 # PR 54: A slip adds its gate
 
-Status: underway
+Status: done
 
 Branch: `feature/slip-adds-gate-rule`
 
