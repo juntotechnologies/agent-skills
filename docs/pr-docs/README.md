@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 53: Checker `--worktree` mode](./53-lint-worktree-mode.md) | Lint uncommitted edits + untracked files, for the write-time hook |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 53: Checker `--worktree` mode](./archive/53-lint-worktree-mode.md) | Lint uncommitted edits + untracked files, for the write-time hook |
 | [Comment rule autofix](./archive/52-why-comments-fixer.md) | Fixer deletes disallowed comments |
 | [Deferred tasks](./archive/50-deferred-tasks.md) | Issue, not Left |
 | [Rules map](./archive/49-rules-map.md) | Where rules live |

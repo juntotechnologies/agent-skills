@@ -1,6 +1,6 @@
 # PR 53: Checker `--worktree` mode
 
-Status: underway
+Status: done
 
 Branch: `feature/lint-worktree-mode`
 
