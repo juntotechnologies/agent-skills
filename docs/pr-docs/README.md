@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 57: uv-only accepts quoted uv command lists](./57-uv-only-quoted-uv-lists.md) | `["uv", "run", "python", ...]` in json or yaml is a correct command, not a fault. |
+| [PR 57: uv-only fixes after the first full scan](./57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault. |
 
 ## Archive
 

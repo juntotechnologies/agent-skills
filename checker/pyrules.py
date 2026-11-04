@@ -97,10 +97,18 @@ def spawns_outside_uv(node):
     return is_sys_executable(node) or (text is not None and textrules.line_breaks_uv(text))
 
 
+def starts_with_interpreter(node):
+    first = node.elts[0] if isinstance(node, ast.List) and len(node.elts) > 1 else None
+    text = literal_text(first) if first is not None else None
+    return text is not None and textrules.INTERPRETER_PATH.fullmatch(text) is not None
+
+
 def uv_call_faults(path, tree):
     calls = [node for node in ast.walk(tree) if is_process_call(node)]
-    return [single(path, call, 'uv-only', 'run and install Python only through uv')
-            for call in calls if spawns_outside_uv(command_node(call))]
+    covered = {id(call.args[0]) for call in calls if call.args}
+    lists = [node for node in ast.walk(tree) if id(node) not in covered and starts_with_interpreter(node)]
+    return [single(path, node, 'uv-only', 'run and install Python only through uv')
+            for node in [*(call for call in calls if spawns_outside_uv(command_node(call))), *lists]]
 
 
 def is_test(path, limits):

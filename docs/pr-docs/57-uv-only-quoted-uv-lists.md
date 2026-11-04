@@ -1,4 +1,4 @@
-# PR 57: uv-only accepts quoted uv command lists
+# PR 57: uv-only fixes after the first full scan
 
 Status: underway
 
@@ -6,17 +6,22 @@ Branch: `fix/uv-only-quoted-uv-lists`
 
 ## Goal
 
-PR 56 made a quoted interpreter a fault. That also flagged the correct form: `"command": ["~/.local/bin/uv", "run", "python", ...]` in `swarm-registry.json`.
+Two more findings from scanning swarm-infra with the PR 56 gate.
+
+1. PR 56 made a quoted interpreter a fault. That also flagged the correct form: `"command": ["~/.local/bin/uv", "run", "python", ...]` in `swarm-registry.json`.
+2. `scripts/install-services.py:89` returns `["/usr/bin/python3", ...]` from a helper; the rule only read process calls, so a command built in one place and run in another slipped.
 
 ## Implementation Checklist
 
 ### Tier 1 - Tests first
 
 - [x] A JSON or YAML list that starts a command with `uv` passes; `["python3", "-m", "uv", "run"]` still faults.
+- [x] A Python list of 2+ items that starts with an interpreter (`return ["/usr/bin/python3", str(script)]`) is a fault wherever it is used; a list that is the command of a process call is reported once; a 1-item list or `['uv', 'python']` passes.
 
 ### Tier 2 - Fix
 
 - [x] `UV_SEGMENT` also strips from `uv` (quoted, then a comma) to the end of the list.
+- [x] `pyrules.uv_call_faults` also reports a command list that starts with an interpreter (`starts_with_interpreter`); `textrules.INTERPRETER_PATH` comes from `uv_only.json`.
 
 ## Smoke Tests
 

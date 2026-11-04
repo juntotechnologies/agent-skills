@@ -59,8 +59,17 @@ class PythonProcessRuleTests(unittest.TestCase):
             with self.subTest(source=source):
                 self.assertIn('uv-only', rules_of(source + '\n'))
 
+    def test_a_command_list_that_starts_with_an_interpreter_is_a_fault_wherever_it_is_used(self):
+        for source in ("return ['/usr/bin/python3', str(script), '--port', '1']", "CMD = ['python3', '-m', 'x']",
+                       "spawn(['./venv/bin/python', 'x.py'])"):
+            with self.subTest(source=source):
+                self.assertIn('uv-only', rules_of(source + '\n'))
+        faults = pyrules.faults_for('a.py', "subprocess.run(['python3', 'x.py'])\n", LIMITS)
+        self.assertEqual(len([fault for fault in faults if fault.rule == 'uv-only']), 1)
+
     def test_uv_and_unrelated_commands_pass(self):
         for source in ("subprocess.run(['uv', 'run', 'python', 'x'])", "subprocess.run(['git', 'status'])",
+                       "names = ['uv', 'python']", "versions = ['3.14', 'python']",
                        "print(sys.executable)", "subprocess.run(['uv', 'python', 'install', '3.14'])",
                        "run(['python3'])"):
             with self.subTest(source=source):
