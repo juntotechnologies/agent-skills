@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Planned: uv-only quoted uv lists](planned-uv-only-quoted-uv-lists.md) | `["uv", "run", "python", ...]` in json or yaml is a correct command, not a fault. |
 
 ## Archive
 

@@ -7,7 +7,7 @@ from pathlib import Path, PurePosixPath
 from model import Fault
 
 UV_ONLY = json.loads((Path(__file__).resolve().parent / 'uv_only.json').read_text())
-UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*')
+UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*|\buv["\']?\s*,[^\]]*')
 WORD_START = r'(^|[\s;&|(`"\'=/])'
 # why: a quoted command in JSON, YAML or plist ends in a quote or tag, and a quoted key is followed by a colon
 WORD_END = r'(\s|$|["\'<>,)\]](?!\s*:))'

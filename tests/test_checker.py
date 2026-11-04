@@ -142,9 +142,13 @@ class TextRuleTests(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertTrue(textrules.line_breaks_uv(line))
         for line in ('"python": "3.14.10"', '"python" : "3.14.10"', '"command": ["uv", "run", "x.py"]',
-                     '<key>python_version</key>'):
+                     '<key>python_version</key>', '"command": ["~/.local/bin/uv", "run", "python", "-m", "x"]',
+                     "args: ['uv', 'run', '--with', 'a', 'python', 'x.py']"):
             with self.subTest(line=line):
                 self.assertFalse(textrules.line_breaks_uv(line))
+
+    def test_a_bare_interpreter_before_uv_in_a_list_is_still_a_fault(self):
+        self.assertTrue(textrules.line_breaks_uv('["python3", "-m", "uv", "run"]'))
 
     def test_the_shebang_rule_runs_in_the_text_pass_for_any_file_type(self):
         with tempfile.TemporaryDirectory() as tmp:
