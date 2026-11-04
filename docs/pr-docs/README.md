@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Python only through uv](./planned-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
+| [PR 55: Python only through uv, enforced](./55-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
 
 ## Archive
 
