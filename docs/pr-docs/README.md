@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 64: a recommended "yes" is never asked](./64-rec-yes-no-ask.md) | Slip, 2026-11-03: agent ended a reply with 4 Left rows whose rec was "yes" (merge a green PR, back up before an upgrade) and waited. |
 | [PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`](./63-fault-loop-rule.md) | Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by hand, patched no gate. |
 
 ## Archive

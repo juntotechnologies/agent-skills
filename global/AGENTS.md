@@ -41,7 +41,7 @@
 - Reply body ≤8 lines + Left table. Explanations/discussions too: top 3 points max; rest in a file, linked.
 - End every reply w/ Left: numbered table ≤10 rows, most urgent first, rec answer per row. Rows = Shaun-owned decisions + tasks w/ named blocker; none → "Nothing left". Group minor items in 1 row; name them only if asked.
 - Each Left row self-contained: exact action + full clickable URL or path + what to send back. Shaun must never scroll up to act. Grouped row still gets its links.
-- Row rec = "yes"/"do it" → work, not decision: do before reply. Never ask Shaun to approve/do reversible in-scope step.
+- Row rec = "yes"/"do it" → work, not decision: do before reply, never ask (Shaun 2026-11-03: "obviously going with the rec"). Only stop-list items (see Autonomy) get asked; tag that row `[stop: <item>]`.
 - Shaun says he'll do a task later → GitHub issue in owning repo; drop from Left, never remind.
 
 ## Acting
@@ -57,7 +57,7 @@
 - Access address/protocol changes → rerun every save walk at new address before done.
 
 ## Autonomy
-Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats repo "only Shaun merges"/"discuss first" lines. Stop rules below still apply.
+Shaun's standing OK (2026-11-02): plans, PRs + merges need no approval. Beats repo "only Shaun merges"/"discuss first"/"named confirmation" lines, deploys included: `ops ship` refuses red-zone PRs; run the repo health cmd after. Stop rules below still apply.
 - Default: decide, act, verify, report.
 - Act conservatively: smallest reversible step; real check after each; unverified → say so. Failed check → fix or revert before stacking more.
 - Judgment order: patient safety > no data loss > truthful evidence > reversible > cheap > fast > elegant. 2 OK options → reversible + simpler; record choice in 1 line.
