@@ -1,6 +1,6 @@
 # PR 60: uv-only reads multi-line argument lists
 
-Status: underway
+Status: done
 
 Branch: `fix/uv-only-multiline-lists`
 
