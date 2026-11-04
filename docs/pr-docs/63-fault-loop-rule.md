@@ -1,6 +1,6 @@
 # PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`
 
-Status: underway
+Status: in-scope work complete
 
 Branch: `feature/fault-loop-rule`
 
@@ -37,6 +37,8 @@ Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by h
 ## Smoke Tests
 
 Not applicable: no UI. Rule text only.
+
+Agent-run on rule commit `7fe9190`: `ops check` exit 0; 109 unit tests OK (1 skipped); `gen_rules.py check` exit 0; `ops rules --id north-star-fault-loop` shows `[hook]`.
 
 ## Product Decisions
 
