@@ -24,14 +24,23 @@
     {
       "id": "north-star-done-check",
       "section": "North star",
-      "text": "- Before every reply ask: what did I recall, decide, or run by hand that a tool can do next time? Build it now. Shaun having to remind me of this = slip → patch this rule + its gate.",
+      "text": "- Before every reply ask: what did I recall, decide, or run by hand that a tool can do next time? Tool error hit → patch its cause (test, lint, guard, schema), name the gate. Build it now. Shaun having to remind me of this = slip → patch this rule + its gate.",
       "enforcer": null
     },
     {
       "id": "north-star-literals",
       "section": "North star",
-      "text": "- Literals (hosts, ports, names, paths, config, inline dict/object of facts) → registry or typed model. Pattern repeats → lint rule that fails it. Error hit → patch cause (test, lint, guard, schema) so it never recurs; name the gate.",
+      "text": "- Literals (hosts, ports, names, paths, config, inline dict/object of facts) → registry or typed model. Pattern repeats → lint rule that fails it.",
       "enforcer": null
+    },
+    {
+      "id": "north-star-fault-loop",
+      "section": "North star",
+      "text": "- Tool error → 1 gate or reasoned waiver per fault. `ops faults` records each failed call; Stop + SubagentStop stay blocked until `ops faults resolve <id> --gate <ref>` or `--waive <reason>`.",
+      "enforcer": {
+        "kind": "hook",
+        "by": "ops faults (PostToolUseFailure, Stop, SubagentStop)"
+      }
     },
     {
       "id": "no-fact-literals",
