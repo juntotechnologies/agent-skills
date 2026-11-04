@@ -5,11 +5,18 @@ import io
 import re
 import tokenize
 
+import textrules
 from model import Fault
 
 ALLOWED_COMMENT = re.compile(r'#!|#\s*(why:|noqa|type:|pragma|fmt:|ruff:)')
 SQL = re.compile(r'^\s*(SELECT\s.+\sFROM\s|INSERT\s+INTO\s|UPDATE\s.+\sSET\s|DELETE\s+FROM\s|CREATE\s+TABLE\s)', re.I | re.S)
 FUNCTIONS = (ast.FunctionDef, ast.AsyncFunctionDef)
+PROCESS_CALLS = {
+    'subprocess': {'run', 'call', 'check_call', 'check_output', 'Popen', 'getoutput', 'getstatusoutput'},
+    'os': {'system', 'popen', 'execv', 'execve', 'execvp', 'execvpe', 'execl', 'execle', 'execlp', 'execlpe',
+           'spawnl', 'spawnle', 'spawnlp', 'spawnlpe', 'spawnv', 'spawnve', 'spawnvp', 'spawnvpe',
+           'posix_spawn', 'posix_spawnp'},
+    'asyncio': {'create_subprocess_exec', 'create_subprocess_shell'}}
 
 
 def single(path, node, rule, message):
@@ -61,6 +68,41 @@ def length_faults(path, tree, source, limit):
     return faults
 
 
+def is_process_call(node):
+    func = node.func if isinstance(node, ast.Call) else None
+    if not (isinstance(func, ast.Attribute) and isinstance(func.value, ast.Name)):
+        return False
+    return func.attr in PROCESS_CALLS.get(func.value.id, ())
+
+
+def command_node(call):
+    first = call.args[0] if call.args else None
+    return first.elts[0] if isinstance(first, (ast.List, ast.Tuple)) and first.elts else first
+
+
+def literal_text(node):
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.JoinedStr):
+        return ' '.join(part.value for part in node.values if isinstance(part, ast.Constant))
+    return None
+
+
+def is_sys_executable(node):
+    return isinstance(node, ast.Attribute) and node.attr == 'executable' and ast.unparse(node.value) == 'sys'
+
+
+def spawns_outside_uv(node):
+    text = literal_text(node)
+    return is_sys_executable(node) or (text is not None and textrules.line_breaks_uv(text))
+
+
+def uv_call_faults(path, tree):
+    calls = [node for node in ast.walk(tree) if is_process_call(node)]
+    return [single(path, call, 'uv-only', 'run and install Python only through uv')
+            for call in calls if spawns_outside_uv(command_node(call))]
+
+
 def is_test(path, limits):
     return any(fnmatch.fnmatch(path, pattern) for pattern in limits['test_paths'])
 
@@ -76,5 +118,5 @@ def faults_for(path, source, limits):
     except SyntaxError as error:
         return [Fault(path, error.lineno or 1, error.lineno or 1, 'syntax', str(error.msg))]
     found = [*comment_faults(path, source), *docstring_faults(path, tree), *nested_faults(path, tree)]
-    found += [*lambda_faults(path, tree), *sql_faults(path, tree)]
+    found += [*lambda_faults(path, tree), *sql_faults(path, tree), *uv_call_faults(path, tree)]
     return found if is_test(path, limits) else [*found, *length_faults(path, tree, source, limits['max_function_lines'])]

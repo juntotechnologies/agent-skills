@@ -1,13 +1,21 @@
 """Rules that read changed text, for any file type."""
 import fnmatch
+import json
 import re
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 
 from model import Fault
 
-UV_PREFIX = re.compile(r'uv\s+(run|pip|tool)\b[^;&|]*|uvx\b[^;&|]*')
-BARE = re.compile(r'(^|[\s;&|(`"\'])(python3?|pip3?)(\s|$)')
-SETUP_PYTHON = re.compile(r'actions/setup-python')
+UV_ONLY = json.loads((Path(__file__).resolve().parent / 'uv_only.json').read_text())
+UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*')
+WORD_START = r'(^|[\s;&|(`"\'=/])'
+BARE = re.compile(WORD_START + '(' + '|'.join(UV_ONLY['interpreters']) + r')(\s|$)')
+ALTERNATIVE = re.compile(WORD_START + '(' + '|'.join(map(re.escape, UV_ONLY['alternatives'])) + r')(\s|$)')
+INSTALLS = [re.compile(pattern) for pattern in UV_ONLY['installs']]
+CI_ACTION = re.compile('|'.join(map(re.escape, UV_ONLY['ci_actions'])))
+COMMAND_SPLIT = re.compile(r'[;&|]+')
+COMMAND_PREFIX = re.compile(r'^(?:(?:sudo|env|time|nohup|exec|command)\s+|\w+=\S*\s+)+')
+PYTHON_SHEBANG = re.compile(r'^#!.*\bpython[0-9.]*\b')
 
 
 def is_shell_like(path, limits):
@@ -15,9 +23,16 @@ def is_shell_like(path, limits):
     return any(fnmatch.fnmatch(name, pattern) for pattern in limits['shell_paths'])
 
 
+def command_installs_python(command):
+    bare = COMMAND_PREFIX.sub('', command.strip())
+    return any(pattern.search(bare) for pattern in INSTALLS)
+
+
 def line_breaks_uv(text):
-    stripped = UV_PREFIX.sub(' ', text)
-    return bool(BARE.search(stripped) or SETUP_PYTHON.search(stripped))
+    stripped = UV_SEGMENT.sub(' ', text)
+    if BARE.search(stripped) or ALTERNATIVE.search(stripped) or CI_ACTION.search(stripped):
+        return True
+    return any(command_installs_python(command) for command in COMMAND_SPLIT.split(stripped))
 
 
 def uv_faults(path, source, lines, limits):
@@ -26,6 +41,13 @@ def uv_faults(path, source, lines, limits):
     rows = source.splitlines()
     return [Fault(path, line, line, 'uv-only', 'call Python through uv') for line in sorted(lines)
             if line <= len(rows) and line_breaks_uv(rows[line - 1]) and not rows[line - 1].lstrip().startswith('#')]
+
+
+def shebang_faults(path, source, lines):
+    first = source.splitlines()[0] if source else ''
+    if 1 not in lines or not PYTHON_SHEBANG.match(first):
+        return []
+    return [Fault(path, 1, 1, 'uv-only', f'shebang must be `{UV_ONLY["shebang"]}`')]
 
 
 def claude_md_faults(path, lines):
