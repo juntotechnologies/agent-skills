@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [Planned: uv-only reads JavaScript and TypeScript files](planned-uv-only-js-files.md) | `execFileSync("python3", ...)` in a Node test passed the gate; `.js .mjs .cjs .ts .tsx .jsx` are now read. |
+| [PR 58: uv-only reads JavaScript and TypeScript files](./58-uv-only-js-files.md) | `execFileSync("python3", ...)` in a Node test passed the gate; `.js .mjs .cjs .ts .tsx .jsx` are now read. |
 
 ## Archive
 
