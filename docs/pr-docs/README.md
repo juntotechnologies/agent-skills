@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 60: uv-only reads multi-line argument lists](./60-uv-only-multiline-lists.md) | `uv`, `run`, `python` one element per line is not a fault; bare interpreter still is. |
 
 ## Archive
 
