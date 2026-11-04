@@ -1,6 +1,6 @@
-# PR planned: A slip adds its gate
+# PR 54: A slip adds its gate
 
-Status: planned
+Status: underway
 
 Branch: `feature/slip-adds-gate-rule`
 
