@@ -17,14 +17,14 @@ Agents reach the DGX Spark through `ops spark`, never by recalling its address, 
 
 ### Tier 1 - Rule text
 
-- [ ] `spark-through-ops-spark` (Acting, prose, `enforcer: null`): pointer to `ops spark --help`; no command text
-- [ ] `infra-access-through-ops-host` (Acting, `enforcer: {kind: hook, by: ops guard}`): registered host -> `ops <host>` verb; raw `ssh <host> docker|systemctl` mutation blocked
-- [ ] `docs/rules-system.md` guard row names the new block
+- [x] `spark-through-ops-spark` (Acting, prose, `enforcer: null`): pointer to `ops spark --help`; no command text
+- [x] `infra-access-through-ops-host` (Acting, `enforcer: {kind: hook, by: ops guard}`): registered host -> `ops <host>` verb; raw `ssh <host> docker|systemctl` mutation blocked
+- [x] `docs/rules-system.md` guard row names the new block
 
 ### Tier 2 - Generated + checks
 
-- [ ] `scripts/gen_rules.py build`; `gen_rules.py check` passes; only the pointer line is added to `global/AGENTS.md`
-- [ ] Agent-skills unit tests pass; `ops check` passes on the committed tree
+- [x] `scripts/gen_rules.py build`; `gen_rules.py check` passes; only the pointer line is added to `global/AGENTS.md`
+- [x] Agent-skills unit tests pass; `ops check` passes on the committed tree
 
 ## Acceptance Coverage
 
@@ -36,6 +36,8 @@ Agents reach the DGX Spark through `ops spark`, never by recalling its address, 
 ## Smoke Tests
 
 Not applicable: no UI. Rule text only.
+
+Agent-run on commit `f34bb37`: `ops check` exit 0; 105 unit tests OK (1 skipped); `gen_rules.py check` exit 0.
 
 ## Product Decisions
 
