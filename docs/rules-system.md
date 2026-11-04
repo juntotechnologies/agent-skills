@@ -19,7 +19,7 @@ Each rule: 1 place. Tool can decide it → tool enforces it, prose drops it.
 
 | When | What runs | Stops |
 |---|---|---|
-| Agent tool call | `ops guard` (Claude Code hook) | direct merge, `--no-verify`, bare python, edits to generated files |
+| Agent tool call | `ops guard` (Claude Code hook) | direct merge, `--no-verify`, bare python, edits to generated files, raw `ssh <registered host> docker\|systemctl` mutations |
 | Commit | global git hook: `ops check --staged --lint-only` | bad new lines, any repo here |
 | PR | `check / check` CI, public repos | bad lines + failing repo tests |
 | Merge | `ops ship` | no pass on head; UI change w/o `ops site-check` |

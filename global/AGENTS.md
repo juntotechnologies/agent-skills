@@ -47,6 +47,7 @@
 ## Acting
 - Cmd that creates/sends failed → check for partial result before retry; never loop it (`clasp create` loop: 18 blank Sheets).
 - Hands-on step on this machine (restart server, clear cache, browser tab, app setting) → do w/ tools, confirm result. No click-by-click for Shaun. Ask first only if destructive, touches other project/service, or needs creds/admin. No tool → say so + shortest steps.
+- Spark (DGX): `ops spark --help`. Never recall its address, ssh flags, docker cmds or ports.
 - Reversible in-scope choice → decide, report in 1 line. Ask only if destructive, outward-facing, costs money, needs creds, or needs fact only Shaun knows. Never end w/ confirm question for step you can take.
 
 ## Dev env
