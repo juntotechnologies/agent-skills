@@ -1,7 +1,7 @@
 """One check for every repo: shared lint on changed lines, then the repo's tests. Same command in hook, CI + ops ship.
 
-Run in a repo: check.py [--base origin/main] [--staged] [--all] [--lint-only] [--setup]. Repo settings: ops-check.json
-(`test`, `setup` commands; `exempt`: rule -> path patterns).
+Run in a repo: check.py [--base origin/main] [--staged] [--worktree] [--all] [--lint-only] [--setup].
+Repo settings: ops-check.json (`test`, `setup` commands; `exempt`: rule -> path patterns).
 Prints 1 JSON line per fault. Exit 1 on any fault.
 """
 import argparse
@@ -25,6 +25,8 @@ def parse(argv):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--base', default='origin/main', help='compare HEAD with its merge base on this ref')
     parser.add_argument('--staged', action='store_true', help='check the staged change; for the pre-commit hook')
+    parser.add_argument('--worktree', action='store_true',
+                        help='uncommitted edits + untracked files vs HEAD; for the write-time hook')
     parser.add_argument('--all', action='store_true', help='every line of every tracked file, not only changed lines')
     parser.add_argument('--lint-only', action='store_true', help='skip the repo test command')
     parser.add_argument('--setup', action='store_true', help='run the repo setup command first; for CI')
@@ -35,14 +37,24 @@ def git(*args):
     return subprocess.run(['git', *args], capture_output=True, text=True, check=True).stdout
 
 
-def changed_lines(args):
-    diff_args = ['--cached'] if args.staged else [f'{args.base}...HEAD']
-    return scope.parse_diff(git('diff', '-U0', '--diff-filter=AM', *diff_args))
+def every_line(paths):
+    return {path: set(range(1, 1 + len(read_text(path).splitlines()))) for path in paths if Path(path).is_file()}
 
 
 def whole_files():
-    paths = [path for path in git('ls-files').splitlines() if Path(path).is_file()]
-    return {path: set(range(1, 1 + len(read_text(path).splitlines()))) for path in paths}
+    return every_line(git('ls-files').splitlines())
+
+
+def worktree_lines():
+    edited = scope.parse_diff(git('diff', '-U0', '--diff-filter=AM', 'HEAD'))
+    return {**edited, **every_line(git('ls-files', '--others', '--exclude-standard').splitlines())}
+
+
+def changed_lines(args):
+    if args.worktree:
+        return worktree_lines()
+    diff_args = ['--cached'] if args.staged else [f'{args.base}...HEAD']
+    return scope.parse_diff(git('diff', '-U0', '--diff-filter=AM', *diff_args))
 
 
 def read_text(path):

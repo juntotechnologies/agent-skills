@@ -149,5 +149,39 @@ class EndToEndTests(unittest.TestCase):
             self.assertEqual([(row['line'], row['rule']) for row in rows], [(2, 'comment-why-only')])
 
 
+def run_checker(tmp, *flags):
+    command = ['uv', 'run', '--no-project', 'python', str(ROOT / 'checker/check.py'), *flags, '--lint-only']
+    done = subprocess.run(command, cwd=tmp, capture_output=True, text=True, env=os.environ)
+    return done, [json.loads(line) for line in done.stdout.splitlines()]
+
+
+class WorktreeModeTests(unittest.TestCase):
+    def test_unstaged_edits_and_untracked_files_are_checked_before_any_git_add(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            git('init', '-q', '-b', 'main', cwd=tmp)
+            git('config', 'user.email', 't@t', cwd=tmp)
+            git('config', 'user.name', 't', cwd=tmp)
+            (Path(tmp) / 'a.py').write_text('x = 1  # old comment\n')
+            git('add', '.', cwd=tmp)
+            git('commit', '-qm', 'old', cwd=tmp)
+            (Path(tmp) / 'a.py').write_text('x = 1  # old comment\ny = 2  # new comment\n')
+            (Path(tmp) / 'b.py').write_text('z = 3  # fresh file\n')
+            done, rows = run_checker(tmp, '--worktree')
+            self.assertEqual(done.returncode, 1, done.stderr)
+            self.assertEqual(sorted((row['path'], row['line'], row['rule']) for row in rows),
+                             [('a.py', 2, 'comment-why-only'), ('b.py', 1, 'comment-why-only')])
+
+    def test_a_clean_worktree_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            git('init', '-q', '-b', 'main', cwd=tmp)
+            git('config', 'user.email', 't@t', cwd=tmp)
+            git('config', 'user.name', 't', cwd=tmp)
+            (Path(tmp) / 'a.py').write_text('x = 1  # old comment\n')
+            git('add', '.', cwd=tmp)
+            git('commit', '-qm', 'old', cwd=tmp)
+            done, rows = run_checker(tmp, '--worktree')
+            self.assertEqual((done.returncode, rows), (0, []), done.stderr)
+
+
 if __name__ == '__main__':
     unittest.main()
