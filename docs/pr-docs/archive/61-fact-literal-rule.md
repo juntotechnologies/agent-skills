@@ -1,6 +1,6 @@
 # PR 61: Hosts and addresses typed into code are a fault
 
-Status: underway
+Status: done
 
 Branch: `feature/fact-literal-rule`
 

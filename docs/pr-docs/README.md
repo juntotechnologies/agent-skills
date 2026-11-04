@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 61: Hosts and addresses typed into code are a fault](./61-fact-literal-rule.md) | Checker rule `fact-literal`: first enforcer of the no-literals rule. |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 61: Hosts and addresses typed into code are a fault](./archive/61-fact-literal-rule.md) | Checker rule `fact-literal`: first enforcer of the no-literals rule. |
 | [PR 60: uv-only reads multi-line argument lists](./archive/60-uv-only-multiline-lists.md) | `uv`, `run`, `python` one element per line is not a fault; bare interpreter still is. |
 | [PR 58: uv-only reads JavaScript and TypeScript files](./archive/58-uv-only-js-files.md) | `execFileSync("python3", ...)` in a Node test passed the gate; `.js .mjs .cjs .ts .tsx .jsx` are now read. |
 | [PR 59: North star rule](./archive/59-north-star-rule.md) | Global rules state the hands-off aim; every recallable fact or slip becomes a deterministic artifact. |
