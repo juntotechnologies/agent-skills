@@ -185,6 +185,35 @@ class TextRuleTests(unittest.TestCase):
         source = '\n'.join(['"uv",', *['"x",'] * 8, '"python",'])
         self.assertEqual([fault.line for fault in textrules.uv_faults('a.json', source, {10}, LIMITS)], [10])
 
+    def test_a_host_or_address_typed_into_code_is_a_fact_literal_fault(self):
+        for line in ('HOST = "100.76.172.93"', 'url = "https://citmini.taila4fc43.ts.net:10000"', 'ip="192.168.1.5"',
+                     'ssh 10.0.0.3 uptime', 'ADDR = "172.20.4.9:8080"', 'x = 100.64.0.1'):
+            with self.subTest(line=line):
+                faults = textrules.fact_literal_faults('a.py', line + '\n', {1}, LIMITS)
+                self.assertEqual([fault.rule for fault in faults], ['fact-literal'])
+
+    def test_loopback_versions_and_look_alikes_are_not_fact_literals(self):
+        for line in ('HOST = "127.0.0.1"', 'BIND = "0.0.0.0"', 'version = "10.1.2"', 'x = "100.200.1.1"',
+                     'y = "1100.64.0.1"', 'NET = ipaddress.ip_network("100.64.0.0/10")', 'PRIVATE = "10.0.0.0/8"',
+                     'z = "100.64.0.1.5"', 'ip = "172.32.0.1"'):
+            with self.subTest(line=line):
+                faults = textrules.fact_literal_faults('a.py', line + '\n', {1}, LIMITS)
+                self.assertEqual(faults, [])
+
+    def test_fact_literals_are_read_in_code_not_in_tests_or_data(self):
+        line = 'HOST = "100.76.172.93"\n'
+        for name in ('a.py', 'a.sh', 'a.mjs', 'a.ts'):
+            self.assertTrue(textrules.fact_literal_faults(name, line, {1}, LIMITS), name)
+        for name in ('tests/test_a.py', 'pkg/test_a.py', 'a.json', 'registry.yaml', 'README.md'):
+            self.assertEqual(textrules.fact_literal_faults(name, line, {1}, LIMITS), [], name)
+
+    def test_fact_literals_run_in_the_text_pass(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            code = Path(tmp) / 'a.py'
+            code.write_text('HOST = "100.76.172.93"\n')
+            faults = check.text_faults({str(code): {1}}, LIMITS)
+        self.assertEqual([fault.rule for fault in faults], ['fact-literal'])
+
     def test_a_bare_interpreter_before_uv_in_a_list_is_still_a_fault(self):
         self.assertTrue(textrules.line_breaks_uv('["python3", "-m", "uv", "run"]'))
 

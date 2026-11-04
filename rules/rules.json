@@ -34,6 +34,18 @@
       "enforcer": null
     },
     {
+      "id": "no-fact-literals",
+      "section": "SSOT",
+      "text": "- No host, IP or tailnet name typed into code (py, js, ts, sh). Read it from the registry (`ops fact host <name>`).",
+      "enforcer": {
+        "kind": "lint",
+        "rules": [
+          "fact-literal"
+        ],
+        "by": "checker (write, commit, push, CI)"
+      }
+    },
+    {
       "id": "checks-pointer",
       "section": "Checks",
       "text": "- `ops check` before merge. Git hook, CI + `ops ship` run same check. Fault → fix; never skip. Why a rule exists: `ops rules --id <id>`.",

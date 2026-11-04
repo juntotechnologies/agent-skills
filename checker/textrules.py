@@ -7,6 +7,8 @@ from pathlib import Path, PurePosixPath
 from model import Fault
 
 UV_ONLY = json.loads((Path(__file__).resolve().parent / 'uv_only.json').read_text())
+FACT_LITERALS = json.loads((Path(__file__).resolve().parent / 'fact_literals.json').read_text())
+FACT_PATTERN = re.compile('|'.join(f'(?:{pattern})' for pattern in FACT_LITERALS['patterns']))
 UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*|\buv["\']?\s*,[^\]]*')
 WORD_START = r'(^|[\s;&|(`"\'=/])'
 # why: a quoted command in JSON, YAML or plist ends in a quote or tag, and a quoted key is followed by a colon
@@ -28,6 +30,19 @@ def holds_commands(path, limits):
     name = PurePosixPath(path).name
     return PurePosixPath(path).suffix in limits['js_suffixes'] or any(
         fnmatch.fnmatch(name, pattern) for pattern in limits['shell_paths'])
+
+
+def is_test_path(path, limits):
+    return any(fnmatch.fnmatch(path, pattern) for pattern in limits['test_paths'])
+
+
+def fact_literal_faults(path, source, lines, limits):
+    if PurePosixPath(path).suffix not in FACT_LITERALS['code_suffixes'] or is_test_path(path, limits):
+        return []
+    rows = source.splitlines()
+    found = {line: FACT_PATTERN.search(rows[line - 1]) for line in lines if line <= len(rows)}
+    return [Fault(path, line, line, 'fact-literal', f'`{match.group()}` is a fact: read it from the registry')
+            for line, match in sorted(found.items()) if match]
 
 
 def command_installs_python(command):

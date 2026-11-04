@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR planned: Hosts and addresses typed into code are a fault](./planned-fact-literal-rule.md) | Checker rule `fact-literal`: first enforcer of the no-literals rule. |
 
 ## Archive
 
