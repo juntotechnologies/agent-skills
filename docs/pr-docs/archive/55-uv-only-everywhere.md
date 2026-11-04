@@ -1,6 +1,6 @@
 # PR 55: Python only through uv, enforced
 
-Status: underway
+Status: done
 
 Branch: `feature/uv-only-everywhere`
 

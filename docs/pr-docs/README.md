@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 55: Python only through uv, enforced](./55-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 55: Python only through uv, enforced](./archive/55-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
 | [PR 54: A slip adds its gate](./archive/54-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
 | [PR 53: Checker `--worktree` mode](./archive/53-lint-worktree-mode.md) | Lint uncommitted edits + untracked files, for the write-time hook |
 | [Comment rule autofix](./archive/52-why-comments-fixer.md) | Fixer deletes disallowed comments |
