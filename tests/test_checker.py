@@ -162,6 +162,13 @@ class TextRuleTests(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertFalse(textrules.line_breaks_uv(line))
 
+    def test_uv_only_reads_javascript_and_typescript_files_too(self):
+        source = "execFileSync('python3', ['x.py']);\nexecFileSync('uv', ['run', 'python', 'x.py']);\n"
+        for name in ('a.mjs', 'a.js', 'a.cjs', 'a.ts', 'a.tsx', 'a.jsx'):
+            with self.subTest(name=name):
+                faults = textrules.uv_faults(name, source, {1, 2}, LIMITS)
+                self.assertEqual([fault.line for fault in faults], [1])
+
     def test_a_bare_interpreter_before_uv_in_a_list_is_still_a_fault(self):
         self.assertTrue(textrules.line_breaks_uv('["python3", "-m", "uv", "run"]'))
 

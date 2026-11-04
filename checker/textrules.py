@@ -21,9 +21,10 @@ COMMAND_PREFIX = re.compile(r'^(?:(?:sudo|env|time|nohup|exec|command)\s+|\w+=\S
 PYTHON_SHEBANG = re.compile(r'^#!.*\bpython[0-9.]*\b')
 
 
-def is_shell_like(path, limits):
+def holds_commands(path, limits):
     name = PurePosixPath(path).name
-    return any(fnmatch.fnmatch(name, pattern) for pattern in limits['shell_paths'])
+    return PurePosixPath(path).suffix in limits['js_suffixes'] or any(
+        fnmatch.fnmatch(name, pattern) for pattern in limits['shell_paths'])
 
 
 def command_installs_python(command):
@@ -39,7 +40,7 @@ def line_breaks_uv(text):
 
 
 def uv_faults(path, source, lines, limits):
-    if not is_shell_like(path, limits):
+    if not holds_commands(path, limits):
         return []
     rows = source.splitlines()
     return [Fault(path, line, line, 'uv-only', 'call Python through uv') for line in sorted(lines)
