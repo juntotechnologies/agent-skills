@@ -1,6 +1,6 @@
-# PR planned: Checker `--worktree` mode
+# PR 53: Checker `--worktree` mode
 
-Status: planned
+Status: underway
 
 Branch: `feature/lint-worktree-mode`
 
