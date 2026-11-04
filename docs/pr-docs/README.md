@@ -4,13 +4,13 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 65: rule row-rec-yes-do-it names its enforcer](./65-left-check-enforcer.md) | `ops left-check` (personal-config PR 46, Stop hook, registered) now enforces rule `row-rec-yes-do-it`. |
 | [PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`](./63-fault-loop-rule.md) | Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by hand, patched no gate. |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 65: rule row-rec-yes-do-it names its enforcer](./archive/65-left-check-enforcer.md) | `ops left-check` (personal-config PR 46, Stop hook, registered) now enforces rule `row-rec-yes-do-it`. |
 | [PR 64: a recommended "yes" is never asked](./archive/64-rec-yes-no-ask.md) | Slip, 2026-11-03: agent ended a reply with 4 Left rows whose rec was "yes" (merge a green PR, back up before an upgrade) and waited. |
 | [PR 62: Spark access goes through `ops spark`](./archive/62-spark-ops-rule.md) | Pointer rule in global AGENTS.md + `ops guard` enforcer for raw `ssh <host> docker\|systemctl` mutations |
 | [PR 61: Hosts and addresses typed into code are a fault](./archive/61-fact-literal-rule.md) | Checker rule `fact-literal`: first enforcer of the no-literals rule. |

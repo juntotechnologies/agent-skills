@@ -1,6 +1,6 @@
 # PR 65: rule row-rec-yes-do-it names its enforcer
 
-Status: underway
+Status: done
 
 Branch: `feature/left-check-enforcer`
 
