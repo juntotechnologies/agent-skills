@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [rule row-rec-yes-do-it names its enforcer](./planned-left-check-enforcer.md) | `ops left-check` (personal-config PR 46, Stop hook, registered) now enforces rule `row-rec-yes-do-it`. |
 | [PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`](./63-fault-loop-rule.md) | Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by hand, patched no gate. |
 
 ## Archive
