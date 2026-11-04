@@ -1,6 +1,6 @@
 # PR 64: a recommended "yes" is never asked
 
-Status: underway
+Status: done
 
 Branch: `feature/rec-yes-no-ask`
 
