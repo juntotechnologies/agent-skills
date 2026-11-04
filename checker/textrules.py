@@ -9,7 +9,9 @@ from model import Fault
 UV_ONLY = json.loads((Path(__file__).resolve().parent / 'uv_only.json').read_text())
 UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*')
 WORD_START = r'(^|[\s;&|(`"\'=/])'
-BARE = re.compile(WORD_START + '(' + '|'.join(UV_ONLY['interpreters']) + r')(\s|$)')
+# why: a quoted command in JSON, YAML or plist ends in a quote or tag, and a quoted key is followed by a colon
+WORD_END = r'(\s|$|["\'<>,)\]](?!\s*:))'
+BARE = re.compile(WORD_START + '(' + '|'.join(UV_ONLY['interpreters']) + ')' + WORD_END)
 ALTERNATIVE = re.compile(WORD_START + '(' + '|'.join(map(re.escape, UV_ONLY['alternatives'])) + r')(\s|$)')
 INSTALLS = [re.compile(pattern) for pattern in UV_ONLY['installs']]
 CI_ACTION = re.compile('|'.join(map(re.escape, UV_ONLY['ci_actions'])))
@@ -45,7 +47,7 @@ def uv_faults(path, source, lines, limits):
 
 def shebang_faults(path, source, lines):
     first = source.splitlines()[0] if source else ''
-    if 1 not in lines or not PYTHON_SHEBANG.match(first):
+    if 1 not in lines or not PYTHON_SHEBANG.match(UV_SEGMENT.sub(' ', first)):
         return []
     return [Fault(path, 1, 1, 'uv-only', f'shebang must be `{UV_ONLY["shebang"]}`')]
 

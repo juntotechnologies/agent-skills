@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 56: uv-only gate holes](./56-uv-only-gate-holes.md) | Shebang rule never ran; quoted interpreters in json and plist slipped; both now fault. |
 
 ## Archive
 
