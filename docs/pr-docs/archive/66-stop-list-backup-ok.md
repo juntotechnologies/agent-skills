@@ -1,6 +1,6 @@
 # PR 66: a verified backup + rollback makes a prod data write a "do it"
 
-Status: underway
+Status: done
 
 Branch: `feature/stop-list-backup-ok`
 
