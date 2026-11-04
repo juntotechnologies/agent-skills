@@ -314,6 +314,21 @@
       "enforcer": null
     },
     {
+      "id": "spark-through-ops-spark",
+      "section": "Acting",
+      "text": "- Spark (DGX): `ops spark --help`. Never recall its address, ssh flags, docker cmds or ports.",
+      "enforcer": null
+    },
+    {
+      "id": "infra-access-through-ops-host",
+      "section": "Acting",
+      "text": "- Registered infra host: use its `ops <host>` verb, not raw `ssh <host> docker|systemctl`. `ops guard` blocks raw mutations + names the verb.",
+      "enforcer": {
+        "kind": "hook",
+        "by": "ops guard"
+      }
+    },
+    {
       "id": "reversible-in-scope-choice-decide",
       "section": "Acting",
       "text": "- Reversible in-scope choice → decide, report in 1 line. Ask only if destructive, outward-facing, costs money, needs creds, or needs fact only Shaun knows. Never end w/ confirm question for step you can take.",

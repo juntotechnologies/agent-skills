@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 62: Spark access goes through `ops spark`](./62-spark-ops-rule.md) | Pointer rule in global AGENTS.md + `ops guard` enforcer for raw `ssh <host> docker\|systemctl` mutations |
 
 ## Archive
 
