@@ -1,6 +1,6 @@
-# PR planned: uv-only gate holes
+# PR 56: uv-only gate holes
 
-Status: planned
+Status: underway
 
 Branch: `fix/uv-only-gate-holes`
 
