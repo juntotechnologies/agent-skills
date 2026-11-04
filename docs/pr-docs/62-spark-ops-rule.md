@@ -1,4 +1,4 @@
-# PR planned: Spark access goes through `ops spark`
+# PR 62: Spark access goes through `ops spark`
 
 Status: underway
 
