@@ -6,10 +6,11 @@ Branch: `fix/uv-only-quoted-uv-lists`
 
 ## Goal
 
-Two more findings from scanning swarm-infra with the PR 56 gate.
+Three findings from scanning swarm-infra with the PR 56 gate.
 
 1. PR 56 made a quoted interpreter a fault. That also flagged the correct form: `"command": ["~/.local/bin/uv", "run", "python", ...]` in `swarm-registry.json`.
 2. `scripts/install-services.py:89` returns `["/usr/bin/python3", ...]` from a helper; the rule only read process calls, so a command built in one place and run in another slipped.
+3. Converting `#!/usr/bin/env python3` to `#!/usr/bin/env -S uv run --script` needs PEP 723 inline dependencies for scripts that import PyYAML, and the comment rule called that block a fault.
 
 ## Implementation Checklist
 
@@ -21,6 +22,7 @@ Two more findings from scanning swarm-infra with the PR 56 gate.
 ### Tier 2 - Fix
 
 - [x] `UV_SEGMENT` also strips from `uv` (quoted, then a comma) to the end of the list.
+- [x] `pyrules.comment_faults` skips a closed PEP 723 `# /// script` block (`metadata_lines`, the PEP's own regex); an unclosed block or a stray `# dependencies` line still faults.
 - [x] `pyrules.uv_call_faults` also reports a command list that starts with an interpreter (`starts_with_interpreter`); `textrules.INTERPRETER_PATH` comes from `uv_only.json`.
 
 ## Smoke Tests

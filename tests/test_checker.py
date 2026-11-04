@@ -28,6 +28,12 @@ class PythonRuleTests(unittest.TestCase):
         self.assertIn('comment-why-only', rules_of('x = 1  # sets x\n'))
         self.assertEqual(rules_of('x = 1  # why: API needs it\n# noqa: E501\n'), set())
 
+    def test_a_pep_723_script_block_is_not_a_comment_fault(self):
+        block = '#!/usr/bin/env -S uv run --script\n# /// script\n# dependencies = ["pyyaml==6.0.3"]\n# ///\nx = 1\n'
+        self.assertEqual(rules_of(block), set())
+        self.assertIn('comment-why-only', rules_of(block + '# dependencies = ["x"]\n'))
+        self.assertIn('comment-why-only', rules_of('# /// script\n# sets x\nx = 1\n'))
+
     def test_function_docstring_needs_why_module_may_have_one(self):
         self.assertEqual(rules_of('"""Module."""\n'), set())
         self.assertIn('docstring-why-only', rules_of('def f():\n    """Does f."""\n'))

@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 57: uv-only fixes after the first full scan](./57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault. |
+| [PR 57: uv-only fixes after the first full scan](./57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault; a PEP 723 block is not a comment fault. |
 
 ## Archive
 
