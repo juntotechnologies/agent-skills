@@ -8,6 +8,7 @@ import tokenize
 import textrules
 from model import Fault
 
+PEP_723_BLOCK = re.compile(r'(?m)^# /// (?P<type>[a-zA-Z0-9-]+)$\s(?P<content>(^#(| .*)$\s)+)^# ///$')
 ALLOWED_COMMENT = re.compile(r'#!|#\s*(why:|noqa|type:|pragma|fmt:|ruff:)')
 SQL = re.compile(r'^\s*(SELECT\s.+\sFROM\s|INSERT\s+INTO\s|UPDATE\s.+\sSET\s|DELETE\s+FROM\s|CREATE\s+TABLE\s)', re.I | re.S)
 FUNCTIONS = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -23,9 +24,19 @@ def single(path, node, rule, message):
     return Fault(path, node.lineno, node.lineno, rule, message)
 
 
+def metadata_lines(source):
+    """why: a PEP 723 script block is machine-read configuration, not commentary."""
+    lines = set()
+    for block in PEP_723_BLOCK.finditer(source):
+        first = source.count('\n', 0, block.start()) + 1
+        lines.update(range(first, first + block.group(0).count('\n') + 1))
+    return lines
+
+
 def comment_faults(path, source):
     tokens = tokenize.generate_tokens(io.StringIO(source).readline)
-    comments = [token for token in tokens if token.type == tokenize.COMMENT]
+    metadata = metadata_lines(source)
+    comments = [token for token in tokens if token.type == tokenize.COMMENT and token.start[0] not in metadata]
     return [Fault(path, token.start[0], token.start[0], 'comment-why-only', 'comment must start `why:`')
             for token in comments if not ALLOWED_COMMENT.match(token.string)]
 
@@ -97,10 +108,18 @@ def spawns_outside_uv(node):
     return is_sys_executable(node) or (text is not None and textrules.line_breaks_uv(text))
 
 
+def starts_with_interpreter(node):
+    first = node.elts[0] if isinstance(node, ast.List) and len(node.elts) > 1 else None
+    text = literal_text(first) if first is not None else None
+    return text is not None and textrules.INTERPRETER_PATH.fullmatch(text) is not None
+
+
 def uv_call_faults(path, tree):
     calls = [node for node in ast.walk(tree) if is_process_call(node)]
-    return [single(path, call, 'uv-only', 'run and install Python only through uv')
-            for call in calls if spawns_outside_uv(command_node(call))]
+    covered = {id(call.args[0]) for call in calls if call.args}
+    lists = [node for node in ast.walk(tree) if id(node) not in covered and starts_with_interpreter(node)]
+    return [single(path, node, 'uv-only', 'run and install Python only through uv')
+            for node in [*(call for call in calls if spawns_outside_uv(command_node(call))), *lists]]
 
 
 def is_test(path, limits):

@@ -28,6 +28,12 @@ class PythonRuleTests(unittest.TestCase):
         self.assertIn('comment-why-only', rules_of('x = 1  # sets x\n'))
         self.assertEqual(rules_of('x = 1  # why: API needs it\n# noqa: E501\n'), set())
 
+    def test_a_pep_723_script_block_is_not_a_comment_fault(self):
+        block = '#!/usr/bin/env -S uv run --script\n# /// script\n# dependencies = ["pyyaml==6.0.3"]\n# ///\nx = 1\n'
+        self.assertEqual(rules_of(block), set())
+        self.assertIn('comment-why-only', rules_of(block + '# dependencies = ["x"]\n'))
+        self.assertIn('comment-why-only', rules_of('# /// script\n# sets x\nx = 1\n'))
+
     def test_function_docstring_needs_why_module_may_have_one(self):
         self.assertEqual(rules_of('"""Module."""\n'), set())
         self.assertIn('docstring-why-only', rules_of('def f():\n    """Does f."""\n'))
@@ -59,8 +65,17 @@ class PythonProcessRuleTests(unittest.TestCase):
             with self.subTest(source=source):
                 self.assertIn('uv-only', rules_of(source + '\n'))
 
+    def test_a_command_list_that_starts_with_an_interpreter_is_a_fault_wherever_it_is_used(self):
+        for source in ("return ['/usr/bin/python3', str(script), '--port', '1']", "CMD = ['python3', '-m', 'x']",
+                       "spawn(['./venv/bin/python', 'x.py'])"):
+            with self.subTest(source=source):
+                self.assertIn('uv-only', rules_of(source + '\n'))
+        faults = pyrules.faults_for('a.py', "subprocess.run(['python3', 'x.py'])\n", LIMITS)
+        self.assertEqual(len([fault for fault in faults if fault.rule == 'uv-only']), 1)
+
     def test_uv_and_unrelated_commands_pass(self):
         for source in ("subprocess.run(['uv', 'run', 'python', 'x'])", "subprocess.run(['git', 'status'])",
+                       "names = ['uv', 'python']", "versions = ['3.14', 'python']",
                        "print(sys.executable)", "subprocess.run(['uv', 'python', 'install', '3.14'])",
                        "run(['python3'])"):
             with self.subTest(source=source):
@@ -142,9 +157,13 @@ class TextRuleTests(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertTrue(textrules.line_breaks_uv(line))
         for line in ('"python": "3.14.10"', '"python" : "3.14.10"', '"command": ["uv", "run", "x.py"]',
-                     '<key>python_version</key>'):
+                     '<key>python_version</key>', '"command": ["~/.local/bin/uv", "run", "python", "-m", "x"]',
+                     "args: ['uv', 'run', '--with', 'a', 'python', 'x.py']"):
             with self.subTest(line=line):
                 self.assertFalse(textrules.line_breaks_uv(line))
+
+    def test_a_bare_interpreter_before_uv_in_a_list_is_still_a_fault(self):
+        self.assertTrue(textrules.line_breaks_uv('["python3", "-m", "uv", "run"]'))
 
     def test_the_shebang_rule_runs_in_the_text_pass_for_any_file_type(self):
         with tempfile.TemporaryDirectory() as tmp:

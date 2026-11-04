@@ -7,7 +7,7 @@ from pathlib import Path, PurePosixPath
 from model import Fault
 
 UV_ONLY = json.loads((Path(__file__).resolve().parent / 'uv_only.json').read_text())
-UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*')
+UV_SEGMENT = re.compile(r'\buv\s+[^;&|]*|\buvx\b[^;&|]*|\buv["\']?\s*,[^\]]*')
 WORD_START = r'(^|[\s;&|(`"\'=/])'
 # why: a quoted command in JSON, YAML or plist ends in a quote or tag, and a quoted key is followed by a colon
 WORD_END = r'(\s|$|["\'<>,)\]](?!\s*:))'
@@ -15,7 +15,8 @@ BARE = re.compile(WORD_START + '(' + '|'.join(UV_ONLY['interpreters']) + ')' + W
 ALTERNATIVE = re.compile(WORD_START + '(' + '|'.join(map(re.escape, UV_ONLY['alternatives'])) + r')(\s|$)')
 INSTALLS = [re.compile(pattern) for pattern in UV_ONLY['installs']]
 CI_ACTION = re.compile('|'.join(map(re.escape, UV_ONLY['ci_actions'])))
-COMMAND_SPLIT = re.compile(r'[;&|]+')
+INTERPRETER_PATH = re.compile('(?:.*/)?(?:' + '|'.join(UV_ONLY['interpreters']) + ')')
+COMMAND_SPLIT =re.compile(r'[;&|]+')
 COMMAND_PREFIX = re.compile(r'^(?:(?:sudo|env|time|nohup|exec|command)\s+|\w+=\S*\s+)+')
 PYTHON_SHEBANG = re.compile(r'^#!.*\bpython[0-9.]*\b')
 
