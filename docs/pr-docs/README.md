@@ -4,7 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
-| [a verified backup + rollback makes a prod data write a "do it"](./planned-stop-list-backup-ok.md) | Slip, 2026-11-03: swarm-infra PR 49 (Hermes upgrade, forward-only `state.db` migration) was asked as `[stop: prod-data]` although the backup was taken and chec… |
+| [PR 66: a verified backup + rollback makes a prod data write a "do it"](./66-stop-list-backup-ok.md) | Slip, 2026-11-03: swarm-infra PR 49 (Hermes upgrade, forward-only `state.db` migration) was asked as `[stop: prod-data]` although the backup was taken and chec… |
 | [PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`](./63-fault-loop-rule.md) | Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by hand, patched no gate. |
 
 ## Archive
