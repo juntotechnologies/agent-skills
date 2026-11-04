@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [A slip adds its gate](./planned-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
 
 ## Archive
 
