@@ -1,6 +1,6 @@
 # PR 62: Spark access goes through `ops spark`
 
-Status: underway
+Status: done
 
 Branch: `feature/spark-ops-rule`
 
