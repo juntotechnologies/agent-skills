@@ -1,6 +1,6 @@
 # PR 57: uv-only fixes after the first full scan
 
-Status: underway
+Status: done
 
 Branch: `fix/uv-only-quoted-uv-lists`
 

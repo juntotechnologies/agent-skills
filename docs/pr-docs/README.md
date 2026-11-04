@@ -4,12 +4,12 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 57: uv-only fixes after the first full scan](./57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault; a PEP 723 block is not a comment fault. |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 57: uv-only fixes after the first full scan](./archive/57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault; a PEP 723 block is not a comment fault. |
 | [PR 56: uv-only gate holes](./archive/56-uv-only-gate-holes.md) | Shebang rule never ran; quoted interpreters in json and plist slipped; both now fault. |
 | [PR 55: Python only through uv, enforced](./archive/55-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
 | [PR 54: A slip adds its gate](./archive/54-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
