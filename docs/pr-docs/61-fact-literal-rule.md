@@ -1,6 +1,6 @@
-# PR planned: Hosts and addresses typed into code are a fault
+# PR 61: Hosts and addresses typed into code are a fault
 
-Status: planned
+Status: underway
 
 Branch: `feature/fact-literal-rule`
 
