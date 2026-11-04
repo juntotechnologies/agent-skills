@@ -4,13 +4,13 @@
 
 | Doc | Description |
 |-----|-------------|
-| [PR 59: North star rule](./59-north-star-rule.md) | Global rules state the hands-off aim; every recallable fact or slip becomes a deterministic artifact. |
 | [PR 58: uv-only reads JavaScript and TypeScript files](./58-uv-only-js-files.md) | `execFileSync("python3", ...)` in a Node test passed the gate; `.js .mjs .cjs .ts .tsx .jsx` are now read. |
 
 ## Archive
 
 | Doc | Description |
 |-----|-------------|
+| [PR 59: North star rule](./archive/59-north-star-rule.md) | Global rules state the hands-off aim; every recallable fact or slip becomes a deterministic artifact. |
 | [PR 57: uv-only fixes after the first full scan](./archive/57-uv-only-quoted-uv-lists.md) | A quoted `uv` command list is correct; a Python list that starts with an interpreter is a fault; a PEP 723 block is not a comment fault. |
 | [PR 56: uv-only gate holes](./archive/56-uv-only-gate-holes.md) | Shebang rule never ran; quoted interpreters in json and plist slipped; both now fault. |
 | [PR 55: Python only through uv, enforced](./archive/55-uv-only-everywhere.md) | `uv-only` flags every other way to run or install Python; one data file shared with `ops guard` |
