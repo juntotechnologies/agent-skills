@@ -1,5 +1,10 @@
 # Global rules (all projects)
 
+## North star
+- Aim: Shaun hands-off. Anything a tool can decide (fact, procedure, host access, style, slip) → deterministic artifact built in the same change, unasked: `ops` CLI, lint rule, registry entry, JSON Schema, hook, CI step, generated file. Prose = judgment only.
+- Before every reply ask: what did I recall, decide, or run by hand that a tool can do next time? Build it now. Shaun having to remind me of this = slip → patch this rule + its gate.
+- Literals (hosts, ports, names, paths, config, inline dict/object of facts) → registry or typed model. Pattern repeats → lint rule that fails it. Error hit → patch cause (test, lint, guard, schema) so it never recurs; name the gate.
+
 ## Checks
 - `ops check` before merge. Git hook, CI + `ops ship` run same check. Fault → fix; never skip. Why a rule exists: `ops rules --id <id>`.
 - Fault slipped past a check, or no check existed → patch the gate in the same change (hook, lint rule, CI step, test) + name it in the reply. Fixing only the instance = not done.
