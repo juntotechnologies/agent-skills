@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR planned: North star rule](./planned-north-star-rule.md) | Global rules state the hands-off aim; every recallable fact or slip becomes a deterministic artifact. |
 | [PR 58: uv-only reads JavaScript and TypeScript files](./58-uv-only-js-files.md) | `execFileSync("python3", ...)` in a Node test passed the gate; `.js .mjs .cjs .ts .tsx .jsx` are now read. |
 
 ## Archive
