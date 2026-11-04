@@ -1,6 +1,6 @@
-# PR planned: rule row-rec-yes-do-it names its enforcer
+# PR 65: rule row-rec-yes-do-it names its enforcer
 
-Status: planned
+Status: underway
 
 Branch: `feature/left-check-enforcer`
 
