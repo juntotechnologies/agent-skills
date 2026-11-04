@@ -140,7 +140,8 @@ def file_text_faults(path, lines, limits):
     if not Path(path).is_file():
         return []
     source = read_text(path)
-    return [*textrules.uv_faults(path, source, lines, limits), *textrules.shebang_faults(path, source, lines)]
+    return [*textrules.uv_faults(path, source, lines, limits), *textrules.shebang_faults(path, source, lines),
+            *textrules.fact_literal_faults(path, source, lines, limits)]
 
 
 def exempt(fault, settings):
