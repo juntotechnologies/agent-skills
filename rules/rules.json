@@ -2,6 +2,7 @@
   "title": "Global rules (all projects)",
   "footer": "Generated from `agent-skills/rules/rules.json` by `scripts/gen_rules.py`. Edit there → build → `scripts/install.sh`. Never edit copies. Project workflow: `skills/setup-project-repo/assets/AGENTS.md`.",
   "sections": [
+    "North star",
     "Checks",
     "SSOT",
     "Code",
@@ -14,6 +15,24 @@
     "Upkeep"
   ],
   "rules": [
+    {
+      "id": "north-star-hands-off",
+      "section": "North star",
+      "text": "- Aim: Shaun hands-off. Anything a tool can decide (fact, procedure, host access, style, slip) → deterministic artifact built in the same change, unasked: `ops` CLI, lint rule, registry entry, JSON Schema, hook, CI step, generated file. Prose = judgment only.",
+      "enforcer": null
+    },
+    {
+      "id": "north-star-done-check",
+      "section": "North star",
+      "text": "- Before every reply ask: what did I recall, decide, or run by hand that a tool can do next time? Build it now. Shaun having to remind me of this = slip → patch this rule + its gate.",
+      "enforcer": null
+    },
+    {
+      "id": "north-star-literals",
+      "section": "North star",
+      "text": "- Literals (hosts, ports, names, paths, config, inline dict/object of facts) → registry or typed model. Pattern repeats → lint rule that fails it. Error hit → patch cause (test, lint, guard, schema) so it never recurs; name the gate.",
+      "enforcer": null
+    },
     {
       "id": "checks-pointer",
       "section": "Checks",
