@@ -1,4 +1,4 @@
-# PR planned-fault-loop-rule: Tool errors get a gate or a waiver, enforced by `ops faults`
+# PR 63: Tool errors get a gate or a waiver, enforced by `ops faults`
 
 Status: underway
 
