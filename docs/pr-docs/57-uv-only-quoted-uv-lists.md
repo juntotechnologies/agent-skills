@@ -1,6 +1,6 @@
-# PR planned: uv-only accepts quoted uv command lists
+# PR 57: uv-only accepts quoted uv command lists
 
-Status: planned
+Status: underway
 
 Branch: `fix/uv-only-quoted-uv-lists`
 
