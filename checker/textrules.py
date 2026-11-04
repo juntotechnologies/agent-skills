@@ -19,6 +19,9 @@ INTERPRETER_PATH = re.compile('(?:.*/)?(?:' + '|'.join(UV_ONLY['interpreters']) 
 COMMAND_SPLIT =re.compile(r'[;&|]+')
 COMMAND_PREFIX = re.compile(r'^(?:(?:sudo|env|time|nohup|exec|command)\s+|\w+=\S*\s+)+')
 PYTHON_SHEBANG = re.compile(r'^#!.*\bpython[0-9.]*\b')
+LIST_PUNCTUATION = re.compile(r'[\[\]"\',]')
+LIST_ELEMENT = re.compile(r'^\s*["\']?(?:' + '|'.join(UV_ONLY['interpreters']) + r')["\']?,?\s*$')
+UV_ELEMENT_ABOVE = re.compile(r'(?:^|\s)uv\s[^;&|]*$')
 
 
 def holds_commands(path, limits):
@@ -39,12 +42,24 @@ def line_breaks_uv(text):
     return any(command_installs_python(command) for command in COMMAND_SPLIT.split(stripped))
 
 
+def under_uv_above(rows, index, span):
+    """why: a JSON or YAML argument list may hold `uv`, `run`, `python` one element per line."""
+    above = ' '.join(rows[max(0, index - span):index])
+    return bool(UV_ELEMENT_ABOVE.search(LIST_PUNCTUATION.sub(' ', above)))
+
+
+def adds_uv_fault(rows, line, span):
+    row = rows[line - 1]
+    covered = LIST_ELEMENT.match(row) and under_uv_above(rows, line - 1, span)
+    return line_breaks_uv(row) and not covered and not row.lstrip().startswith('#')
+
+
 def uv_faults(path, source, lines, limits):
     if not holds_commands(path, limits):
         return []
-    rows = source.splitlines()
+    rows, span = source.splitlines(), limits['list_context_lines']
     return [Fault(path, line, line, 'uv-only', 'call Python through uv') for line in sorted(lines)
-            if line <= len(rows) and line_breaks_uv(rows[line - 1]) and not rows[line - 1].lstrip().startswith('#')]
+            if line <= len(rows) and adds_uv_fault(rows, line, span)]
 
 
 def shebang_faults(path, source, lines):

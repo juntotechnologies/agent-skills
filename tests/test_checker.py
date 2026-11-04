@@ -169,6 +169,22 @@ class TextRuleTests(unittest.TestCase):
                 faults = textrules.uv_faults(name, source, {1, 2}, LIMITS)
                 self.assertEqual([fault.line for fault in faults], [1])
 
+    def test_a_uv_command_split_one_element_per_line_is_not_a_fault(self):
+        source = '\n'.join(['{', '  "entrypoint": "uv",', '  "args": [', '    "run",', '    "--no-project",',
+                            '    "python",', '    "-m",', '    "sglang.launch_server"', '  ]', '}'])
+        self.assertEqual(textrules.uv_faults('a.json', source, set(range(1, 11)), LIMITS), [])
+
+    def test_a_bare_interpreter_split_one_element_per_line_is_still_a_fault(self):
+        for head in ('  "entrypoint": "python3",', '  "entrypoint": "node",\n  "args": ["x"],\n  "cmd": ['):
+            source = '{\n' + head + '\n    "python",\n    "-m"\n  ]\n}'
+            with self.subTest(head=head):
+                faults = textrules.uv_faults('a.json', source, set(range(1, 9)), LIMITS)
+                self.assertTrue(faults)
+
+    def test_uv_far_above_does_not_cover_a_later_interpreter(self):
+        source = '\n'.join(['"uv",', *['"x",'] * 8, '"python",'])
+        self.assertEqual([fault.line for fault in textrules.uv_faults('a.json', source, {10}, LIMITS)], [10])
+
     def test_a_bare_interpreter_before_uv_in_a_list_is_still_a_fault(self):
         self.assertTrue(textrules.line_breaks_uv('["python3", "-m", "uv", "run"]'))
 

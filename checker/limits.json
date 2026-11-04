@@ -4,5 +4,6 @@
   "test_paths": ["tests/*", "test/*", "*/tests/*", "*/test/*", "*test_*.py", "*.test.*", "*.spec.*"],
   "shell_paths": ["*.sh", "*.bash", "*.zsh", "*.yml", "*.yaml", "*.json", "*.plist", "*.tmpl", "Dockerfile*", "Makefile", "Justfile", "justfile"],
   "python_suffixes": [".py"],
+  "list_context_lines": 5,
   "js_suffixes": [".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx"]
 }
