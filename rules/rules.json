@@ -21,6 +21,12 @@
       "enforcer": null
     },
     {
+      "id": "slip-adds-gate",
+      "section": "Checks",
+      "enforcer": null,
+      "text": "- Fault slipped past a check, or no check existed → patch the gate in the same change (hook, lint rule, CI step, test) + name it in the reply. Fixing only the instance = not done."
+    },
+    {
       "id": "automate-over-prose",
       "section": "Checks",
       "text": "- This file = rules no tool can enforce. Rule source: `agent-skills/rules/rules.json`. New rule a tool can decide → add check, not prose. `ops rules --prose` lists what's left.",

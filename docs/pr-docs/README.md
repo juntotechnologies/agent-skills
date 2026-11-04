@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [PR 54: A slip adds its gate](./54-slip-adds-gate-rule.md) | Global rule: patch the gate in the same change as the fix |
 
 ## Archive
 

@@ -2,6 +2,7 @@
 
 ## Checks
 - `ops check` before merge. Git hook, CI + `ops ship` run same check. Fault → fix; never skip. Why a rule exists: `ops rules --id <id>`.
+- Fault slipped past a check, or no check existed → patch the gate in the same change (hook, lint rule, CI step, test) + name it in the reply. Fixing only the instance = not done.
 - This file = rules no tool can enforce. Rule source: `agent-skills/rules/rules.json`. New rule a tool can decide → add check, not prose. `ops rules --prose` lists what's left.
 
 ## SSOT
