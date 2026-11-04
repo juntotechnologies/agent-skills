@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Checker `--worktree` mode](./planned-lint-worktree-mode.md) | Lint uncommitted edits + untracked files, for the write-time hook |
 
 ## Archive
 
