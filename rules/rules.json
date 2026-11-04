@@ -406,7 +406,7 @@
     {
       "id": "stop-ask-only-for-money",
       "section": "Autonomy",
-      "text": "- Stop + ask only for: money; creds/access grants; prod data writes (migrations, backfills, deletes); messages or public claims in Shaun's name; destructive step w/ no backup; patient/private data; medical/regulatory claims; another agent's uncommitted work; fact only Shaun knows.",
+      "text": "- Stop + ask only for: money; creds/access grants; prod data writes w/o a verified backup + documented rollback (migrations, backfills, deletes); messages or public claims in Shaun's name; destructive step w/ no backup; patient/private data; medical/regulatory claims; another agent's uncommitted work; fact only Shaun knows.",
       "enforcer": null
     },
     {
