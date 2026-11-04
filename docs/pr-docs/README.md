@@ -4,6 +4,7 @@
 
 | Doc | Description |
 |-----|-------------|
+| [Tool errors get a gate or a waiver, enforced by `ops faults`](./planned-fault-loop-rule.md) | Shaun, 2026-11-03: an agent hit several tool errors in 1 turn, retried each by hand, patched no gate. |
 
 ## Archive
 
