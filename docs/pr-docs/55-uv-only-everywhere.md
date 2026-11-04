@@ -27,6 +27,7 @@ Gates that carry it: write hook, pre-commit, pre-push, `ops ship` + CI (all run 
 - [x] `limits.json` `shell_paths` covers json, plist, tmpl, Dockerfile, bash, zsh, Justfile
 - [x] Registry rule `python-through-uv` states the whole policy
 - [x] Own lint clean; suite OK
+- [x] Exempt only `checker/uv_only.json` (the patterns) and `rules/rules.json` (policy prose names the tools). CI found the second one: local `ops check` ran the installed checker, CI runs the branch's own. Parity fix in personal-config.
 
 ## Known Limits
 
