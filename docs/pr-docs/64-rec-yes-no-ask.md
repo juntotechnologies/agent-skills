@@ -21,7 +21,7 @@ Rule text (source `rules/rules.json`, generated into `~/AGENTS.md`):
 
 ### Tier 2 - Gate
 
-- [ ] Enforcer `ops left-check` (Stop hook; personal-config) blocks a reply whose Left row has rec yes and no `[stop: ...]` tag. Lands in its own PR; this PR then sets the rule's `enforcer`.
+- [~] ~~Enforcer `ops left-check` (Stop hook; personal-config) blocks a reply whose Left row has rec yes and no `[stop: ...]` tag~~: moved to personal-config (own PR); a follow-up here sets the rule's `enforcer`.
 
 ## Smoke Tests
 
