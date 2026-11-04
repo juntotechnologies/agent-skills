@@ -302,7 +302,10 @@
       "id": "row-rec-yes-do-it",
       "section": "Writing",
       "text": "- Row rec = \"yes\"/\"do it\" → work, not decision: do before reply, never ask (Shaun 2026-11-03: \"obviously going with the rec\"). Only stop-list items (see Autonomy) get asked; tag that row `[stop: <item>]`.",
-      "enforcer": null
+      "enforcer": {
+        "kind": "hook",
+        "by": "ops left-check (Stop)"
+      }
     },
     {
       "id": "deferred-tasks-to-issues",
