@@ -14,6 +14,7 @@ Each rule: 1 place. Tool can decide it → tool enforces it, prose drops it.
 | CI | `.github/workflows/check.yml` here; repos call it |
 | CLI + merge gate | `ops` in personal-config: check, rules, adopt, guard, ship |
 | Repo-only facts | Repo `AGENTS.md`; repo commands + exemptions: `ops-check.json` |
+| Tool-error loop | `ops faults` hooks in personal-config: failed call recorded, stop blocked until gate or waiver; view: `ops faults list --open` |
 
 ## Same check, 4 places
 
